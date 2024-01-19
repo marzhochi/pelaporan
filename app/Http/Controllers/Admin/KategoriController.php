@@ -17,44 +17,44 @@ class KategoriController extends Controller
     {
         abort_if(Gate::denies('kategori_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $kategoris = Kategori::all();
+        $kategori = Kategori::all();
 
-        return view('admin.kategoris.index', compact('kategoris'));
+        return view('admin.kategori.index', compact('kategori'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('kategori_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.kategoris.create');
+        return view('admin.kategori.create');
     }
 
     public function store(StoreKategoriRequest $request)
     {
         $kategori = Kategori::create($request->all());
 
-        return redirect()->route('admin.kategoris.index');
+        return redirect()->route('admin.kategori.index');
     }
 
     public function edit(Kategori $kategori)
     {
         abort_if(Gate::denies('kategori_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.kategoris.edit', compact('kategori'));
+        return view('admin.kategori.edit', compact('kategori'));
     }
 
     public function update(UpdateKategoriRequest $request, Kategori $kategori)
     {
         $kategori->update($request->all());
 
-        return redirect()->route('admin.kategoris.index');
+        return redirect()->route('admin.kategori.index');
     }
 
     public function show(Kategori $kategori)
     {
         abort_if(Gate::denies('kategori_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.kategoris.show', compact('kategori'));
+        return view('admin.kategori.show', compact('kategori'));
     }
 
     public function destroy(Kategori $kategori)
@@ -68,10 +68,10 @@ class KategoriController extends Controller
 
     public function massDestroy(MassDestroyKategoriRequest $request)
     {
-        $kategoris = Kategori::find(request('ids'));
+        $kategori = Kategori::find(request('ids'));
 
-        foreach ($kategoris as $kategori) {
-            $kategori->delete();
+        foreach ($kategori as $item) {
+            $item->delete();
         }
 
         return response(null, Response::HTTP_NO_CONTENT);

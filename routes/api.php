@@ -6,19 +6,19 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('users', 'UsersApiController');
 
     // Kategori
-    Route::apiResource('kategoris', 'KategoriApiController');
+    Route::apiResource('kategori', 'KategoriApiController');
 
     // Lokasi
-    Route::apiResource('lokasis', 'LokasiApiController');
+    Route::apiResource('lokasi', 'LokasiApiController');
 
     // Pengaduan
-    Route::post('pengaduans/media', 'PengaduanApiController@storeMedia')->name('pengaduans.storeMedia');
-    Route::apiResource('pengaduans', 'PengaduanApiController');
+    Route::post('pengaduan/media', 'PengaduanApiController@storeMedia')->name('pengaduan.storeMedia');
+    Route::apiResource('pengaduan', 'PengaduanApiController');
 
     // Laporan
-    Route::post('laporans/media', 'LaporanApiController@storeMedia')->name('laporans.storeMedia');
-    Route::apiResource('laporans', 'LaporanApiController');
+    Route::post('laporan/media', 'LaporanApiController@storeMedia')->name('laporan.storeMedia');
+    Route::apiResource('laporan', 'LaporanApiController');
 
-    // Tugar
-    Route::apiResource('tugars', 'TugarApiController');
+    // Tugas
+    Route::apiResource('tugas', 'TugasApiController');
 });

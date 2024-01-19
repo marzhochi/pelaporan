@@ -17,44 +17,44 @@ class LokasiController extends Controller
     {
         abort_if(Gate::denies('lokasi_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $lokasis = Lokasi::all();
+        $lokasi = Lokasi::all();
 
-        return view('admin.lokasis.index', compact('lokasis'));
+        return view('admin.lokasi.index', compact('lokasi'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('lokasi_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.lokasis.create');
+        return view('admin.lokasi.create');
     }
 
     public function store(StoreLokasiRequest $request)
     {
         $lokasi = Lokasi::create($request->all());
 
-        return redirect()->route('admin.lokasis.index');
+        return redirect()->route('admin.lokasi.index');
     }
 
     public function edit(Lokasi $lokasi)
     {
         abort_if(Gate::denies('lokasi_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.lokasis.edit', compact('lokasi'));
+        return view('admin.lokasi.edit', compact('lokasi'));
     }
 
     public function update(UpdateLokasiRequest $request, Lokasi $lokasi)
     {
         $lokasi->update($request->all());
 
-        return redirect()->route('admin.lokasis.index');
+        return redirect()->route('admin.lokasi.index');
     }
 
     public function show(Lokasi $lokasi)
     {
         abort_if(Gate::denies('lokasi_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.lokasis.show', compact('lokasi'));
+        return view('admin.lokasi.show', compact('lokasi'));
     }
 
     public function destroy(Lokasi $lokasi)
@@ -68,10 +68,10 @@ class LokasiController extends Controller
 
     public function massDestroy(MassDestroyLokasiRequest $request)
     {
-        $lokasis = Lokasi::find(request('ids'));
+        $lokasi = Lokasi::find(request('ids'));
 
-        foreach ($lokasis as $lokasi) {
-            $lokasi->delete();
+        foreach ($lokasi as $item) {
+            $item->delete();
         }
 
         return response(null, Response::HTTP_NO_CONTENT);

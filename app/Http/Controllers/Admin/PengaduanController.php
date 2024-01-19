@@ -22,18 +22,18 @@ class PengaduanController extends Controller
     {
         abort_if(Gate::denies('pengaduan_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $pengaduans = Pengaduan::with(['lokasi', 'media'])->get();
+        $pengaduan = Pengaduan::with(['lokasi', 'media'])->get();
 
-        return view('admin.pengaduans.index', compact('pengaduans'));
+        return view('admin.pengaduan.index', compact('pengaduan'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('pengaduan_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $lokasis = Lokasi::pluck('nama_lokasi', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $lokasi = Lokasi::pluck('nama_lokasi', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.pengaduans.create', compact('lokasis'));
+        return view('admin.pengaduan.create', compact('lokasi'));
     }
 
     public function store(StorePengaduanRequest $request)
@@ -48,18 +48,18 @@ class PengaduanController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $pengaduan->id]);
         }
 
-        return redirect()->route('admin.pengaduans.index');
+        return redirect()->route('admin.pengaduan.index');
     }
 
     public function edit(Pengaduan $pengaduan)
     {
         abort_if(Gate::denies('pengaduan_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $lokasis = Lokasi::pluck('nama_lokasi', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $lokasi = Lokasi::pluck('nama_lokasi', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $pengaduan->load('lokasi');
 
-        return view('admin.pengaduans.edit', compact('lokasis', 'pengaduan'));
+        return view('admin.pengaduan.edit', compact('lokasi', 'pengaduan'));
     }
 
     public function update(UpdatePengaduanRequest $request, Pengaduan $pengaduan)
@@ -80,7 +80,7 @@ class PengaduanController extends Controller
             }
         }
 
-        return redirect()->route('admin.pengaduans.index');
+        return redirect()->route('admin.pengaduan.index');
     }
 
     public function show(Pengaduan $pengaduan)
@@ -89,7 +89,7 @@ class PengaduanController extends Controller
 
         $pengaduan->load('lokasi');
 
-        return view('admin.pengaduans.show', compact('pengaduan'));
+        return view('admin.pengaduan.show', compact('pengaduan'));
     }
 
     public function destroy(Pengaduan $pengaduan)
@@ -103,10 +103,10 @@ class PengaduanController extends Controller
 
     public function massDestroy(MassDestroyPengaduanRequest $request)
     {
-        $pengaduans = Pengaduan::find(request('ids'));
+        $pengaduan = Pengaduan::find(request('ids'));
 
-        foreach ($pengaduans as $pengaduan) {
-            $pengaduan->delete();
+        foreach ($pengaduan as $item) {
+            $item->delete();
         }
 
         return response(null, Response::HTTP_NO_CONTENT);

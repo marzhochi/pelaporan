@@ -11,7 +11,7 @@ class Kategori extends Model
 {
     use SoftDeletes, HasFactory;
 
-    public $table = 'kategoris';
+    public $table = 'kategori';
 
     protected $dates = [
         'created_at',

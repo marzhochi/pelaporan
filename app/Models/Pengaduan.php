@@ -14,7 +14,7 @@ class Pengaduan extends Model implements HasMedia
 {
     use SoftDeletes, InteractsWithMedia, HasFactory;
 
-    public $table = 'pengaduans';
+    public $table = 'pengaduan';
 
     protected $appends = [
         'foto',

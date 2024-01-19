@@ -167,9 +167,9 @@ return [
             'tugas_helper'      => ' ',
         ],
     ],
-    'tugar' => [
-        'title'          => 'Tugar',
-        'title_singular' => 'Tugar',
+    'tugas' => [
+        'title'          => 'Tugas',
+        'title_singular' => 'Tugas',
         'fields'         => [
             'id'                 => 'ID',
             'id_helper'          => ' ',

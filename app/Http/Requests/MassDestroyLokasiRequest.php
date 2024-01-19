@@ -20,7 +20,7 @@ class MassDestroyLokasiRequest extends FormRequest
     {
         return [
             'ids'   => 'required|array',
-            'ids.*' => 'exists:lokasis,id',
+            'ids.*' => 'exists:lokasi,id',
         ];
     }
 }

@@ -14,7 +14,7 @@ class Laporan extends Model implements HasMedia
 {
     use SoftDeletes, InteractsWithMedia, HasFactory;
 
-    public $table = 'laporans';
+    public $table = 'laporan';
 
     protected $appends = [
         'foto',
@@ -65,6 +65,6 @@ class Laporan extends Model implements HasMedia
 
     public function tugas()
     {
-        return $this->belongsTo(Tugar::class, 'tugas_id');
+        return $this->belongsTo(Tugas::class, 'tugas_id');
     }
 }

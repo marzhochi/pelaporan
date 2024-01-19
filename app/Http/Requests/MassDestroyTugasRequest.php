@@ -2,16 +2,16 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Kategori;
+use App\Models\Tugas;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassDestroyKategoriRequest extends FormRequest
+class MassDestroyTugasRequest extends FormRequest
 {
     public function authorize()
     {
-        abort_if(Gate::denies('kategori_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('tugas_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
     }
@@ -20,7 +20,7 @@ class MassDestroyKategoriRequest extends FormRequest
     {
         return [
             'ids'   => 'required|array',
-            'ids.*' => 'exists:kategori,id',
+            'ids.*' => 'exists:tugas,id',
         ];
     }
 }

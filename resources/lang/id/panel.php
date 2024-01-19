@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'site_title' => 'LaravelProject',
+    'site_title' => 'Pelaporan Dishub',
 
 ];

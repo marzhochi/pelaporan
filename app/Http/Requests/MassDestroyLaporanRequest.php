@@ -20,7 +20,7 @@ class MassDestroyLaporanRequest extends FormRequest
     {
         return [
             'ids'   => 'required|array',
-            'ids.*' => 'exists:laporans,id',
+            'ids.*' => 'exists:laporan,id',
         ];
     }
 }

@@ -28,28 +28,28 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('users', 'UsersController');
 
     // Kategori
-    Route::delete('kategoris/destroy', 'KategoriController@massDestroy')->name('kategoris.massDestroy');
-    Route::resource('kategoris', 'KategoriController');
+    Route::delete('kategori/destroy', 'KategoriController@massDestroy')->name('kategori.massDestroy');
+    Route::resource('kategori', 'KategoriController');
 
     // Lokasi
-    Route::delete('lokasis/destroy', 'LokasiController@massDestroy')->name('lokasis.massDestroy');
-    Route::resource('lokasis', 'LokasiController');
+    Route::delete('lokasi/destroy', 'LokasiController@massDestroy')->name('lokasi.massDestroy');
+    Route::resource('lokasi', 'LokasiController');
 
     // Pengaduan
-    Route::delete('pengaduans/destroy', 'PengaduanController@massDestroy')->name('pengaduans.massDestroy');
-    Route::post('pengaduans/media', 'PengaduanController@storeMedia')->name('pengaduans.storeMedia');
-    Route::post('pengaduans/ckmedia', 'PengaduanController@storeCKEditorImages')->name('pengaduans.storeCKEditorImages');
-    Route::resource('pengaduans', 'PengaduanController');
+    Route::delete('pengaduan/destroy', 'PengaduanController@massDestroy')->name('pengaduan.massDestroy');
+    Route::post('pengaduan/media', 'PengaduanController@storeMedia')->name('pengaduan.storeMedia');
+    Route::post('pengaduan/ckmedia', 'PengaduanController@storeCKEditorImages')->name('pengaduan.storeCKEditorImages');
+    Route::resource('pengaduan', 'PengaduanController');
 
     // Laporan
-    Route::delete('laporans/destroy', 'LaporanController@massDestroy')->name('laporans.massDestroy');
-    Route::post('laporans/media', 'LaporanController@storeMedia')->name('laporans.storeMedia');
-    Route::post('laporans/ckmedia', 'LaporanController@storeCKEditorImages')->name('laporans.storeCKEditorImages');
-    Route::resource('laporans', 'LaporanController');
+    Route::delete('laporan/destroy', 'LaporanController@massDestroy')->name('laporan.massDestroy');
+    Route::post('laporan/media', 'LaporanController@storeMedia')->name('laporan.storeMedia');
+    Route::post('laporan/ckmedia', 'LaporanController@storeCKEditorImages')->name('laporan.storeCKEditorImages');
+    Route::resource('laporan', 'LaporanController');
 
-    // Tugar
-    Route::delete('tugars/destroy', 'TugarController@massDestroy')->name('tugars.massDestroy');
-    Route::resource('tugars', 'TugarController');
+    // Tugas
+    Route::delete('tugas/destroy', 'TugasController@massDestroy')->name('tugas.massDestroy');
+    Route::resource('tugas', 'TugasController');
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password

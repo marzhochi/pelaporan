@@ -20,7 +20,7 @@ class MassDestroyPengaduanRequest extends FormRequest
     {
         return [
             'ids'   => 'required|array',
-            'ids.*' => 'exists:pengaduans,id',
+            'ids.*' => 'exists:pengaduan,id',
         ];
     }
 }

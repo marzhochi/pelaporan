@@ -9,7 +9,7 @@ use App\Http\Requests\StoreLaporanRequest;
 use App\Http\Requests\UpdateLaporanRequest;
 use App\Models\Laporan;
 use App\Models\Lokasi;
-use App\Models\Tugar;
+use App\Models\Tugas;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -23,20 +23,20 @@ class LaporanController extends Controller
     {
         abort_if(Gate::denies('laporan_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $laporans = Laporan::with(['lokasi', 'tugas', 'media'])->get();
+        $laporan = Laporan::with(['lokasi', 'tugas', 'media'])->get();
 
-        return view('admin.laporans.index', compact('laporans'));
+        return view('admin.laporan.index', compact('laporan'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('laporan_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $lokasis = Lokasi::pluck('nama_lokasi', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $lokasi = Lokasi::pluck('nama_lokasi', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $tugas = Tugar::pluck('judul_tugas', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $tugas = Tugas::pluck('judul_tugas', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.laporans.create', compact('lokasis', 'tugas'));
+        return view('admin.laporan.create', compact('lokasi', 'tugas'));
     }
 
     public function store(StoreLaporanRequest $request)
@@ -51,20 +51,20 @@ class LaporanController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $laporan->id]);
         }
 
-        return redirect()->route('admin.laporans.index');
+        return redirect()->route('admin.laporan.index');
     }
 
     public function edit(Laporan $laporan)
     {
         abort_if(Gate::denies('laporan_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $lokasis = Lokasi::pluck('nama_lokasi', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $lokasi = Lokasi::pluck('nama_lokasi', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $tugas = Tugar::pluck('judul_tugas', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $tugas = Tugas::pluck('judul_tugas', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $laporan->load('lokasi', 'tugas');
 
-        return view('admin.laporans.edit', compact('laporan', 'lokasis', 'tugas'));
+        return view('admin.laporan.edit', compact('laporan', 'lokasi', 'tugas'));
     }
 
     public function update(UpdateLaporanRequest $request, Laporan $laporan)
@@ -85,7 +85,7 @@ class LaporanController extends Controller
             }
         }
 
-        return redirect()->route('admin.laporans.index');
+        return redirect()->route('admin.laporan.index');
     }
 
     public function show(Laporan $laporan)
@@ -94,7 +94,7 @@ class LaporanController extends Controller
 
         $laporan->load('lokasi', 'tugas');
 
-        return view('admin.laporans.show', compact('laporan'));
+        return view('admin.laporan.show', compact('laporan'));
     }
 
     public function destroy(Laporan $laporan)
@@ -108,10 +108,10 @@ class LaporanController extends Controller
 
     public function massDestroy(MassDestroyLaporanRequest $request)
     {
-        $laporans = Laporan::find(request('ids'));
+        $laporan = Laporan::find(request('ids'));
 
-        foreach ($laporans as $laporan) {
-            $laporan->delete();
+        foreach ($laporan as $item) {
+            $item->delete();
         }
 
         return response(null, Response::HTTP_NO_CONTENT);

@@ -11,7 +11,7 @@ class Lokasi extends Model
 {
     use SoftDeletes, HasFactory;
 
-    public $table = 'lokasis';
+    public $table = 'lokasi';
 
     protected $dates = [
         'created_at',

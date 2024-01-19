@@ -156,23 +156,23 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 37,
-                'title' => 'tugar_create',
+                'title' => 'tugas_create',
             ],
             [
                 'id'    => 38,
-                'title' => 'tugar_edit',
+                'title' => 'tugas_edit',
             ],
             [
                 'id'    => 39,
-                'title' => 'tugar_show',
+                'title' => 'tugas_show',
             ],
             [
                 'id'    => 40,
-                'title' => 'tugar_delete',
+                'title' => 'tugas_delete',
             ],
             [
                 'id'    => 41,
-                'title' => 'tugar_access',
+                'title' => 'tugas_access',
             ],
             [
                 'id'    => 42,

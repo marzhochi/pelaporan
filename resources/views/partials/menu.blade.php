@@ -17,7 +17,7 @@
         </li>
         @can('pengaduan_access')
             <li class="c-sidebar-nav-item">
-                <a href="{{ route("admin.pengaduans.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/pengaduans") || request()->is("admin/pengaduans/*") ? "c-active" : "" }}">
+                <a href="{{ route("admin.pengaduan.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/pengaduan") || request()->is("admin/pengaduan/*") ? "c-active" : "" }}">
                     <i class="fa-fw far fa-file-alt c-sidebar-nav-icon">
 
                     </i>
@@ -25,19 +25,19 @@
                 </a>
             </li>
         @endcan
-        @can('tugar_access')
+        @can('tugas_access')
             <li class="c-sidebar-nav-item">
-                <a href="{{ route("admin.tugars.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/tugars") || request()->is("admin/tugars/*") ? "c-active" : "" }}">
+                <a href="{{ route("admin.tugas.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/tugas") || request()->is("admin/tugas/*") ? "c-active" : "" }}">
                     <i class="fa-fw fas fa-clipboard-check c-sidebar-nav-icon">
 
                     </i>
-                    {{ trans('cruds.tugar.title') }}
+                    {{ trans('cruds.tugas.title') }}
                 </a>
             </li>
         @endcan
         @can('laporan_access')
             <li class="c-sidebar-nav-item">
-                <a href="{{ route("admin.laporans.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/laporans") || request()->is("admin/laporans/*") ? "c-active" : "" }}">
+                <a href="{{ route("admin.laporan.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/laporan") || request()->is("admin/laporan/*") ? "c-active" : "" }}">
                     <i class="fa-fw fas fa-clipboard-list c-sidebar-nav-icon">
 
                     </i>
@@ -46,7 +46,7 @@
             </li>
         @endcan
         @can('master_data_access')
-            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/lokasis*") ? "c-show" : "" }} {{ request()->is("admin/kategoris*") ? "c-show" : "" }}">
+            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/lokasi*") ? "c-show" : "" }} {{ request()->is("admin/kategori*") ? "c-show" : "" }}">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">
                     <i class="fa-fw fas fa-table c-sidebar-nav-icon">
 
@@ -56,7 +56,7 @@
                 <ul class="c-sidebar-nav-dropdown-items">
                     @can('lokasi_access')
                         <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.lokasis.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/lokasis") || request()->is("admin/lokasis/*") ? "c-active" : "" }}">
+                            <a href="{{ route("admin.lokasi.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/lokasi") || request()->is("admin/lokasi/*") ? "c-active" : "" }}">
                                 <i class="fa-fw fas fa-map-marker-alt c-sidebar-nav-icon">
 
                                 </i>
@@ -66,7 +66,7 @@
                     @endcan
                     @can('kategori_access')
                         <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.kategoris.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/kategoris") || request()->is("admin/kategoris/*") ? "c-active" : "" }}">
+                            <a href="{{ route("admin.kategori.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/kategori") || request()->is("admin/kategori/*") ? "c-active" : "" }}">
                                 <i class="fa-fw fas fa-bars c-sidebar-nav-icon">
 
                                 </i>
