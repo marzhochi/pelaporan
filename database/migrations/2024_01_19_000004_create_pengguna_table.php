@@ -4,11 +4,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreatePenggunaTable extends Migration
 {
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('pengguna', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->nullable();
             $table->string('email')->nullable()->unique();
@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('jenis_kelamin')->nullable();
             $table->string('no_telp')->nullable();
             $table->string('remember_token')->nullable();
+            $table->tinyInteger('role')->default(2);
             $table->timestamps();
             $table->softDeletes();
         });

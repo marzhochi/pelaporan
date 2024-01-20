@@ -3,39 +3,47 @@
 
 <div style="margin-bottom: 10px;" class="row">
     <div class="col-lg-12">
-        <a class="btn btn-success" href="{{ route('admin.laporan.create') }}">
-            {{ trans('global.add') }} {{ trans('cruds.laporan.title_singular') }}
+        <a class="btn btn-success" href="{{ route('admin.pengguna.create') }}">
+            Tambah Pengguna
         </a>
     </div>
 </div>
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.list') }} {{ trans('cruds.laporan.title_singular') }}
+        Daftar Pengguna
     </div>
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Laporan">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-Pengguna">
                 <thead>
                     <tr>
                         <th width="10">
 
                         </th>
                         <th>
-                            {{ trans('cruds.laporan.fields.deskripsi') }}
+                            Nama
                         </th>
                         <th>
-                            {{ trans('cruds.laporan.fields.foto') }}
+                            Email
                         </th>
                         <th>
-                            {{ trans('cruds.laporan.fields.lokasi') }}
+                            NIP
                         </th>
                         <th>
-                            {{ trans('cruds.laporan.fields.tugas') }}
+                            Golongan
                         </th>
                         <th>
-                            {{ trans('cruds.laporan.fields.created_at') }}
+                            Jenis Kelamin
+                        <th>
+                            No. Telp
+                        </th>
+                        <th>
+                            Foto
+                        </th>
+                        <th>
+                            Role
                         </th>
                         <th>
                             &nbsp;
@@ -43,38 +51,47 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($laporan as $key => $item)
-                    <tr data-entry-id="{{ $item->id }}">
+                    @foreach($users as $key => $user)
+                    <tr data-entry-id="{{ $user->id }}">
                         <td>
 
                         </td>
                         <td>
-                            {{ $item->deskripsi ?? '' }}
+                            {{ $user->name ?? '' }}
                         </td>
                         <td>
-                            @foreach($item->foto as $key => $media)
-                            <a href="{{ $media->getUrl() }}" target="_blank" style="display: inline-block">
-                                <img src="{{ $media->getUrl('thumb') }}">
+                            {{ $user->email ?? '' }}
+                        </td>
+                        <td>
+                            {{ $user->nip ?? '' }}
+                        </td>
+                        <td>
+                            {{ $user->golongan ?? '' }}
+                        </td>
+                        <td>
+                            {{ App\Models\User::JENIS_KELAMIN_RADIO[$user->jenis_kelamin] ?? '' }}
+                        </td>
+                        <td>
+                            {{ $user->no_telp ?? '' }}
+                        </td>
+                        <td>
+                            @if($user->avatar)
+                            <a href="{{ $user->avatar->getUrl() }}" target="_blank" style="display: inline-block">
+                                <img src="{{ $user->avatar->getUrl('thumb') }}">
                             </a>
-                            @endforeach
+                            @endif
                         </td>
                         <td>
-                            {{ $item->lokasi->nama_lokasi ?? '' }}
+                            {{ $user->role == 1 ? 'Kepala Petugas' : 'Petugas Lapangan' }}
                         </td>
                         <td>
-                            {{ $item->tugas->judul_tugas ?? '' }}
-                        </td>
-                        <td>
-                            {{ $item->created_at ?? '' }}
-                        </td>
-                        <td>
-                            <a class="btn btn-xs btn-primary" href="{{ route('admin.laporan.show', $item->id) }}">
+                            <a class="btn btn-xs btn-primary" href="{{ route('admin.pengguna.show', $user->id) }}">
                                 {{ trans('global.view') }}
                             </a>
-                            <a class="btn btn-xs btn-info" href="{{ route('admin.laporan.edit', $item->id) }}">
+                            <a class="btn btn-xs btn-info" href="{{ route('admin.pengguna.edit', $user->id) }}">
                                 {{ trans('global.edit') }}
                             </a>
-                            <form action="{{ route('admin.laporan.destroy', $item->id) }}" method="POST"
+                            <form action="{{ route('admin.pengguna.destroy', $user->id) }}" method="POST"
                                 onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
                                 style="display: inline-block;">
                                 <input type="hidden" name="_method" value="DELETE">
@@ -99,7 +116,7 @@
         let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
         let deleteButton = {
             text: deleteButtonTrans,
-            url: "{{ route('admin.laporan.massDestroy') }}",
+            url: "{{ route('admin.pengguna.massDestroy') }}",
             className: 'btn-danger',
             action: function (e, dt, node, config) {
                 var ids = $.map(dt.rows({
@@ -137,11 +154,11 @@
         $.extend(true, $.fn.dataTable.defaults, {
             orderCellsTop: true,
             order: [
-                [5, 'desc']
+                [1, 'desc']
             ],
             pageLength: 10,
         });
-        let table = $('.datatable-Laporan:not(.ajaxTable)').DataTable({
+        let table = $('.datatable-Pengguna:not(.ajaxTable)').DataTable({
             buttons: dtButtons
         })
         $('a[data-toggle="tab"]').on('shown.bs.tab click', function (e) {

@@ -9,7 +9,7 @@ use App\Http\Requests\StorePengaduanRequest;
 use App\Http\Requests\UpdatePengaduanRequest;
 use App\Models\Lokasi;
 use App\Models\Pengaduan;
-use Gate;
+
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,8 +20,6 @@ class PengaduanController extends Controller
 
     public function index()
     {
-        abort_if(Gate::denies('pengaduan_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $pengaduan = Pengaduan::with(['lokasi', 'media'])->get();
 
         return view('admin.pengaduan.index', compact('pengaduan'));
@@ -29,8 +27,6 @@ class PengaduanController extends Controller
 
     public function create()
     {
-        abort_if(Gate::denies('pengaduan_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $lokasi = Lokasi::pluck('nama_lokasi', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         return view('admin.pengaduan.create', compact('lokasi'));
@@ -53,8 +49,6 @@ class PengaduanController extends Controller
 
     public function edit(Pengaduan $pengaduan)
     {
-        abort_if(Gate::denies('pengaduan_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $lokasi = Lokasi::pluck('nama_lokasi', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $pengaduan->load('lokasi');
@@ -85,8 +79,6 @@ class PengaduanController extends Controller
 
     public function show(Pengaduan $pengaduan)
     {
-        abort_if(Gate::denies('pengaduan_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $pengaduan->load('lokasi');
 
         return view('admin.pengaduan.show', compact('pengaduan'));
@@ -94,8 +86,6 @@ class PengaduanController extends Controller
 
     public function destroy(Pengaduan $pengaduan)
     {
-        abort_if(Gate::denies('pengaduan_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $pengaduan->delete();
 
         return back();
@@ -114,8 +104,6 @@ class PengaduanController extends Controller
 
     public function storeCKEditorImages(Request $request)
     {
-        abort_if(Gate::denies('pengaduan_create') && Gate::denies('pengaduan_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $model         = new Pengaduan();
         $model->id     = $request->input('crud_id', 0);
         $model->exists = true;

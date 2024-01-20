@@ -13,19 +13,31 @@ Auth::routes(['register' => false]);
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
     Route::get('/', 'HomeController@index')->name('home');
-    // Permissions
-    Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
-    Route::resource('permissions', 'PermissionsController');
-
-    // Roles
-    Route::delete('roles/destroy', 'RolesController@massDestroy')->name('roles.massDestroy');
-    Route::resource('roles', 'RolesController');
 
     // Users
-    Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
-    Route::post('users/media', 'UsersController@storeMedia')->name('users.storeMedia');
-    Route::post('users/ckmedia', 'UsersController@storeCKEditorImages')->name('users.storeCKEditorImages');
-    Route::resource('users', 'UsersController');
+    // Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
+    // Route::post('users/media', 'UsersController@storeMedia')->name('users.storeMedia');
+    // Route::post('users/ckmedia', 'UsersController@storeCKEditorImages')->name('users.storeCKEditorImages');
+    // Route::resource('users', 'UsersController');
+
+    // Pengguna
+    Route::delete('pengguna/destroy', 'PenggunaController@massDestroy')->name('pengguna.massDestroy');
+    Route::post('pengguna/media', 'PenggunaController@storeMedia')->name('pengguna.storeMedia');
+    Route::post('pengguna/ckmedia', 'PenggunaController@storeCKEditorImages')->name('pengguna.storeCKEditorImages');
+    Route::resource('pengguna', 'PenggunaController');
+
+    // Pengguna
+    // Route::get('pengguna/list', 'PenggunaController@index')->name('pengguna.index');
+    // Route::get('pengguna/create', 'PenggunaController@create')->name('pengguna.create');
+    // Route::delete('pengguna/destroy', 'PenggunaController@massDestroy')->name('pengguna.massDestroy');
+    // Route::post('pengguna/store', 'PenggunaController@store')->name('pengguna.store');
+    // Route::get('pengguna/edit/{id}', 'PenggunaController@edit')->name('pengguna.edit');
+    // Route::get('pengguna/show/{id}', 'PenggunaController@show')->name('pengguna.show');
+    // Route::delete('pengguna/delete/{id}', 'PenggunaController@destroy')->name('pengguna.destroy');
+
+    // Route::post('pengguna/media', 'PenggunaController@storeMedia')->name('pengguna.storeMedia');
+    // Route::post('pengguna/update/{id}', 'PenggunaController@update')->name('pengguna.update');
+    // Route::post('pengguna/ckmedia', 'PenggunaController@storeCKEditorImages')->name('pengguna.storeCKEditorImages');
 
     // Kategori
     Route::delete('kategori/destroy', 'KategoriController@massDestroy')->name('kategori.massDestroy');
@@ -51,6 +63,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('tugas/destroy', 'TugasController@massDestroy')->name('tugas.massDestroy');
     Route::resource('tugas', 'TugasController');
 });
+
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password
     if (file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php'))) {

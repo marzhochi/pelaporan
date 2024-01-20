@@ -9,13 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MassDestroyLaporanRequest extends FormRequest
 {
-    public function authorize()
-    {
-        abort_if(Gate::denies('laporan_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return true;
-    }
-
     public function rules()
     {
         return [

@@ -2,14 +2,14 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Pengguna;
 use Illuminate\Database\Seeder;
 
-class UsersTableSeeder extends Seeder
+class PenggunaTableSeeder extends Seeder
 {
     public function run()
     {
-        $users = [
+        $pengguna = [
             [
                 'id'             => 1,
                 'name'           => 'Admin',
@@ -18,9 +18,10 @@ class UsersTableSeeder extends Seeder
                 'remember_token' => null,
                 'golongan'       => '',
                 'no_telp'        => '',
+                'role'           => 1,
             ],
         ];
 
-        User::insert($users);
+        Pengguna::insert($pengguna);
     }
 }

@@ -10,7 +10,7 @@ class AddRelationshipFieldsToTugasTable extends Migration
     {
         Schema::table('tugas', function (Blueprint $table) {
             $table->unsignedBigInteger('petugas_id')->nullable();
-            $table->foreign('petugas_id', 'petugas_fk_9410027')->references('id')->on('users');
+            $table->foreign('petugas_id', 'petugas_fk_9410027')->references('id')->on('pengguna');
             $table->unsignedBigInteger('pengaduan_id')->nullable();
             $table->foreign('pengaduan_id', 'pengaduan_fk_9410028')->references('id')->on('pengaduan');
             $table->unsignedBigInteger('kategori_id')->nullable();

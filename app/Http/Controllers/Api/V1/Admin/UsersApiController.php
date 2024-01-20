@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Http\Resources\Admin\UserResource;
-use App\Models\User;
-use Gate;
+use App\Http\Resources\Admin\PenggunaResource;
+use App\Models\Pengguna;
+
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,32 +18,28 @@ class UsersApiController extends Controller
 
     public function index()
     {
-        abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new UserResource(User::with(['roles'])->get());
+        return new PenggunaResource(Pengguna::with(['roles'])->get());
     }
 
     public function store(StoreUserRequest $request)
     {
-        $user = User::create($request->all());
+        $user = Pengguna::create($request->all());
         $user->roles()->sync($request->input('roles', []));
         if ($request->input('avatar', false)) {
             $user->addMedia(storage_path('tmp/uploads/' . basename($request->input('avatar'))))->toMediaCollection('avatar');
         }
 
-        return (new UserResource($user))
+        return (new PenggunaResource($user))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function show(User $user)
+    public function show(Pengguna $user)
     {
-        abort_if(Gate::denies('user_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new UserResource($user->load(['roles']));
+        return new PenggunaResource($user->load(['roles']));
     }
 
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, Pengguna $user)
     {
         $user->update($request->all());
         $user->roles()->sync($request->input('roles', []));
@@ -58,15 +54,13 @@ class UsersApiController extends Controller
             $user->avatar->delete();
         }
 
-        return (new UserResource($user))
+        return (new PenggunaResource($user))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(User $user)
+    public function destroy(Pengguna $user)
     {
-        abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $user->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);

@@ -3,17 +3,12 @@
 namespace App\Http\Requests;
 
 use App\Models\Pengaduan;
-use Gate;
+
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
 
 class StorePengaduanRequest extends FormRequest
 {
-    public function authorize()
-    {
-        return Gate::allows('pengaduan_create');
-    }
-
     public function rules()
     {
         return [

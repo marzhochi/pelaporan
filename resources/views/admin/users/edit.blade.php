@@ -97,19 +97,15 @@
                 <span class="help-block">{{ trans('cruds.user.fields.avatar_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="roles">{{ trans('cruds.user.fields.roles') }}</label>
-                <div style="padding-bottom: 4px">
-                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
-                </div>
-                <select class="form-control select2 {{ $errors->has('roles') ? 'is-invalid' : '' }}" name="roles[]" id="roles" multiple required>
-                    @foreach($roles as $id => $role)
-                        <option value="{{ $id }}" {{ (in_array($id, old('roles', [])) || $user->roles->contains($id)) ? 'selected' : '' }}>{{ $role }}</option>
-                    @endforeach
+                <label class="required" for="role">{{ trans('cruds.user.fields.roles') }}</label>
+                <select class="form-control select2 {{ $errors->has('role') ? 'is-invalid' : '' }}" name="role" id="role" required>
+                    <option value="">Pilih Role</option>
+                    <option value="1" {{ $user->role == 1 ? 'selected' : ''}}>Kepala Petugas</option>
+                    <option value="2" {{ $user->role == 2 ? 'selected' : ''}}>Petugas Lapangan</option>
                 </select>
-                @if($errors->has('roles'))
+                @if($errors->has('role'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('roles') }}
+                        {{ $errors->first('role') }}
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.user.fields.roles_helper') }}</span>

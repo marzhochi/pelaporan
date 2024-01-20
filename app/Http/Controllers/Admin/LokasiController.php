@@ -7,7 +7,7 @@ use App\Http\Requests\MassDestroyLokasiRequest;
 use App\Http\Requests\StoreLokasiRequest;
 use App\Http\Requests\UpdateLokasiRequest;
 use App\Models\Lokasi;
-use Gate;
+
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,8 +15,6 @@ class LokasiController extends Controller
 {
     public function index()
     {
-        abort_if(Gate::denies('lokasi_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $lokasi = Lokasi::all();
 
         return view('admin.lokasi.index', compact('lokasi'));
@@ -24,8 +22,6 @@ class LokasiController extends Controller
 
     public function create()
     {
-        abort_if(Gate::denies('lokasi_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.lokasi.create');
     }
 
@@ -38,8 +34,6 @@ class LokasiController extends Controller
 
     public function edit(Lokasi $lokasi)
     {
-        abort_if(Gate::denies('lokasi_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.lokasi.edit', compact('lokasi'));
     }
 
@@ -52,15 +46,11 @@ class LokasiController extends Controller
 
     public function show(Lokasi $lokasi)
     {
-        abort_if(Gate::denies('lokasi_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.lokasi.show', compact('lokasi'));
     }
 
     public function destroy(Lokasi $lokasi)
     {
-        abort_if(Gate::denies('lokasi_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $lokasi->delete();
 
         return back();

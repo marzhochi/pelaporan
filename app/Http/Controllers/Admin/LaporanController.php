@@ -10,7 +10,7 @@ use App\Http\Requests\UpdateLaporanRequest;
 use App\Models\Laporan;
 use App\Models\Lokasi;
 use App\Models\Tugas;
-use Gate;
+
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,8 +21,6 @@ class LaporanController extends Controller
 
     public function index()
     {
-        abort_if(Gate::denies('laporan_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $laporan = Laporan::with(['lokasi', 'tugas', 'media'])->get();
 
         return view('admin.laporan.index', compact('laporan'));
@@ -30,8 +28,6 @@ class LaporanController extends Controller
 
     public function create()
     {
-        abort_if(Gate::denies('laporan_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $lokasi = Lokasi::pluck('nama_lokasi', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $tugas = Tugas::pluck('judul_tugas', 'id')->prepend(trans('global.pleaseSelect'), '');
@@ -56,8 +52,6 @@ class LaporanController extends Controller
 
     public function edit(Laporan $laporan)
     {
-        abort_if(Gate::denies('laporan_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $lokasi = Lokasi::pluck('nama_lokasi', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $tugas = Tugas::pluck('judul_tugas', 'id')->prepend(trans('global.pleaseSelect'), '');
@@ -90,8 +84,6 @@ class LaporanController extends Controller
 
     public function show(Laporan $laporan)
     {
-        abort_if(Gate::denies('laporan_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $laporan->load('lokasi', 'tugas');
 
         return view('admin.laporan.show', compact('laporan'));
@@ -99,8 +91,6 @@ class LaporanController extends Controller
 
     public function destroy(Laporan $laporan)
     {
-        abort_if(Gate::denies('laporan_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $laporan->delete();
 
         return back();
@@ -119,8 +109,6 @@ class LaporanController extends Controller
 
     public function storeCKEditorImages(Request $request)
     {
-        abort_if(Gate::denies('laporan_create') && Gate::denies('laporan_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $model         = new Laporan();
         $model->id     = $request->input('crud_id', 0);
         $model->exists = true;

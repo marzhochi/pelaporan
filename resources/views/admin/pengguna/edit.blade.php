@@ -3,15 +3,16 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.create') }} {{ trans('cruds.user.title_singular') }}
+        {{ trans('global.edit') }} {{ trans('cruds.user.title_singular') }}
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("admin.users.store") }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.pengguna.update", [$user->id]) }}" enctype="multipart/form-data">
+            @method('PUT')
             @csrf
             <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.user.fields.name') }}</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', '') }}" required>
+                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required>
                 @if($errors->has('name'))
                     <div class="invalid-feedback">
                         {{ $errors->first('name') }}
@@ -21,7 +22,7 @@
             </div>
             <div class="form-group">
                 <label class="required" for="email">{{ trans('cruds.user.fields.email') }}</label>
-                <input class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" type="email" name="email" id="email" value="{{ old('email') }}" required>
+                <input class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required>
                 @if($errors->has('email'))
                     <div class="invalid-feedback">
                         {{ $errors->first('email') }}
@@ -31,7 +32,7 @@
             </div>
             <div class="form-group">
                 <label class="required" for="password">{{ trans('cruds.user.fields.password') }}</label>
-                <input class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}" type="password" name="password" id="password" required>
+                <input class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}" type="password" name="password" id="password">
                 @if($errors->has('password'))
                     <div class="invalid-feedback">
                         {{ $errors->first('password') }}
@@ -41,7 +42,7 @@
             </div>
             <div class="form-group">
                 <label for="nip">{{ trans('cruds.user.fields.nip') }}</label>
-                <input class="form-control {{ $errors->has('nip') ? 'is-invalid' : '' }}" type="number" name="nip" id="nip" value="{{ old('nip', '') }}" step="1">
+                <input class="form-control {{ $errors->has('nip') ? 'is-invalid' : '' }}" type="number" name="nip" id="nip" value="{{ old('nip', $user->nip) }}" step="1">
                 @if($errors->has('nip'))
                     <div class="invalid-feedback">
                         {{ $errors->first('nip') }}
@@ -51,7 +52,7 @@
             </div>
             <div class="form-group">
                 <label for="golongan">{{ trans('cruds.user.fields.golongan') }}</label>
-                <input class="form-control {{ $errors->has('golongan') ? 'is-invalid' : '' }}" type="text" name="golongan" id="golongan" value="{{ old('golongan', '') }}">
+                <input class="form-control {{ $errors->has('golongan') ? 'is-invalid' : '' }}" type="text" name="golongan" id="golongan" value="{{ old('golongan', $user->golongan) }}">
                 @if($errors->has('golongan'))
                     <div class="invalid-feedback">
                         {{ $errors->first('golongan') }}
@@ -63,7 +64,7 @@
                 <label>{{ trans('cruds.user.fields.jenis_kelamin') }}</label>
                 @foreach(App\Models\User::JENIS_KELAMIN_RADIO as $key => $label)
                     <div class="form-check {{ $errors->has('jenis_kelamin') ? 'is-invalid' : '' }}">
-                        <input class="form-check-input" type="radio" id="jenis_kelamin_{{ $key }}" name="jenis_kelamin" value="{{ $key }}" {{ old('jenis_kelamin', '') === (string) $key ? 'checked' : '' }}>
+                        <input class="form-check-input" type="radio" id="jenis_kelamin_{{ $key }}" name="jenis_kelamin" value="{{ $key }}" {{ old('jenis_kelamin', $user->jenis_kelamin) === (string) $key ? 'checked' : '' }}>
                         <label class="form-check-label" for="jenis_kelamin_{{ $key }}">{{ $label }}</label>
                     </div>
                 @endforeach
@@ -76,7 +77,7 @@
             </div>
             <div class="form-group">
                 <label for="no_telp">{{ trans('cruds.user.fields.no_telp') }}</label>
-                <input class="form-control {{ $errors->has('no_telp') ? 'is-invalid' : '' }}" type="text" name="no_telp" id="no_telp" value="{{ old('no_telp', '') }}">
+                <input class="form-control {{ $errors->has('no_telp') ? 'is-invalid' : '' }}" type="text" name="no_telp" id="no_telp" value="{{ old('no_telp', $user->no_telp) }}">
                 @if($errors->has('no_telp'))
                     <div class="invalid-feedback">
                         {{ $errors->first('no_telp') }}
@@ -96,11 +97,11 @@
                 <span class="help-block">{{ trans('cruds.user.fields.avatar_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="roles">Role</label>
+                <label class="required" for="role">{{ trans('cruds.user.fields.roles') }}</label>
                 <select class="form-control select2 {{ $errors->has('role') ? 'is-invalid' : '' }}" name="role" id="role" required>
                     <option value="">Pilih Role</option>
-                    <option value="1">Kepala Petugas</option>
-                    <option value="2">Petugas Lapangan</option>
+                    <option value="1" {{ $user->role == 1 ? 'selected' : ''}}>Kepala Petugas</option>
+                    <option value="2" {{ $user->role == 2 ? 'selected' : ''}}>Petugas Lapangan</option>
                 </select>
                 @if($errors->has('role'))
                     <div class="invalid-feedback">
@@ -125,7 +126,7 @@
 @section('scripts')
 <script>
     Dropzone.options.avatarDropzone = {
-    url: '{{ route('admin.users.storeMedia') }}',
+    url: '{{ route('admin.pengguna.storeMedia') }}',
     maxFilesize: 2, // MB
     acceptedFiles: '.jpeg,.jpg,.png,.gif',
     maxFiles: 1,

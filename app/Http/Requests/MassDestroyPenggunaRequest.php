@@ -2,23 +2,18 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Pengaduan;
+use App\Models\Pengguna;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassDestroyPengaduanRequest extends FormRequest
+class MassDestroyPenggunaRequest extends FormRequest
 {
-    public function authorize()
-    {
-        return true;
-    }
-
     public function rules()
     {
         return [
             'ids'   => 'required|array',
-            'ids.*' => 'exists:pengaduan,id',
+            'ids.*' => 'exists:pengguna,id',
         ];
     }
 }

@@ -2,18 +2,13 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
-use Gate;
+use App\Models\Pengguna;
+
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
 
-class UpdateUserRequest extends FormRequest
+class StorePenggunaRequest extends FormRequest
 {
-    public function authorize()
-    {
-        return Gate::allows('user_edit');
-    }
-
     public function rules()
     {
         return [
@@ -23,7 +18,10 @@ class UpdateUserRequest extends FormRequest
             ],
             'email' => [
                 'required',
-                'unique:users,email,' . request()->route('user')->id,
+                'unique:pengguna',
+            ],
+            'password' => [
+                'required',
             ],
             'nip' => [
                 'nullable',
@@ -41,12 +39,9 @@ class UpdateUserRequest extends FormRequest
                 'max:13',
                 'nullable',
             ],
-            'roles.*' => [
-                'integer',
-            ],
-            'roles' => [
+            'role' => [
                 'required',
-                'array',
+                'integer',
             ],
         ];
     }

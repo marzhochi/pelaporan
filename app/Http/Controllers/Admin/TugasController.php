@@ -9,8 +9,8 @@ use App\Http\Requests\UpdateTugasRequest;
 use App\Models\Kategori;
 use App\Models\Pengaduan;
 use App\Models\Tugas;
-use App\Models\User;
-use Gate;
+use App\Models\Pengguna;
+
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,8 +18,6 @@ class TugasController extends Controller
 {
     public function index()
     {
-        abort_if(Gate::denies('tugas_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $tugas = Tugas::with(['petugas', 'pengaduan', 'kategori'])->get();
 
         return view('admin.tugas.index', compact('tugas'));
@@ -27,9 +25,7 @@ class TugasController extends Controller
 
     public function create()
     {
-        abort_if(Gate::denies('tugas_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $petugas = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $petugas = Pengguna::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $pengaduan = Pengaduan::pluck('judul_pengaduan', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -47,9 +43,7 @@ class TugasController extends Controller
 
     public function edit(Tugas $tugas)
     {
-        abort_if(Gate::denies('tugas_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $petugas = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $petugas = Pengguna::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $pengaduan = Pengaduan::pluck('nama_lengkap', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -69,8 +63,6 @@ class TugasController extends Controller
 
     public function show(Tugas $tugas)
     {
-        abort_if(Gate::denies('tugas_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $tugas->load('petugas', 'pengaduan', 'kategori');
 
         return view('admin.tugas.show', compact('tugas'));
@@ -78,8 +70,6 @@ class TugasController extends Controller
 
     public function destroy(Tugas $tugas)
     {
-        abort_if(Gate::denies('tugas_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $tugas->delete();
 
         return back();

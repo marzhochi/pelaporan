@@ -7,7 +7,7 @@ use App\Http\Requests\MassDestroyKategoriRequest;
 use App\Http\Requests\StoreKategoriRequest;
 use App\Http\Requests\UpdateKategoriRequest;
 use App\Models\Kategori;
-use Gate;
+
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,8 +15,6 @@ class KategoriController extends Controller
 {
     public function index()
     {
-        abort_if(Gate::denies('kategori_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $kategori = Kategori::all();
 
         return view('admin.kategori.index', compact('kategori'));
@@ -24,8 +22,6 @@ class KategoriController extends Controller
 
     public function create()
     {
-        abort_if(Gate::denies('kategori_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.kategori.create');
     }
 
@@ -38,8 +34,6 @@ class KategoriController extends Controller
 
     public function edit(Kategori $kategori)
     {
-        abort_if(Gate::denies('kategori_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.kategori.edit', compact('kategori'));
     }
 
@@ -52,15 +46,11 @@ class KategoriController extends Controller
 
     public function show(Kategori $kategori)
     {
-        abort_if(Gate::denies('kategori_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.kategori.show', compact('kategori'));
     }
 
     public function destroy(Kategori $kategori)
     {
-        abort_if(Gate::denies('kategori_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $kategori->delete();
 
         return back();
