@@ -2,6 +2,7 @@
 
 Route::post('login', 'Api\\AuthController@login');
 Route::get('home', 'Api\\HomeController@index');
+Route::get('cari-home', 'Api\\HomeController@search');
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:sanctum']], function () {
     // Dashobord

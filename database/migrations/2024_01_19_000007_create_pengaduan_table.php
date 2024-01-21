@@ -15,6 +15,7 @@ class CreatePengaduanTable extends Migration
             $table->string('judul_pengaduan');
             $table->string('keterangan')->nullable();
             $table->string('latlang');
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

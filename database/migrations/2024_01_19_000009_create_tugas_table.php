@@ -12,7 +12,7 @@ class CreateTugasTable extends Migration
             $table->bigIncrements('id');
             $table->string('judul_tugas');
             $table->string('keterangan')->nullable();
-            $table->string('status');
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
