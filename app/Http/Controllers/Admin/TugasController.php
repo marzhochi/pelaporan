@@ -38,6 +38,10 @@ class TugasController extends Controller
     {
         $tugas = Tugas::create($request->all());
 
+        $pengaduan = Pengaduan::find($request->pengaduan_id);
+        $pengaduan->status = 1;
+        $pengaduan->update();
+
         return redirect()->route('admin.tugas.index');
     }
 
