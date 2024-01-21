@@ -14,10 +14,11 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Laravel\Sanctum\HasApiTokens;
 
 class Pengguna extends Authenticatable implements HasMedia
 {
-    use SoftDeletes, Notifiable, InteractsWithMedia, HasFactory;
+    use HasApiTokens, SoftDeletes, Notifiable, InteractsWithMedia, HasFactory;
 
     public $table = 'pengguna';
 

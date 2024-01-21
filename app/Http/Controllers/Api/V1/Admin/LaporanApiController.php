@@ -8,7 +8,7 @@ use App\Http\Requests\StoreLaporanRequest;
 use App\Http\Requests\UpdateLaporanRequest;
 use App\Http\Resources\Admin\LaporanResource;
 use App\Models\Laporan;
-use Gate;
+
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,8 +18,6 @@ class LaporanApiController extends Controller
 
     public function index()
     {
-        abort_if(Gate::denies('laporan_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return new LaporanResource(Laporan::with(['lokasi', 'tugas'])->get());
     }
 
@@ -38,8 +36,6 @@ class LaporanApiController extends Controller
 
     public function show(Laporan $laporan)
     {
-        abort_if(Gate::denies('laporan_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return new LaporanResource($laporan->load(['lokasi', 'tugas']));
     }
 
@@ -68,8 +64,6 @@ class LaporanApiController extends Controller
 
     public function destroy(Laporan $laporan)
     {
-        abort_if(Gate::denies('laporan_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $laporan->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);

@@ -8,7 +8,7 @@ use App\Http\Requests\StorePengaduanRequest;
 use App\Http\Requests\UpdatePengaduanRequest;
 use App\Http\Resources\Admin\PengaduanResource;
 use App\Models\Pengaduan;
-use Gate;
+
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,8 +18,6 @@ class PengaduanApiController extends Controller
 
     public function index()
     {
-        abort_if(Gate::denies('pengaduan_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return new PengaduanResource(Pengaduan::with(['lokasi'])->get());
     }
 
@@ -38,8 +36,6 @@ class PengaduanApiController extends Controller
 
     public function show(Pengaduan $pengaduan)
     {
-        abort_if(Gate::denies('pengaduan_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return new PengaduanResource($pengaduan->load(['lokasi']));
     }
 
@@ -68,8 +64,6 @@ class PengaduanApiController extends Controller
 
     public function destroy(Pengaduan $pengaduan)
     {
-        abort_if(Gate::denies('pengaduan_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $pengaduan->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);

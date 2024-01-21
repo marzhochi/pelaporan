@@ -4,15 +4,15 @@ namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\StorePenggunaRequest;
+use App\Http\Requests\UpdatePenggunaRequest;
 use App\Http\Resources\Admin\PenggunaResource;
 use App\Models\Pengguna;
 
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class UsersApiController extends Controller
+class PenggunaApiController extends Controller
 {
     use MediaUploadingTrait;
 
@@ -21,7 +21,7 @@ class UsersApiController extends Controller
         return new PenggunaResource(Pengguna::with(['roles'])->get());
     }
 
-    public function store(StoreUserRequest $request)
+    public function store(StorePenggunaRequest $request)
     {
         $user = Pengguna::create($request->all());
         $user->roles()->sync($request->input('roles', []));
@@ -39,7 +39,7 @@ class UsersApiController extends Controller
         return new PenggunaResource($user->load(['roles']));
     }
 
-    public function update(UpdateUserRequest $request, Pengguna $user)
+    public function update(UpdatePenggunaRequest $request, Pengguna $user)
     {
         $user->update($request->all());
         $user->roles()->sync($request->input('roles', []));

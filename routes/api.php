@@ -1,9 +1,11 @@
 <?php
 
+Route::post('login', 'Api\\AuthController@login');
+
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:sanctum']], function () {
-    // Users
-    Route::post('users/media', 'UsersApiController@storeMedia')->name('users.storeMedia');
-    Route::apiResource('users', 'UsersApiController');
+    // Pengguna
+    Route::post('pengguna/media', 'PenggunaApiController@storeMedia')->name('pengguna.storeMedia');
+    Route::apiResource('pengguna', 'PenggunaApiController');
 
     // Kategori
     Route::apiResource('kategori', 'KategoriApiController');
