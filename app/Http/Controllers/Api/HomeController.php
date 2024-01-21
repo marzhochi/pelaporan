@@ -18,8 +18,9 @@ class HomeController extends Controller
     {
         $search = $request->search;
 
-        return new PengaduanResource(Pengaduan::with(['lokasi'])->where('status', 1)
+        return new PengaduanResource(Pengaduan::with(['lokasi'])
+        ->where('status', 1)
         ->where('judul_pengaduan', 'LIKE', '%' . $search . '%')
-        ->orWhere('keterangan', 'LIKE', '%' . $search . '%')->get());
+        ->get());
     }
 }
