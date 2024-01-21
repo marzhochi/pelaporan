@@ -16,9 +16,14 @@ class HomeController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index()
+    public function index(Request $request)
     {
-        return new PengaduanResource(Pengaduan::with(['lokasi'])->get());
+        $search = $request->search;
+
+        return new PengaduanResource(Pengaduan::with(['lokasi'])
+        ->where('status', 1)
+        ->where('judul_pengaduan', 'LIKE', '%'.$search.'%')
+        ->get());
     }
 
     public function store(StorePengaduanRequest $request)
