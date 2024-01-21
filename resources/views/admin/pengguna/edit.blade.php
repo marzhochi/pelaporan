@@ -12,10 +12,10 @@
             @csrf
             <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.user.fields.name') }}</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required>
-                @if($errors->has('name'))
+                <input class="form-control {{ $errors->has('nama_lengkap') ? 'is-invalid' : '' }}" type="text" name="nama_lengkap" id="nama_lengkap" value="{{ old('nama_lengkap', $user->nama_lengkap) }}" required>
+                @if($errors->has('nama_lengkap'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('name') }}
+                        {{ $errors->first('nama_lengkap') }}
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.user.fields.name_helper') }}</span>

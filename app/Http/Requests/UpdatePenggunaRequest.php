@@ -12,7 +12,7 @@ class UpdatePenggunaRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
+            'nama_lengkap' => [
                 'string',
                 'required',
             ],

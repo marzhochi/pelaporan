@@ -12,7 +12,7 @@ class StorePenggunaRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
+            'nama_lengkap' => [
                 'string',
                 'required',
             ],

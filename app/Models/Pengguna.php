@@ -44,7 +44,7 @@ class Pengguna extends Authenticatable implements HasMedia
     ];
 
     protected $fillable = [
-        'name',
+        'nama_lengkap',
         'email',
         'email_verified_at',
         'password',

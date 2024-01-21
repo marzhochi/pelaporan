@@ -57,7 +57,7 @@
 
                         </td>
                         <td>
-                            {{ $user->name ?? '' }}
+                            {{ $user->nama_lengkap ?? '' }}
                         </td>
                         <td>
                             {{ $user->email ?? '' }}

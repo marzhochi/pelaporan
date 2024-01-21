@@ -10,7 +10,7 @@ class CreatePenggunaTable extends Migration
     {
         Schema::create('pengguna', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name')->nullable();
+            $table->string('nama_lengkap')->nullable();
             $table->string('email')->nullable()->unique();
             $table->datetime('email_verified_at')->nullable();
             $table->string('password')->nullable();

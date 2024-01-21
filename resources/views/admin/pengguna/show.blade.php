@@ -20,7 +20,7 @@
                             {{ trans('cruds.user.fields.name') }}
                         </th>
                         <td>
-                            {{ $user->name }}
+                            {{ $user->nama_lengkap }}
                         </td>
                     </tr>
                     <tr>
