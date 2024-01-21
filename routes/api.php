@@ -1,8 +1,9 @@
 <?php
 
 Route::post('login', 'Api\\AuthController@login');
-Route::get('home', 'Api\\HomeController@index');
-Route::get('cari-home', 'Api\\HomeController@search');
+Route::get('home/index', 'Api\\HomeController@index');
+Route::get('home/show/{id}', 'Api\\HomeController@show');
+// Route::apiResource('home', 'Api\\HomeController@index');
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:sanctum']], function () {
     // Dashobord

@@ -9,12 +9,7 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
-    {
-        return new PengaduanResource(Pengaduan::with(['lokasi'])->where('status', 1)->take(10)->get());
-    }
-
-    public function search(Request $request)
+    public function index(Request $request)
     {
         $search = $request->search;
 
@@ -22,5 +17,10 @@ class HomeController extends Controller
         ->where('status', 1)
         ->where('judul_pengaduan', 'LIKE', '%' . $search . '%')
         ->get());
+    }
+
+    public function show(Pengaduan $pengaduan)
+    {
+        return new PengaduanResource($pengaduan->load(['lokasi']));
     }
 }
