@@ -18,12 +18,8 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
         if (!auth()->attempt($credentials)) {
             return response()->json([
-                'message' => 'The given data was invalid.',
-                'errors' => [
-                    'password' => [
-                        'Invalid credentials'
-                    ],
-                ]
+                'message' => 'Username atau password salah',
+                'status' => 'error'
             ], 422);
         }
 
