@@ -36,8 +36,8 @@ class PengaduanController extends Controller
     {
         $pengaduan = Pengaduan::create($request->all());
 
-        foreach ($request->input('foto', []) as $file) {
-            $pengaduan->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('foto');
+        if ($request->input('foto', false)) {
+            $pengaduan->addMedia(storage_path('tmp/uploads/' . basename($request->input('foto'))))->toMediaCollection('foto');
         }
 
         if ($media = $request->input('ck-media', false)) {
@@ -60,18 +60,15 @@ class PengaduanController extends Controller
     {
         $pengaduan->update($request->all());
 
-        if (count($pengaduan->foto) > 0) {
-            foreach ($pengaduan->foto as $media) {
-                if (! in_array($media->file_name, $request->input('foto', []))) {
-                    $media->delete();
+        if ($request->input('foto', false)) {
+            if (! $pengaduan->foto || $request->input('foto') !== $pengaduan->foto->file_name) {
+                if ($pengaduan->foto) {
+                    $pengaduan->foto->delete();
                 }
+                $pengaduan->addMedia(storage_path('tmp/uploads/' . basename($request->input('foto'))))->toMediaCollection('foto');
             }
-        }
-        $media = $pengaduan->foto->pluck('file_name')->toArray();
-        foreach ($request->input('foto', []) as $file) {
-            if (count($media) === 0 || ! in_array($file, $media)) {
-                $pengaduan->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('foto');
-            }
+        } elseif ($pengaduan->foto) {
+            $pengaduan->foto->delete();
         }
 
         return redirect()->route('admin.pengaduan.index');

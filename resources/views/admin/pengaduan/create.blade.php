@@ -101,6 +101,7 @@ Dropzone.options.fotoDropzone = {
     url: '{{ route('admin.pengaduan.storeMedia') }}',
     maxFilesize: 2, // MB
     acceptedFiles: '.jpeg,.jpg,.png,.gif',
+    maxFiles: 1,
     addRemoveLinks: true,
     headers: {
       'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -111,31 +112,25 @@ Dropzone.options.fotoDropzone = {
       height: 4096
     },
     success: function (file, response) {
-      $('form').append('<input type="hidden" name="foto[]" value="' + response.name + '">')
-      uploadedFotoMap[file.name] = response.name
+      $('form').find('input[name="foto"]').remove()
+      $('form').append('<input type="hidden" name="foto" value="' + response.name + '">')
     },
     removedfile: function (file) {
-      console.log(file)
       file.previewElement.remove()
-      var name = ''
-      if (typeof file.file_name !== 'undefined') {
-        name = file.file_name
-      } else {
-        name = uploadedFotoMap[file.name]
+      if (file.status !== 'error') {
+        $('form').find('input[name="foto"]').remove()
+        this.options.maxFiles = this.options.maxFiles + 1
       }
-      $('form').find('input[name="foto[]"][value="' + name + '"]').remove()
     },
     init: function () {
-@if(isset($pengaduan) && $pengaduan->foto)
-      var files = {!! json_encode($pengaduan->foto) !!}
-          for (var i in files) {
-          var file = files[i]
-          this.options.addedfile.call(this, file)
-          this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
-          file.previewElement.classList.add('dz-complete')
-          $('form').append('<input type="hidden" name="foto[]" value="' + file.file_name + '">')
-        }
-@endif
+    @if(isset($pengaduan) && $pengaduan->foto)
+      var file = {!! json_encode($pengaduan->foto) !!}
+      this.options.addedfile.call(this, file)
+      this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
+      file.previewElement.classList.add('dz-complete')
+      $('form').append('<input type="hidden" name="foto" value="' + file.file_name + '">')
+      this.options.maxFiles = this.options.maxFiles - 1
+    @endif
     },
      error: function (file, response) {
          if ($.type(response) === 'string') {

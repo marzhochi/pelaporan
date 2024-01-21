@@ -25,8 +25,8 @@ class PengaduanApiController extends Controller
     {
         $pengaduan = Pengaduan::create($request->all());
 
-        foreach ($request->input('foto', []) as $file) {
-            $pengaduan->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('foto');
+        if ($request->input('foto', false)) {
+            $pengaduan->addMedia(storage_path('tmp/uploads/' . basename($request->input('foto'))))->toMediaCollection('foto');
         }
 
         return (new PengaduanResource($pengaduan))

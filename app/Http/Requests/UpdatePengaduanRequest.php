@@ -29,10 +29,6 @@ class UpdatePengaduanRequest extends FormRequest
                 'nullable',
             ],
             'foto' => [
-                'array',
-                'required',
-            ],
-            'foto.*' => [
                 'required',
             ],
             'latlang' => [

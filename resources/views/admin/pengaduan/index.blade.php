@@ -68,11 +68,11 @@
                             {{ $item->keterangan ?? '' }}
                         </td>
                         <td>
-                            @foreach($item->foto as $key => $media)
-                            <a href="{{ $media->getUrl() }}" target="_blank" style="display: inline-block">
-                                <img src="{{ $media->getUrl('thumb') }}">
+                            @if($item->foto)
+                            <a href="{{ $item->foto->getUrl() }}" target="_blank" style="display: inline-block">
+                                <img src="{{ $item->foto->getUrl('thumb') }}">
                             </a>
-                            @endforeach
+                            @endif
                         </td>
                         <td>
                             {{ $item->latlang ?? '' }}

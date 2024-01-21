@@ -53,14 +53,14 @@ class Pengaduan extends Model implements HasMedia
 
     public function getFotoAttribute()
     {
-        $files = $this->getMedia('foto');
-        $files->each(function ($item) {
-            $item->url       = $item->getUrl();
-            $item->thumbnail = $item->getUrl('thumb');
-            $item->preview   = $item->getUrl('preview');
-        });
+        $file = $this->getMedia('foto')->last();
+        if ($file) {
+            $file->url       = $file->getUrl();
+            $file->thumbnail = $file->getUrl('thumb');
+            $file->preview   = $file->getUrl('preview');
+        }
 
-        return $files;
+        return $file;
     }
 
     public function lokasi()

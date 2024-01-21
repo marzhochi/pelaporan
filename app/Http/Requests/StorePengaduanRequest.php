@@ -29,10 +29,6 @@ class StorePengaduanRequest extends FormRequest
                 'nullable',
             ],
             'foto' => [
-                'array',
-                'required',
-            ],
-            'foto.*' => [
                 'required',
             ],
             'latlang' => [
