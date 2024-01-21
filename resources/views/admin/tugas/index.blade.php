@@ -52,10 +52,10 @@
 
                         </td>
                         <td>
-                            {{ $item->petugas->name ?? '' }}
+                            {{ $item->petugas->nama_lengkap ?? '' }}
                         </td>
                         <td>
-                            {{ $item->pengaduan->nama_lengkap ?? '' }}
+                            {{ $item->pengaduan->judul_pengaduan ?? '' }}
                         </td>
                         <td>
                             {{ $item->kategori->nama_kategori ?? '' }}

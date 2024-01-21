@@ -25,7 +25,7 @@ class TugasController extends Controller
 
     public function create()
     {
-        $petugas = Pengguna::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $petugas = Pengguna::pluck('nama_lengkap', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $pengaduan = Pengaduan::pluck('judul_pengaduan', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -43,9 +43,9 @@ class TugasController extends Controller
 
     public function edit(Tugas $tugas)
     {
-        $petugas = Pengguna::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $petugas = Pengguna::pluck('nama_lengkap', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $pengaduan = Pengaduan::pluck('nama_lengkap', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $pengaduan = Pengaduan::pluck('judul_pengaduan', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $kategori = Kategori::pluck('nama_kategori', 'id')->prepend(trans('global.pleaseSelect'), '');
 

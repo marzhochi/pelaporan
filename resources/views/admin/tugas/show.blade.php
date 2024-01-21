@@ -20,7 +20,7 @@
                             {{ trans('cruds.tugas.fields.petugas') }}
                         </th>
                         <td>
-                            {{ $tugas->petugas->name ?? '' }}
+                            {{ $tugas->petugas->nama_lengkap ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -28,7 +28,7 @@
                             {{ trans('cruds.tugas.fields.pengaduan') }}
                         </th>
                         <td>
-                            {{ $tugas->pengaduan->nama_lengkap ?? '' }}
+                            {{ $tugas->pengaduan->judul_pengaduan ?? '' }}
                         </td>
                     </tr>
                     <tr>
