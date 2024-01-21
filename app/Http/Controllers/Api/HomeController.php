@@ -19,8 +19,28 @@ class HomeController extends Controller
         ->get());
     }
 
-    public function show(Pengaduan $pengaduan)
+    public function show($id)
     {
-        return new PengaduanResource($pengaduan->load(['lokasi']));
+        try {
+            $pengaduan = Pengaduan::with('lokasi')
+                ->where('id', $id)
+                ->first();
+            if ($pengaduan) {
+                return response()->json([
+                    'status' => 'success',
+                    'data' => $pengaduan,
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Data tidak ditemukan',
+                ]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Data tidak ditemukan',
+            ]);
+        }
     }
 }
