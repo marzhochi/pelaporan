@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\StorePengaduanRequest;
-use App\Http\Requests\UpdatePengaduanRequest;
+use App\Http\Requests\StoreLokasiRequest;
 use App\Http\Resources\Admin\PengaduanResource;
+use App\Http\Resources\Admin\LokasiResource;
 use App\Models\Pengaduan;
+use App\Models\Lokasi;
 
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,17 +28,34 @@ class HomeController extends Controller
         ->get());
     }
 
-    public function store(StorePengaduanRequest $request)
+    public function store(Request $request)
     {
-        $pengaduan = Pengaduan::create($request->all());
+        $lokasi = new Lokasi();
+        $lokasi->nama_lokasi = $request->nama_lokasi;
+        $lokasi->kelurahan = $request->kelurahan;
+        $lokasi->kecamatan = $request->kecamatan;
+        $lokasi->kota = $request->kota;
+        $lokasi->provinsi = $request->provinsi;
+        $lokasi->kodepos = $request->kodepos;
+        $lokasi->save();
+
+        $pengaduan = new Pengaduan();
+        $pengaduan->nama_lengkap = $request->nama_lengkap;
+        $pengaduan->no_telepon = $request->no_telepon;
+        $pengaduan->judul_pengaduan = $request->judul_pengaduan;
+        $pengaduan->keterangan = $request->keterangan;
+        $pengaduan->latlang = $request->latlang;
+        $pengaduan->lokasi_id = $lokasi->id;
+        $pengaduan->save();
 
         if ($request->input('foto', false)) {
             $pengaduan->addMedia(storage_path('tmp/uploads/' . basename($request->input('foto'))))->toMediaCollection('foto');
         }
 
-        return (new PengaduanResource($pengaduan))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Pengaduan berhasil disimpan',
+        ]);
     }
 
     public function show(Pengaduan $pengaduan)
@@ -44,30 +63,15 @@ class HomeController extends Controller
         return new PengaduanResource($pengaduan->load(['lokasi']));
     }
 
-    public function update(UpdatePengaduanRequest $request, Pengaduan $pengaduan)
+    public function lokasi(Request $request)
     {
-        $pengaduan->update($request->all());
+        $lokasi = Lokasi::create($request->all());
 
-        if ($request->input('foto', false)) {
-            if (! $pengaduan->foto || $request->input('foto') !== $pengaduan->foto->file_name) {
-                if ($pengaduan->foto) {
-                    $pengaduan->foto->delete();
-                }
-                $pengaduan->addMedia(storage_path('tmp/uploads/' . basename($request->input('foto'))))->toMediaCollection('foto');
-            }
-        } elseif ($pengaduan->foto) {
-            $pengaduan->foto->delete();
-        }
-
-        return (new PengaduanResource($pengaduan))
-            ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+        $data = (new LokasiResource($lokasi))->id;
+        return response()->json([
+            'status' => 'success',
+            'data' => $data,
+        ]);
     }
 
-    public function destroy(Pengaduan $pengaduan)
-    {
-        $pengaduan->delete();
-
-        return response(null, Response::HTTP_NO_CONTENT);
-    }
 }

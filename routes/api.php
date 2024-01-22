@@ -3,6 +3,7 @@
 Route::post('login', 'Api\\AuthController@login');
 Route::post('pengaduan/media', 'Api\\HomeController@storeMedia')->name('pengaduan.storeMedia');
 Route::apiResource('pengaduan', 'Api\\HomeController');
+Route::post('pengaduan/lokasi', 'Api\\HomeController@lokasi');
 // Route::get('pengaduan/index', 'Api\\HomeController@index');
 // Route::get('pengaduan/show/{id}', 'Api\\HomeController@show');
 // Route::post('pengaduan/store', 'Api\\HomeController@store');
