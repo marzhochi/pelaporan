@@ -7,6 +7,10 @@ Route::apiResource('pengaduan', 'Api\\HomeController');
 Route::group(['prefix' => 'kepala', 'as' => 'api.', 'namespace' => 'Api\Kepala', 'middleware' => ['auth:sanctum']], function () {
     // Dashobord
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+
+    Route::get('jenis', 'DashboardController@jenis')->name('jenis');
+    Route::get('lokasi', 'DashboardController@lokasi')->name('lokasi');
+    Route::get('petugas', 'DashboardController@petugas')->name('petugas');
     // // Pengguna
     // Route::post('pengguna/media', 'PenggunaApiController@storeMedia')->name('pengguna.storeMedia');
     // Route::apiResource('pengguna', 'PenggunaApiController');
@@ -31,5 +35,5 @@ Route::group(['prefix' => 'kepala', 'as' => 'api.', 'namespace' => 'Api\Kepala',
 
 Route::group(['prefix' => 'anggota', 'as' => 'api.', 'namespace' => 'Api\Anggota', 'middleware' => ['auth:sanctum']], function () {
     // Dashobord
-
+    Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 });

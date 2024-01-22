@@ -32,8 +32,8 @@ class Pengguna extends Authenticatable implements HasMedia
     ];
 
     public const JENIS_KELAMIN_RADIO = [
-        'L' => 'Laki-Laki',
-        'P' => 'Perempuan',
+        'Laki-Laki' => 'Laki-Laki',
+        'Perempuan' => 'Perempuan',
     ];
 
     protected $dates = [
