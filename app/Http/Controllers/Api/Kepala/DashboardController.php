@@ -6,12 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\StorePenggunaRequest;
 use App\Http\Requests\UpdatePenggunaRequest;
+use App\Http\Requests\StoreTugasRequest;
+
 use App\Http\Resources\Admin\PenggunaResource;
 use App\Http\Resources\Admin\KategoriResource;
 use App\Http\Resources\Admin\LokasiResource;
+use App\Http\Resources\Admin\TugasResource;
+
 use App\Models\Pengguna;
 use App\Models\Kategori;
 use App\Models\Lokasi;
+use App\Models\Tugas;
+
+use Symfony\Component\HttpFoundation\Response;
 
 class DashboardController extends Controller
 {
@@ -55,5 +62,14 @@ class DashboardController extends Controller
             'status' => 'success',
             'data' => $data,
         ]);
+    }
+
+    public function penugasan(StoreTugasRequest $request)
+    {
+        $tugas = Tugas::create($request->all());
+
+        return (new TugasResource($tugas))
+            ->response()
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 }

@@ -11,6 +11,8 @@ Route::group(['prefix' => 'kepala', 'as' => 'api.', 'namespace' => 'Api\Kepala',
     Route::get('jenis', 'DashboardController@jenis')->name('jenis');
     Route::get('lokasi', 'DashboardController@lokasi')->name('lokasi');
     Route::get('petugas', 'DashboardController@petugas')->name('petugas');
+
+    Route::post('penugasan', 'DashboardController@penugasan')->name('penugasan');
     // // Pengguna
     // Route::post('pengguna/media', 'PenggunaApiController@storeMedia')->name('pengguna.storeMedia');
     // Route::apiResource('pengguna', 'PenggunaApiController');
