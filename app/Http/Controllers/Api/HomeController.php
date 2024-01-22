@@ -63,15 +63,4 @@ class HomeController extends Controller
         return new PengaduanResource($pengaduan->load(['lokasi']));
     }
 
-    public function lokasi(Request $request)
-    {
-        $lokasi = Lokasi::create($request->all());
-
-        $data = (new LokasiResource($lokasi))->id;
-        return response()->json([
-            'status' => 'success',
-            'data' => $data,
-        ]);
-    }
-
 }

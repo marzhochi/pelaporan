@@ -64,10 +64,6 @@ class Pengguna extends Authenticatable implements HasMedia
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function getIsAdminAttribute()
-    {
-        return $this->roles()->where('id', 1)->exists();
-    }
 
     public function registerMediaConversions(Media $media = null): void
     {
