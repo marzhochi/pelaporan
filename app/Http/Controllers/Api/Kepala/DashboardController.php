@@ -85,4 +85,14 @@ class DashboardController extends Controller
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
     }
+
+    public function list_penugasan()
+    {
+        $data = new TugasResource(Tugas::with(['petugas', 'pengaduan', 'jenis', 'lokasi'])->get());
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $data,
+        ]);
+    }
 }
