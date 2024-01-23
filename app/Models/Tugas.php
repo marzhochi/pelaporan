@@ -27,7 +27,9 @@ class Tugas extends Model
     protected $fillable = [
         'petugas_id',
         'pengaduan_id',
-        'kategori_id',
+        'jenis_id',
+        'lokasi_id',
+        'kategori',
         'judul_tugas',
         'keterangan',
         'status',
@@ -51,8 +53,13 @@ class Tugas extends Model
         return $this->belongsTo(Pengaduan::class, 'pengaduan_id');
     }
 
-    public function kategori()
+    public function jenis()
     {
-        return $this->belongsTo(Kategori::class, 'kategori_id');
+        return $this->belongsTo(Jenis::class, 'jenis_id');
+    }
+
+    public function lokasi()
+    {
+        return $this->belongsTo(Lokasi::class, 'lokasi_id');
     }
 }

@@ -16,14 +16,6 @@ class StoreTugasRequest extends FormRequest
                 'required',
                 'integer',
             ],
-            'pengaduan_id' => [
-                'required',
-                'integer',
-            ],
-            'kategori_id' => [
-                'required',
-                'integer',
-            ],
             'judul_tugas' => [
                 'string',
                 'required',

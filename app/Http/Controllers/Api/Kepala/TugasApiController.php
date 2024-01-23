@@ -15,7 +15,7 @@ class TugasApiController extends Controller
 {
     public function index()
     {
-        return new TugasResource(Tugas::with(['petugas', 'pengaduan', 'kategori'])->get());
+        return new TugasResource(Tugas::with(['petugas', 'pengaduan', 'jenis'])->get());
     }
 
     public function store(StoreTugasRequest $request)
@@ -29,7 +29,7 @@ class TugasApiController extends Controller
 
     public function show(Tugas $tugas)
     {
-        return new TugasResource($tugas->load(['petugas', 'pengaduan', 'kategori']));
+        return new TugasResource($tugas->load(['petugas', 'pengaduan', 'jenis']));
     }
 
     public function update(UpdateTugasRequest $request, Tugas $tugas)

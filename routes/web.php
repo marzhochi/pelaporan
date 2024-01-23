@@ -39,9 +39,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Route::post('pengguna/update/{id}', 'PenggunaController@update')->name('pengguna.update');
     // Route::post('pengguna/ckmedia', 'PenggunaController@storeCKEditorImages')->name('pengguna.storeCKEditorImages');
 
-    // Kategori
-    Route::delete('kategori/destroy', 'KategoriController@massDestroy')->name('kategori.massDestroy');
-    Route::resource('kategori', 'KategoriController');
+    // Jenis
+    Route::delete('jenis/destroy', 'JenisController@massDestroy')->name('jenis.massDestroy');
+    Route::resource('jenis', 'JenisController');
 
     // Lokasi
     Route::delete('lokasi/destroy', 'LokasiController@massDestroy')->name('lokasi.massDestroy');

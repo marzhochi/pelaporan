@@ -39,18 +39,18 @@
                 <span class="help-block">{{ trans('cruds.tugas.fields.pengaduan_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="kategori_id">{{ trans('cruds.tugas.fields.kategori') }}</label>
-                <select class="form-control select2 {{ $errors->has('kategori') ? 'is-invalid' : '' }}" name="kategori_id" id="kategori_id" required>
-                    @foreach($kategori as $id => $entry)
-                        <option value="{{ $id }}" {{ (old('kategori_id') ? old('kategori_id') : $tugas->kategori->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                <label class="required" for="jenis_id">{{ trans('cruds.tugas.fields.jenis') }}</label>
+                <select class="form-control select2 {{ $errors->has('jenis') ? 'is-invalid' : '' }}" name="jenis_id" id="jenis_id" required>
+                    @foreach($jenis as $id => $entry)
+                        <option value="{{ $id }}" {{ (old('jenis_id') ? old('jenis_id') : $tugas->jenis->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                     @endforeach
                 </select>
-                @if($errors->has('kategori'))
+                @if($errors->has('jenis'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('kategori') }}
+                        {{ $errors->first('jenis') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.tugas.fields.kategori_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.tugas.fields.jenis_helper') }}</span>
             </div>
             <div class="form-group">
                 <label class="required" for="judul_tugas">{{ trans('cruds.tugas.fields.judul_tugas') }}</label>

@@ -9,12 +9,12 @@ use App\Http\Requests\UpdatePenggunaRequest;
 use App\Http\Requests\StoreTugasRequest;
 
 use App\Http\Resources\Admin\PenggunaResource;
-use App\Http\Resources\Admin\KategoriResource;
+use App\Http\Resources\Admin\JenisResource;
 use App\Http\Resources\Admin\LokasiResource;
 use App\Http\Resources\Admin\TugasResource;
 
 use App\Models\Pengguna;
-use App\Models\Kategori;
+use App\Models\Jenis;
 use App\Models\Lokasi;
 use App\Models\Tugas;
 
@@ -37,7 +37,7 @@ class DashboardController extends Controller
 
     public function jenis()
     {
-        $data = new KategoriResource(Kategori::all());
+        $data = new JenisResource(Jenis::all());
         return response()->json([
             'status' => 'success',
             'data' => $data,

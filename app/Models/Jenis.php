@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Kategori extends Model
+class Jenis extends Model
 {
     use SoftDeletes, HasFactory;
 
-    public $table = 'kategori';
+    public $table = 'jenis';
 
     protected $dates = [
         'created_at',
@@ -20,7 +20,7 @@ class Kategori extends Model
     ];
 
     protected $fillable = [
-        'nama_kategori',
+        'nama_jenis',
         'created_at',
         'updated_at',
         'deleted_at',

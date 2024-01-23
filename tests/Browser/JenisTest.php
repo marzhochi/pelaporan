@@ -6,15 +6,15 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class KategoriTest extends DuskTestCase
+class JenisTest extends DuskTestCase
 {
     public function testIndex()
     {
         $admin = App\Models\User::find(1);
         $this->browse(function (Browser $browser) use ($admin) {
             $browser->loginAs($admin);
-            $browser->visit(route('admin.kategori.index'));
-            $browser->assertRouteIs('admin.kategori.index');
+            $browser->visit(route('admin.jenis.index'));
+            $browser->assertRouteIs('admin.jenis.index');
         });
     }
 }

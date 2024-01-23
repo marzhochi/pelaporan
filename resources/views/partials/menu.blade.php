@@ -36,7 +36,7 @@
             </a>
         </li>
 
-        <li class="c-sidebar-nav-dropdown {{ request()->is("admin/lokasi*") ? "c-show" : "" }} {{ request()->is("admin/kategori*") ? "c-show" : "" }}">
+        <li class="c-sidebar-nav-dropdown {{ request()->is("admin/lokasi*") ? "c-show" : "" }} {{ request()->is("admin/jenis*") ? "c-show" : "" }}">
             <a class="c-sidebar-nav-dropdown-toggle" href="#">
                 <i class="fa-fw fas fa-table c-sidebar-nav-icon"></i>
                 {{ trans('cruds.masterData.title') }}
@@ -50,10 +50,10 @@
                     </a>
                 </li>
                 <li class="c-sidebar-nav-item">
-                    <a href="{{ route("admin.kategori.index") }}"
-                        class="c-sidebar-nav-link {{ request()->is("admin/kategori") || request()->is("admin/kategori/*") ? "c-active" : "" }}">
+                    <a href="{{ route("admin.jenis.index") }}"
+                        class="c-sidebar-nav-link {{ request()->is("admin/jenis") || request()->is("admin/jenis/*") ? "c-active" : "" }}">
                         <i class="fa-fw fas fa-bars c-sidebar-nav-icon"></i>
-                        {{ trans('cruds.kategori.title') }}
+                        {{ trans('cruds.jenis.title') }}
                     </a>
                 </li>
                 <li class="c-sidebar-nav-item">

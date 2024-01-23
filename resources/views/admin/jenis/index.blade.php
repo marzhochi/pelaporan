@@ -3,30 +3,30 @@
 
 <div style="margin-bottom: 10px;" class="row">
     <div class="col-lg-12">
-        <a class="btn btn-success" href="{{ route('admin.kategori.create') }}">
-            {{ trans('global.add') }} {{ trans('cruds.kategori.title_singular') }}
+        <a class="btn btn-success" href="{{ route('admin.jenis.create') }}">
+            {{ trans('global.add') }} {{ trans('cruds.jenis.title_singular') }}
         </a>
     </div>
 </div>
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.list') }} {{ trans('cruds.kategori.title_singular') }}
+        {{ trans('global.list') }} {{ trans('cruds.jenis.title_singular') }}
     </div>
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Kategori">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-jenis">
                 <thead>
                     <tr>
                         <th width="10">
                             &nbsp;
                         </th>
                         <th>
-                            {{ trans('cruds.kategori.fields.nama_kategori') }}
+                            {{ trans('cruds.jenis.fields.nama_jenis') }}
                         </th>
                         <th>
-                            {{ trans('cruds.kategori.fields.created_at') }}
+                            {{ trans('cruds.jenis.fields.created_at') }}
                         </th>
                         <th>
                             &nbsp;
@@ -34,24 +34,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($kategori as $key => $item)
+                    @foreach($jenis as $key => $item)
                     <tr data-entry-id="{{ $item->id }}">
                         <td>
                         </td>
                         <td>
-                            {{ $item->nama_kategori ?? '' }}
+                            {{ $item->nama_jenis ?? '' }}
                         </td>
                         <td>
                             {{ $item->created_at ?? '' }}
                         </td>
                         <td>
-                            <a class="btn btn-xs btn-primary" href="{{ route('admin.kategori.show', $item->id) }}">
+                            <a class="btn btn-xs btn-primary" href="{{ route('admin.jenis.show', $item->id) }}">
                                 {{ trans('global.view') }}
                             </a>
-                            <a class="btn btn-xs btn-info" href="{{ route('admin.kategori.edit', $item->id) }}">
+                            <a class="btn btn-xs btn-info" href="{{ route('admin.jenis.edit', $item->id) }}">
                                 {{ trans('global.edit') }}
                             </a>
-                            <form action="{{ route('admin.kategori.destroy', $item->id) }}" method="POST"
+                            <form action="{{ route('admin.jenis.destroy', $item->id) }}" method="POST"
                                 onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
                                 style="display: inline-block;">
                                 <input type="hidden" name="_method" value="DELETE">
@@ -76,7 +76,7 @@
         let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
         let deleteButton = {
             text: deleteButtonTrans,
-            url: "{{ route('admin.kategori.massDestroy') }}",
+            url: "{{ route('admin.jenis.massDestroy') }}",
             className: 'btn-danger',
             action: function (e, dt, node, config) {
                 var ids = $.map(dt.rows({
@@ -118,7 +118,7 @@
             pageLength: 10,
         });
 
-        let table = $('.datatable-Kategori:not(.ajaxTable)').DataTable({
+        let table = $('.datatable-jenis:not(.ajaxTable)').DataTable({
             buttons: dtButtons
         })
 

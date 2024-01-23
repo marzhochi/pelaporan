@@ -2,18 +2,18 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Kategori;
+use App\Models\Jenis;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassDestroyKategoriRequest extends FormRequest
+class MassDestroyJenisRequest extends FormRequest
 {
     public function rules()
     {
         return [
             'ids'   => 'required|array',
-            'ids.*' => 'exists:kategori,id',
+            'ids.*' => 'exists:jenis,id',
         ];
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Resources\Admin;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class KategoriResource extends JsonResource
+class JenisResource extends JsonResource
 {
     public function toArray($request)
     {

@@ -13,8 +13,10 @@ class AddRelationshipFieldsToTugasTable extends Migration
             $table->foreign('petugas_id', 'petugas_fk_9410027')->references('id')->on('pengguna');
             $table->unsignedBigInteger('pengaduan_id')->nullable();
             $table->foreign('pengaduan_id', 'pengaduan_fk_9410028')->references('id')->on('pengaduan');
-            $table->unsignedBigInteger('kategori_id')->nullable();
-            $table->foreign('kategori_id', 'kategori_fk_9410029')->references('id')->on('kategori');
+            $table->unsignedBigInteger('jenis_id')->nullable();
+            $table->foreign('jenis_id', 'jenis_fk_9410029')->references('id')->on('jenis');
+            $table->unsignedBigInteger('lokasi_id')->nullable();
+            $table->foreign('lokasi_id', 'lokasi_fk_9424581')->references('id')->on('lokasi');
         });
     }
 }

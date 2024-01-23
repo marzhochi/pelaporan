@@ -2,17 +2,17 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Kategori;
+use App\Models\Jenis;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
 
-class UpdateKategoriRequest extends FormRequest
+class UpdateJenisRequest extends FormRequest
 {
     public function rules()
     {
         return [
-            'nama_kategori' => [
+            'nama_jenis' => [
                 'string',
                 'required',
             ],

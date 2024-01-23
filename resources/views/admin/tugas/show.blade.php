@@ -33,10 +33,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.tugas.fields.kategori') }}
+                            {{ trans('cruds.tugas.fields.jenis') }}
                         </th>
                         <td>
-                            {{ $tugas->kategori->nama_kategori ?? '' }}
+                            {{ $tugas->jenis->nama_jenis ?? '' }}
                         </td>
                     </tr>
                     <tr>

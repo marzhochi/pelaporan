@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyTugasRequest;
 use App\Http\Requests\StoreTugasRequest;
 use App\Http\Requests\UpdateTugasRequest;
-use App\Models\Kategori;
+use App\Models\Jenis;
 use App\Models\Pengaduan;
 use App\Models\Tugas;
 use App\Models\Pengguna;
@@ -18,7 +18,7 @@ class TugasController extends Controller
 {
     public function index()
     {
-        $tugas = Tugas::with(['petugas', 'pengaduan', 'kategori'])->get();
+        $tugas = Tugas::with(['petugas', 'pengaduan', 'jenis'])->get();
 
         return view('admin.tugas.index', compact('tugas'));
     }
@@ -29,9 +29,9 @@ class TugasController extends Controller
 
         $pengaduan = Pengaduan::pluck('judul_pengaduan', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $kategori = Kategori::pluck('nama_kategori', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $jenis = Jenis::pluck('nama_jenis', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.tugas.create', compact('kategori', 'pengaduan', 'petugas'));
+        return view('admin.tugas.create', compact('jenis', 'pengaduan', 'petugas'));
     }
 
     public function store(StoreTugasRequest $request)
@@ -51,11 +51,11 @@ class TugasController extends Controller
 
         $pengaduan = Pengaduan::pluck('judul_pengaduan', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $kategori = Kategori::pluck('nama_kategori', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $jenis = Jenis::pluck('nama_jenis', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $tugas->load('petugas', 'pengaduan', 'kategori');
+        $tugas->load('petugas', 'pengaduan', 'jenis');
 
-        return view('admin.tugas.edit', compact('kategori', 'pengaduan', 'petugas', 'tugas'));
+        return view('admin.tugas.edit', compact('jenis', 'pengaduan', 'petugas', 'tugas'));
     }
 
     public function update(UpdateTugasRequest $request, Tugas $tugas)
@@ -67,7 +67,7 @@ class TugasController extends Controller
 
     public function show(Tugas $tugas)
     {
-        $tugas->load('petugas', 'pengaduan', 'kategori');
+        $tugas->load('petugas', 'pengaduan', 'jenis');
 
         return view('admin.tugas.show', compact('tugas'));
     }

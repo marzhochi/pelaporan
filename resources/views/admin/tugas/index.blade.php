@@ -26,7 +26,7 @@
                             {{ trans('cruds.tugas.fields.pengaduan') }}
                         </th>
                         <th>
-                            {{ trans('cruds.tugas.fields.kategori') }}
+                            {{ trans('cruds.tugas.fields.jenis') }}
                         </th>
                         <th>
                             {{ trans('cruds.tugas.fields.judul_tugas') }}
@@ -58,7 +58,7 @@
                             {{ $item->pengaduan->judul_pengaduan ?? '' }}
                         </td>
                         <td>
-                            {{ $item->kategori->nama_kategori ?? '' }}
+                            {{ $item->jenis->nama_jenis ?? '' }}
                         </td>
                         <td>
                             {{ $item->judul_tugas ?? '' }}

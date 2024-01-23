@@ -20,7 +20,7 @@ class UpdateTugasRequest extends FormRequest
                 'required',
                 'integer',
             ],
-            'kategori_id' => [
+            'jenis_id' => [
                 'required',
                 'integer',
             ],
