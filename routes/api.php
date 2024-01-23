@@ -8,9 +8,10 @@ Route::group(['prefix' => 'kepala', 'as' => 'api.', 'namespace' => 'Api\Kepala',
     // Dashobord
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 
-    Route::get('jenis', 'DashboardController@jenis')->name('jenis');
-    Route::get('lokasi', 'DashboardController@lokasi')->name('lokasi');
-    Route::get('petugas', 'DashboardController@petugas')->name('petugas');
+    Route::get('list-jenis', 'DashboardController@list_jenis')->name('jenis');
+    Route::get('list-lokasi', 'DashboardController@list_lokasi')->name('lokasi');
+    Route::get('list-petugas', 'DashboardController@list_petugas')->name('petugas');
+    Route::get('list-pengaduan', 'DashboardController@list_pengaduan')->name('pengaduan');
 
     Route::post('penugasan', 'DashboardController@penugasan')->name('penugasan');
     // // Pengguna

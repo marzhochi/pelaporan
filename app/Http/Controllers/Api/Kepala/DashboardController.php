@@ -37,7 +37,7 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function jenis()
+    public function list_jenis()
     {
         $data = new JenisResource(Jenis::all());
         return response()->json([
@@ -46,7 +46,7 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function lokasi()
+    public function list_lokasi()
     {
         $data = new LokasiResource(Lokasi::all());
         return response()->json([
@@ -55,7 +55,7 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function petugas()
+    public function list_petugas()
     {
         $user = Pengguna::where('role',2)->orderBy('nama_lengkap', 'desc')->get();
         $data =  new PenggunaResource($user);
@@ -66,7 +66,7 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function pengaduan()
+    public function list_pengaduan()
     {
         $pengaduan = Pengaduan::where('status',0)->orderBy('created_at', 'desc')->get();
         $data =  new PengaduanResource($pengaduan);
