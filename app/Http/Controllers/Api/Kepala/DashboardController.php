@@ -12,11 +12,13 @@ use App\Http\Resources\Admin\PenggunaResource;
 use App\Http\Resources\Admin\JenisResource;
 use App\Http\Resources\Admin\LokasiResource;
 use App\Http\Resources\Admin\TugasResource;
+use App\Http\Resources\Admin\PengaduanResource;
 
 use App\Models\Pengguna;
 use App\Models\Jenis;
 use App\Models\Lokasi;
 use App\Models\Tugas;
+use App\Models\Pengaduan;
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -57,6 +59,17 @@ class DashboardController extends Controller
     {
         $user = Pengguna::where('role',2)->orderBy('nama_lengkap', 'desc')->get();
         $data =  new PenggunaResource($user);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $data,
+        ]);
+    }
+
+    public function pengaduan()
+    {
+        $pengaduan = Pengaduan::where('status',0)->orderBy('created_at', 'desc')->get();
+        $data =  new PengaduanResource($pengaduan);
 
         return response()->json([
             'status' => 'success',
