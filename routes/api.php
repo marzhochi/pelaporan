@@ -35,6 +35,9 @@ Route::group(['prefix' => 'kepala', 'as' => 'api.', 'namespace' => 'Api\Kepala',
 
     // // Tugas
     // Route::apiResource('tugas', 'TugasApiController');
+
+    Route::get('data-tugas', 'DashboardController@data_tugas')->name('data.tugas');
+
 });
 
 Route::group(['prefix' => 'anggota', 'as' => 'api.', 'namespace' => 'Api\Anggota', 'middleware' => ['auth:sanctum']], function () {
