@@ -94,7 +94,7 @@ class DashboardController extends Controller
         }
     }
 
-    public function list_penugasan()
+    public function data_penugasan()
     {
         $data = new TugasResource(Tugas::with(['petugas', 'pengaduan', 'jenis', 'lokasi'])->get());
 
