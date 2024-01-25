@@ -79,11 +79,19 @@ class DashboardController extends Controller
 
     public function penugasan(StoreTugasRequest $request)
     {
-        $tugas = Tugas::create($request->all());
+        try {
+            $tugas = Tugas::create($request->all());
 
-        return (new TugasResource($tugas))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Pengaduan berhasil disimpan',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Pengaduan gagal disimpan',
+            ]);
+        }
     }
 
     public function list_penugasan()
@@ -94,5 +102,6 @@ class DashboardController extends Controller
             'status' => 'success',
             'data' => $data,
         ]);
+
     }
 }
