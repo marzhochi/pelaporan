@@ -107,7 +107,7 @@ class DashboardController extends Controller
 
     public function data_tugas()
     {
-        $tugas = Tugas::where(['petugas_id' => auth()->user()->id])
+        $tugas = Tugas::where(['petugas_id' => auth()->user()->id])->with('lokasi','jenis','pengaduan')
             ->orderBy('id', 'desc')
             ->get();
 
