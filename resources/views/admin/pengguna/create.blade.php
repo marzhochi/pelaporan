@@ -61,7 +61,7 @@
             </div>
             <div class="form-group">
                 <label>{{ trans('cruds.user.fields.jenis_kelamin') }}</label>
-                @foreach(App\Models\User::JENIS_KELAMIN_RADIO as $key => $label)
+                @foreach(App\Models\Pengguna::JENIS_KELAMIN_RADIO as $key => $label)
                     <div class="form-check {{ $errors->has('jenis_kelamin') ? 'is-invalid' : '' }}">
                         <input class="form-check-input" type="radio" id="jenis_kelamin_{{ $key }}" name="jenis_kelamin" value="{{ $key }}" {{ old('jenis_kelamin', '') === (string) $key ? 'checked' : '' }}>
                         <label class="form-check-label" for="jenis_kelamin_{{ $key }}">{{ $label }}</label>
