@@ -37,6 +37,7 @@ Route::group(['prefix' => 'kepala', 'as' => 'api.', 'namespace' => 'Api\Kepala',
     // Route::apiResource('tugas', 'TugasApiController');
 
     Route::get('data-tugas', 'DashboardController@data_tugas')->name('data.tugas');
+    Route::get('detail-tugas/{id}', 'DashboardController@tugas_detail')->name('detail.tugas');
 
 });
 

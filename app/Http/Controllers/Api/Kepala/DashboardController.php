@@ -116,4 +116,14 @@ class DashboardController extends Controller
             'data' => $tugas,
         ]);
     }
+
+    public function tugas_detail($id)
+    {
+        $tugas = Tugas::where(['petugas_id' => auth()->user()->id, 'id' => $id])->with('lokasi','jenis','pengaduan')->get();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $tugas,
+        ]);
+    }
 }
