@@ -119,7 +119,7 @@ class DashboardController extends Controller
 
     public function tugas_detail($id)
     {
-        $tugas = Tugas::where('id', $id)->with('lokasi','jenis','pengaduan')->first();
+        $tugas = Tugas::where('id', $id)->with('lokasi','jenis','pengaduan','petugas')->first();
 
         return response()->json([
             'status' => 'success',
