@@ -99,6 +99,12 @@ class DashboardController extends Controller
             $penugasan->lokasi_id = $lokasi_id;
             $penugasan->save();
 
+            if($request->pengaduan_id){
+                $pengaduan = Pengaduan::findOrFail($request->pengaduan_id);
+                $pengaduan->status = 1;
+                $pengaduan->save();
+            }
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Pengaduan berhasil disimpan',
