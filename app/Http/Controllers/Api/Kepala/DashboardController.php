@@ -7,6 +7,7 @@ use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\StorePenggunaRequest;
 use App\Http\Requests\UpdatePenggunaRequest;
 use App\Http\Requests\StoreTugasRequest;
+use App\Http\Requests\StoreLaporanRequest;
 
 use App\Http\Resources\Admin\PenggunaResource;
 use App\Http\Resources\Admin\JenisResource;
@@ -19,6 +20,7 @@ use App\Models\Jenis;
 use App\Models\Lokasi;
 use App\Models\Tugas;
 use App\Models\Pengaduan;
+use App\Models\Laporan;
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -125,5 +127,22 @@ class DashboardController extends Controller
             'status' => 'success',
             'data' => $tugas,
         ]);
+    }
+
+    public function submit_laporan(StoreLaporanRequest $request)
+    {
+        try {
+            $laporan = Laporan::create($request->all());
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Laporan berhasil disimpan',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Laporan gagal disimpan',
+            ]);
+        }
     }
 }
