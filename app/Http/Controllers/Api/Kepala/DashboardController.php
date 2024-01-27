@@ -107,12 +107,12 @@ class DashboardController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Pengaduan berhasil disimpan',
+                'message' => 'Penugasan berhasil disimpan',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Pengaduan gagal disimpan',
+                'message' => 'Penugasan gagal disimpan',
             ]);
         }
     }
@@ -125,7 +125,6 @@ class DashboardController extends Controller
             'status' => 'success',
             'data' => $data,
         ]);
-
     }
 
     public function data_tugas()
