@@ -32,6 +32,7 @@ class HomeController extends Controller
     {
         $lokasi = new Lokasi();
         $lokasi->nama_lokasi = $request->nama_lokasi;
+        $lokasi->latlang = $request->latlang;
         $lokasi->kelurahan = $request->kelurahan;
         $lokasi->kecamatan = $request->kecamatan;
         $lokasi->kota = $request->kota;
@@ -44,7 +45,6 @@ class HomeController extends Controller
         $pengaduan->no_telepon = $request->no_telepon;
         $pengaduan->judul_pengaduan = $request->judul_pengaduan;
         $pengaduan->keterangan = $request->keterangan;
-        $pengaduan->latlang = $request->latlang;
         $pengaduan->lokasi_id = $lokasi->id;
         $pengaduan->save();
 

@@ -82,7 +82,22 @@ class DashboardController extends Controller
     public function penugasan(StoreTugasRequest $request)
     {
         try {
-            $tugas = Tugas::create($request->all());
+            if($request->pengaduan_id){
+                $lokasi_id = Pengaduan::findOrFail($request->pengaduan_id)->lokasi_id;
+            }else{
+                $lokasi_id = $request->lokasi_id;
+            }
+
+            $penugasan = new Tugas();
+            $penugasan->kategori = $request->kategori;
+            $penugasan->judul_tugas = $request->judul_tugas;
+            $penugasan->keterangan = $request->keterangan;
+            $penugasan->status = $request->status;
+            $penugasan->petugas_id = $request->petugas_id;
+            $penugasan->pengaduan_id = $request->pengaduan_id;
+            $penugasan->jenis_id = $request->jenis_id;
+            $penugasan->lokasi_id = $lokasi_id;
+            $penugasan->save();
 
             return response()->json([
                 'status' => 'success',
