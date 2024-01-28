@@ -12,12 +12,13 @@ class PenggunaTableSeeder extends Seeder
         $pengguna = [
             [
                 'id'             => 1,
-                'nama_lengkap'   => 'Admin',
-                'email'          => 'admin@admin.com',
-                'password'       => bcrypt('password'),
+                'nama_lengkap'   => 'Kepala Petugas',
+                'email'          => 'kepala@gmail.com',
+                'password'       => bcrypt('testing'),
                 'remember_token' => null,
-                'golongan'       => '',
-                'no_telp'        => '',
+                'golongan'       => 'Kepala',
+                'no_telp'        => '08123456789',
+                'nip'            => '123123123',
                 'role'           => 1,
             ],
         ];

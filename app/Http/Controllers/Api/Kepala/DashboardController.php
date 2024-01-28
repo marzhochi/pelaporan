@@ -129,7 +129,7 @@ class DashboardController extends Controller
 
     public function data_tugas()
     {
-        $tugas = Tugas::where(['petugas_id' => auth()->user()->id])->with('lokasi','jenis','pengaduan')
+        $tugas = Tugas::where(['petugas_id' => auth()->user()->id, 'status' => 1])->with('lokasi','jenis','pengaduan')
             ->orderBy('id', 'desc')
             ->get();
 
@@ -152,7 +152,38 @@ class DashboardController extends Controller
     public function submit_laporan(StoreLaporanRequest $request)
     {
         try {
-            $laporan = Laporan::create($request->all());
+            $lokasi = Lokasi::where('nama_lokasi', $request->nama_lokasi)->first();
+
+            if($lokasi){
+                $lokasi_id = $lokasi->id;
+            }else{
+                $lokasi = new Lokasi();
+                $lokasi->nama_lokasi = $request->nama_lokasi;
+                $lokasi->kelurahan = $request->kelurahan;
+                $lokasi->kecamatan = $request->kecamatan;
+                $lokasi->kota = $request->kota;
+                $lokasi->provinsi = $request->provinsi;
+                $lokasi->kodepos = $request->kodepos;
+                $lokasi->latitude = $request->latitude;
+                $lokasi->longitude = $request->longitude;
+                $lokasi->save();
+
+                $lokasi_id = $lokasi->id;
+            }
+
+            $laporan = new Laporan();
+            $laporan->deskripsi = $request->deskripsi;
+            $laporan->lokasi_id = $lokasi_id;
+            $laporan->tugas_id = $request->tugas_id;
+            $laporan->save();
+
+            if ($request->input('foto', false)) {
+                $laporan->addMedia(storage_path('tmp/uploads/' . basename($request->input('foto'))))->toMediaCollection('foto');
+            }
+
+            $tugas = Tugas::findOrFail($request->tugas_id);
+            $tugas->status = 2;
+            $tugas->save();
 
             return response()->json([
                 'status' => 'success',
@@ -164,5 +195,17 @@ class DashboardController extends Controller
                 'message' => 'Laporan gagal disimpan',
             ]);
         }
+    }
+
+    public function riwayat_tugas()
+    {
+        $tugas = Tugas::where(['petugas_id' => auth()->user()->id, 'status' => 2])->with('lokasi','jenis','pengaduan')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $tugas,
+        ]);
     }
 }

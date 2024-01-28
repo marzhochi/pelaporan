@@ -19,4 +19,5 @@ Route::group(['prefix' => 'kepala', 'as' => 'api.', 'namespace' => 'Api\Kepala',
     Route::get('data-tugas', 'DashboardController@data_tugas')->name('data.tugas');
     Route::get('detail-tugas/{id}', 'DashboardController@tugas_detail')->name('detail.tugas');
     Route::post('submit-laporan', 'DashboardController@submit_laporan')->name('submit.laporan');
+    Route::get('riwayat-tugas', 'DashboardController@riwayat_tugas')->name('riwayat.tugas');
 });
