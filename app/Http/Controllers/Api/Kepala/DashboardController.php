@@ -22,6 +22,7 @@ use App\Models\Tugas;
 use App\Models\Pengaduan;
 use App\Models\Laporan;
 
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class DashboardController extends Controller
@@ -149,7 +150,7 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function submit_laporan(StoreLaporanRequest $request)
+    public function submit_laporan(Request $request)
     {
         try {
             $lokasi = Lokasi::where('nama_lokasi', $request->nama_lokasi)->first();
@@ -175,6 +176,7 @@ class DashboardController extends Controller
             $laporan->deskripsi = $request->deskripsi;
             $laporan->lokasi_id = $lokasi_id;
             $laporan->tugas_id = $request->tugas_id;
+            $laporan->jarak = $request->jarak;
             $laporan->save();
 
             if ($request->input('foto', false)) {

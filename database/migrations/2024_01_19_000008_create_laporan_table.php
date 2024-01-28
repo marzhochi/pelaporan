@@ -11,6 +11,7 @@ class CreateLaporanTable extends Migration
         Schema::create('laporan', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('deskripsi');
+            $table->double('jarak')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
