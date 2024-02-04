@@ -20,7 +20,7 @@ class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens, SoftDeletes, Notifiable, InteractsWithMedia, HasFactory;
 
-    public $table = 'pengguna';
+    public $table = 'petugas';
 
     protected $appends = [
         'avatar',
@@ -44,16 +44,16 @@ class User extends Authenticatable implements HasMedia
     ];
 
     protected $fillable = [
-        'name',
+        'nama_lengkap',
         'email',
-        'email_verified_at',
         'password',
-        'nip',
         'golongan',
         'jenis_kelamin',
         'no_telp',
-        'remember_token',
         'role',
+        'lokasi_id',
+        'email_verified_at',
+        'remember_token',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -62,11 +62,6 @@ class User extends Authenticatable implements HasMedia
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
-    }
-
-    public function getIsAdminAttribute()
-    {
-        return $this->roles()->where('id', 1)->exists();
     }
 
     public function registerMediaConversions(Media $media = null): void
@@ -107,5 +102,10 @@ class User extends Authenticatable implements HasMedia
         }
 
         return $file;
+    }
+
+    public function lokasi()
+    {
+        return $this->belongsTo(Lokasi::class, 'lokasi_id');
     }
 }

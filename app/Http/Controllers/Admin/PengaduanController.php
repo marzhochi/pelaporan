@@ -27,7 +27,7 @@ class PengaduanController extends Controller
 
     public function create()
     {
-        $lokasi = Lokasi::pluck('nama_lokasi', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $lokasi = Lokasi::pluck('nama_jalan', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         return view('admin.pengaduan.create', compact('lokasi'));
     }
@@ -49,7 +49,7 @@ class PengaduanController extends Controller
 
     public function edit(Pengaduan $pengaduan)
     {
-        $lokasi = Lokasi::pluck('nama_lokasi', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $lokasi = Lokasi::pluck('nama_jalan', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $pengaduan->load('lokasi');
 

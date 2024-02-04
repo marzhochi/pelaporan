@@ -28,7 +28,7 @@ class Laporan extends Model implements HasMedia
 
     protected $fillable = [
         'deskripsi',
-        'lokasi_id',
+        'penugasan_id',
         'tugas_id',
         'created_at',
         'updated_at',
@@ -58,9 +58,9 @@ class Laporan extends Model implements HasMedia
         return $files;
     }
 
-    public function lokasi()
+    public function penugasan()
     {
-        return $this->belongsTo(Lokasi::class, 'lokasi_id');
+        return $this->belongsTo(Penugasan::class, 'penugasan_id');
     }
 
     public function tugas()

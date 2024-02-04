@@ -25,11 +25,8 @@ class Tugas extends Model
     ];
 
     protected $fillable = [
-        'petugas_id',
-        'pengaduan_id',
         'jenis_id',
         'lokasi_id',
-        'kategori',
         'judul_tugas',
         'keterangan',
         'status',
@@ -43,16 +40,6 @@ class Tugas extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function petugas()
-    {
-        return $this->belongsTo(User::class, 'petugas_id');
-    }
-
-    public function pengaduan()
-    {
-        return $this->belongsTo(Pengaduan::class, 'pengaduan_id');
-    }
-
     public function jenis()
     {
         return $this->belongsTo(Jenis::class, 'jenis_id');
@@ -61,5 +48,10 @@ class Tugas extends Model
     public function lokasi()
     {
         return $this->belongsTo(Lokasi::class, 'lokasi_id');
+    }
+
+    public function petugas()
+    {
+        return $this->belongsToMany(Petugas::class);
     }
 }

@@ -33,8 +33,11 @@ class Pengaduan extends Model implements HasMedia
         'no_telepon',
         'judul_pengaduan',
         'keterangan',
-        'latlang',
-        'lokasi_id',
+        'status',
+        'kelurahan',
+        'kecamatan',
+        'latitude',
+        'longitude',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -61,10 +64,5 @@ class Pengaduan extends Model implements HasMedia
         }
 
         return $file;
-    }
-
-    public function lokasi()
-    {
-        return $this->belongsTo(Lokasi::class, 'lokasi_id');
     }
 }

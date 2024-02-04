@@ -3,15 +3,15 @@
 
 <div style="margin-bottom: 10px;" class="row">
     <div class="col-lg-12">
-        <a class="btn btn-success" href="{{ route('admin.pengguna.create') }}">
-            Tambah Pengguna
+        <a class="btn btn-success" href="{{ route('admin.petugas.create') }}">
+            Tambah Petugas
         </a>
     </div>
 </div>
 
 <div class="card">
     <div class="card-header">
-        Daftar Pengguna
+        Daftar Petugas
     </div>
 
     <div class="card-body">
@@ -85,13 +85,13 @@
                             {{ $user->role == 1 ? 'Kepala Petugas' : 'Petugas Lapangan' }}
                         </td>
                         <td>
-                            <a class="btn btn-xs btn-primary" href="{{ route('admin.pengguna.show', $user->id) }}">
+                            <a class="btn btn-xs btn-primary" href="{{ route('admin.petugas.show', $user->id) }}">
                                 {{ trans('global.view') }}
                             </a>
-                            <a class="btn btn-xs btn-info" href="{{ route('admin.pengguna.edit', $user->id) }}">
+                            <a class="btn btn-xs btn-info" href="{{ route('admin.petugas.edit', $user->id) }}">
                                 {{ trans('global.edit') }}
                             </a>
-                            <form action="{{ route('admin.pengguna.destroy', $user->id) }}" method="POST"
+                            <form action="{{ route('admin.petugas.destroy', $user->id) }}" method="POST"
                                 onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
                                 style="display: inline-block;">
                                 <input type="hidden" name="_method" value="DELETE">
@@ -116,7 +116,7 @@
         let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
         let deleteButton = {
             text: deleteButtonTrans,
-            url: "{{ route('admin.pengguna.massDestroy') }}",
+            url: "{{ route('admin.petugas.massDestroy') }}",
             className: 'btn-danger',
             action: function (e, dt, node, config) {
                 var ids = $.map(dt.rows({

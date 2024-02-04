@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Pengguna;
+use App\Models\Petugas;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -23,7 +23,7 @@ class AuthController extends Controller
             ], 422);
         }
 
-        $user = Pengguna::where('email', $request->email)->first();
+        $user = Petugas::where('email', $request->email)->first();
         $authToken = $user->createToken('auth-token')->plainTextToken;
 
         return response()->json([

@@ -20,24 +20,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Route::post('users/ckmedia', 'UsersController@storeCKEditorImages')->name('users.storeCKEditorImages');
     // Route::resource('users', 'UsersController');
 
-    // Pengguna
-    Route::delete('pengguna/destroy', 'PenggunaController@massDestroy')->name('pengguna.massDestroy');
-    Route::post('pengguna/media', 'PenggunaController@storeMedia')->name('pengguna.storeMedia');
-    Route::post('pengguna/ckmedia', 'PenggunaController@storeCKEditorImages')->name('pengguna.storeCKEditorImages');
-    Route::resource('pengguna', 'PenggunaController');
+    // Petugas
+    Route::delete('petugas/destroy', 'PetugasController@massDestroy')->name('petugas.massDestroy');
+    Route::post('petugas/media', 'PetugasController@storeMedia')->name('petugas.storeMedia');
+    Route::post('petugas/ckmedia', 'PetugasController@storeCKEditorImages')->name('petugas.storeCKEditorImages');
+    Route::resource('petugas', 'PetugasController');
 
-    // Pengguna
-    // Route::get('pengguna/list', 'PenggunaController@index')->name('pengguna.index');
-    // Route::get('pengguna/create', 'PenggunaController@create')->name('pengguna.create');
-    // Route::delete('pengguna/destroy', 'PenggunaController@massDestroy')->name('pengguna.massDestroy');
-    // Route::post('pengguna/store', 'PenggunaController@store')->name('pengguna.store');
-    // Route::get('pengguna/edit/{id}', 'PenggunaController@edit')->name('pengguna.edit');
-    // Route::get('pengguna/show/{id}', 'PenggunaController@show')->name('pengguna.show');
-    // Route::delete('pengguna/delete/{id}', 'PenggunaController@destroy')->name('pengguna.destroy');
-
-    // Route::post('pengguna/media', 'PenggunaController@storeMedia')->name('pengguna.storeMedia');
-    // Route::post('pengguna/update/{id}', 'PenggunaController@update')->name('pengguna.update');
-    // Route::post('pengguna/ckmedia', 'PenggunaController@storeCKEditorImages')->name('pengguna.storeCKEditorImages');
 
     // Jenis
     Route::delete('jenis/destroy', 'JenisController@massDestroy')->name('jenis.massDestroy');

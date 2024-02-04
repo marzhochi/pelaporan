@@ -23,7 +23,7 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.lokasi.fields.nama_lokasi') }}
+                            {{ trans('cruds.lokasi.fields.nama_jalan') }}
                         </th>
                         <th>
                             {{ trans('cruds.lokasi.fields.kelurahan') }}
@@ -52,7 +52,7 @@
 
                         </td>
                         <td>
-                            {{ $item->nama_lokasi ?? '' }}
+                            {{ $item->nama_jalan ?? '' }}
                         </td>
                         <td>
                             {{ $item->kelurahan ?? '' }}

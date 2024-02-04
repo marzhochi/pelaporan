@@ -12,9 +12,19 @@ class StoreTugasRequest extends FormRequest
     public function rules()
     {
         return [
-            'petugas_id' => [
+            'jenis_id' => [
                 'required',
                 'integer',
+            ],
+            'lokasi_id' => [
+                'required',
+                'integer',
+            ],
+            'petugas.*' => [
+                'integer',
+            ],
+            'petugas' => [
+                'array',
             ],
             'judul_tugas' => [
                 'string',
@@ -22,9 +32,6 @@ class StoreTugasRequest extends FormRequest
             ],
             'keterangan' => [
                 'string',
-                'nullable',
-            ],
-            'status' => [
                 'required',
             ],
         ];

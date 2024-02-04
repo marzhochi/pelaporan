@@ -72,7 +72,7 @@
                             {{ trans('cruds.pengaduan.fields.lokasi') }}
                         </th>
                         <td>
-                            {{ $pengaduan->lokasi->nama_lokasi ?? '' }}
+                            {{ $pengaduan->lokasi->nama_jalan ?? '' }}
                         </td>
                     </tr>
                     <tr>

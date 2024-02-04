@@ -11,7 +11,7 @@ class UpdateLokasiRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama_lokasi' => [
+            'nama_jalan' => [
                 'string',
                 'required',
             ],

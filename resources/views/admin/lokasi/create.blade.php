@@ -10,14 +10,14 @@
         <form method="POST" action="{{ route("admin.lokasi.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <label class="required" for="nama_lokasi">{{ trans('cruds.lokasi.fields.nama_lokasi') }}</label>
-                <input class="form-control {{ $errors->has('nama_lokasi') ? 'is-invalid' : '' }}" type="text" name="nama_lokasi" id="nama_lokasi" value="{{ old('nama_lokasi', '') }}" required>
-                @if($errors->has('nama_lokasi'))
+                <label class="required" for="nama_jalan">{{ trans('cruds.lokasi.fields.nama_jalan') }}</label>
+                <input class="form-control {{ $errors->has('nama_jalan') ? 'is-invalid' : '' }}" type="text" name="nama_jalan" id="nama_jalan" value="{{ old('nama_jalan', '') }}" required>
+                @if($errors->has('nama_jalan'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('nama_lokasi') }}
+                        {{ $errors->first('nama_jalan') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.lokasi.fields.nama_lokasi_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.lokasi.fields.nama_jalan_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="kelurahan">{{ trans('cruds.lokasi.fields.kelurahan') }}</label>

@@ -20,12 +20,11 @@ class Lokasi extends Model
     ];
 
     protected $fillable = [
-        'nama_lokasi',
+        'nama_jalan',
         'kelurahan',
         'kecamatan',
-        'kota',
-        'provinsi',
-        'kodepos',
+        'latitude',
+        'longitude',
         'created_at',
         'updated_at',
         'deleted_at',

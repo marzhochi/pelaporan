@@ -5,7 +5,7 @@ return [
     'reset'    => 'Sandi Anda sudah direset!',
     'sent'     => 'Kami sudah mengirim surel yang berisi tautan untuk mereset sandi Anda!',
     'token'    => 'Token pengaturan ulang sandi tidak sah.',
-    'user'     => 'Kami tidak dapat menemukan pengguna dengan email tersebut.',
+    'user'     => 'Kami tidak dapat menemukan petugas dengan email tersebut.',
     'updated'  => 'Password Anda sudah di ubah',
 
 ];

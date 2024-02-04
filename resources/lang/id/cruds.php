@@ -40,7 +40,7 @@ return [
         ],
     ],
     'user' => [
-        'title'          => 'Daftar Pengguna',
+        'title'          => 'Daftar Petugas',
         'title_singular' => 'User',
         'fields'         => [
             'id'                       => 'ID',
@@ -97,8 +97,8 @@ return [
         'fields'         => [
             'id'                 => 'ID',
             'id_helper'          => ' ',
-            'nama_lokasi'        => 'Nama Lokasi',
-            'nama_lokasi_helper' => ' ',
+            'nama_jalan'        => 'Nama Lokasi',
+            'nama_jalan_helper' => ' ',
             'created_at'         => 'Created at',
             'created_at_helper'  => ' ',
             'updated_at'         => 'Updated at',

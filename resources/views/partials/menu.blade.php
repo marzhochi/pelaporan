@@ -57,10 +57,10 @@
                     </a>
                 </li>
                 <li class="c-sidebar-nav-item">
-                    <a href="{{ route("admin.pengguna.index") }}"
-                        class="c-sidebar-nav-link {{ request()->is("admin/pengguna") || request()->is("admin/pengguna/*") ? "c-active" : "" }}">
+                    <a href="{{ route("admin.petugas.index") }}"
+                        class="c-sidebar-nav-link {{ request()->is("admin/petugas") || request()->is("admin/petugas/*") ? "c-active" : "" }}">
                         <i class="fa-fw fas fa-user c-sidebar-nav-icon"></i>
-                        Daftar Pengguna
+                        Daftar Petugas
                     </a>
                 </li>
             </ul>

@@ -17,10 +17,10 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.lokasi.fields.nama_lokasi') }}
+                            {{ trans('cruds.lokasi.fields.nama_jalan') }}
                         </th>
                         <td>
-                            {{ $lokasi->nama_lokasi }}
+                            {{ $lokasi->nama_jalan }}
                         </td>
                     </tr>
                     <tr>

@@ -28,7 +28,7 @@ class LaporanController extends Controller
 
     public function create()
     {
-        $lokasi = Lokasi::pluck('nama_lokasi', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $lokasi = Lokasi::pluck('nama_jalan', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $tugas = Tugas::pluck('judul_tugas', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -52,7 +52,7 @@ class LaporanController extends Controller
 
     public function edit(Laporan $laporan)
     {
-        $lokasi = Lokasi::pluck('nama_lokasi', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $lokasi = Lokasi::pluck('nama_jalan', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $tugas = Tugas::pluck('judul_tugas', 'id')->prepend(trans('global.pleaseSelect'), '');
 

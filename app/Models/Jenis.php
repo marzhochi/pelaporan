@@ -11,7 +11,7 @@ class Jenis extends Model
 {
     use SoftDeletes, HasFactory;
 
-    public $table = 'jenis';
+    public $table = 'jenis_tugas';
 
     protected $dates = [
         'created_at',

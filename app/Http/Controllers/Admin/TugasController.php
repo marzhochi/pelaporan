@@ -9,7 +9,7 @@ use App\Http\Requests\UpdateTugasRequest;
 use App\Models\Jenis;
 use App\Models\Pengaduan;
 use App\Models\Tugas;
-use App\Models\Pengguna;
+use App\Models\Petugas;
 
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,7 +25,7 @@ class TugasController extends Controller
 
     public function create()
     {
-        $petugas = Pengguna::pluck('nama_lengkap', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $petugas = Petugas::pluck('nama_lengkap', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $pengaduan = Pengaduan::pluck('judul_pengaduan', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -47,7 +47,7 @@ class TugasController extends Controller
 
     public function edit(Tugas $tugas)
     {
-        $petugas = Pengguna::pluck('nama_lengkap', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $petugas = Petugas::pluck('nama_lengkap', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $pengaduan = Pengaduan::pluck('judul_pengaduan', 'id')->prepend(trans('global.pleaseSelect'), '');
 

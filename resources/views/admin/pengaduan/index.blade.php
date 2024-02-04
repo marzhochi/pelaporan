@@ -78,7 +78,7 @@
                             {{ $item->latlang ?? '' }}
                         </td>
                         <td>
-                            {{ $item->lokasi->nama_lokasi ?? '' }}
+                            {{ $item->lokasi->nama_jalan ?? '' }}
                         </td>
                         <td>
                             {{ $item->created_at ?? '' }}
