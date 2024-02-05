@@ -20,9 +20,15 @@ class HomeController extends Controller
     {
         $search = $request->search;
 
-        return Pengaduan::where('status', 1)
+        $pengaduan =  Pengaduan::where('status', 1)
         ->where('judul_pengaduan', 'LIKE', '%'.$search.'%')
         ->get();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data Pengaduan',
+            'data' => $pengaduan,
+        ]);
     }
 
     public function store(Request $request)
