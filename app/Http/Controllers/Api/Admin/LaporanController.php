@@ -49,6 +49,11 @@ class LaporanController extends Controller
         $laporan->jarak = $request->jarak;
         $laporan->penugasan_id = $request->penugasan_id;
         $laporan->tugas_id = $request->tugas_id;
+        $laporan->nama_jalan = $request->nama_jalan;
+        $laporan->kelurahan = $request->kelurahan;
+        $laporan->kecamatan = $request->kecamatan;
+        $laporan->latitude = $request->latitude;
+        $laporan->longitude = $request->longitude;
         $laporan->save();
 
         if ($request->input('foto', false)) {
