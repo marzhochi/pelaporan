@@ -121,7 +121,7 @@ class TugasController extends Controller
         try {
             $tugas = PetugasTugas::with('tugas')
             ->where('petugas_id', auth()->user()->id)
-            ->WhereHas('tugas', function ($query) {
+            ->withWhereHas('tugas', function ($query) {
                 $query->where('tugas.status', 1);
             })
             ->get();
