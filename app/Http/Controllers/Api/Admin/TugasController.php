@@ -119,9 +119,9 @@ class TugasController extends Controller
     public function tugas_anggota()
     {
         try {
-            $tugas = PetugasTugas::with('tugas')
+            $tugas = PetugasTugas::select('tugas.lokasi.nama_jalan')->with('tugas')
             ->where('petugas_id', auth()->user()->id)
-            ->withWhereHas('tugas', function ($query) {
+            ->WhereHas('tugas', function ($query) {
                 $query->where('tugas.status', 1);
             })
             ->get();
