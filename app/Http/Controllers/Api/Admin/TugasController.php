@@ -7,6 +7,7 @@ use App\Http\Controllers\Traits\MediaUploadingTrait;
 
 use App\Http\Resources\Admin\TugasResource;
 use App\Http\Requests\StoreTugasRequest;
+use App\Models\Jenis;
 use App\Models\Lokasi;
 use App\Models\Tugas;
 use App\Models\PetugasTugas;
@@ -128,7 +129,9 @@ class TugasController extends Controller
 
             foreach ($contents as $key => $value) {
                 $lokasi = Lokasi::findOrFail($value->tugas->lokasi_id);
+                $jenis = Jenis::findOrFail($value->tugas->jenis_id);
                 $contents[$key]['lokasi'] = $lokasi->nama_jalan;
+                $contents[$key]['jenis'] = $jenis->nama_jenis;
             }
 
             $tugas = $contents;
