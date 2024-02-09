@@ -153,12 +153,23 @@ class TugasController extends Controller
     public function riwayat_tugas_anggota()
     {
         try {
-            $tugas = PetugasTugas::with('tugas')
+            $contents = PetugasTugas::with('tugas')
             ->where('petugas_id', auth()->user()->id)
             ->WhereHas('tugas', function ($query) {
                 $query->where('tugas.status', 2);
             })
             ->get();
+
+            foreach ($contents as $key => $value) {
+                $lokasi = Lokasi::findOrFail($value->tugas->lokasi_id);
+                $jenis = Jenis::findOrFail($value->tugas->jenis_id);
+                $contents[$key]['judul'] = $value->tugas->judul_tugas;
+                $contents[$key]['keterangan'] = $value->tugas->keterangan;
+                $contents[$key]['lokasi'] = $lokasi->nama_jalan;
+                $contents[$key]['jenis'] = $jenis->nama_jenis;
+            }
+
+            $tugas = $contents;
 
             return response()->json([
                 'status' => 'success',
