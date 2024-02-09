@@ -65,4 +65,29 @@ class HomeController extends Controller
         ]);
     }
 
+    public function delete($id)
+    {
+        try {
+            $pengaduan = Pengaduan::findOrFail($id);
+            if ($pengaduan) {
+                $pengaduan->delete();
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data berhasil di hapus',
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Data tidak ditemukan',
+                ]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Data tidak ditemukan',
+            ]);
+        }
+    }
+
 }

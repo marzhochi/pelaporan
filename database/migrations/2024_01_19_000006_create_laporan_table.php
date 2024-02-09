@@ -17,6 +17,7 @@ class CreateLaporanTable extends Migration
             $table->double('jarak')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
+            $table->string('latlng')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
