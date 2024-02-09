@@ -5,6 +5,7 @@ Route::post('pengaduan/media', 'Api\\HomeController@storeMedia')->name('pengadua
 Route::get('pengaduan', 'Api\\HomeController@index')->name('pengaduan.list');
 Route::get('pengaduan/{id}', 'Api\\HomeController@show')->name('pengaduan.show');
 Route::post('pengaduan', 'Api\\HomeController@store')->name('pengaduan.store');
+Route::post('pengaduan/{id}', 'HomeController@delete')->name('pengaduan.delete');
 
 Route::group(['prefix' => 'admin', 'as' => 'api.', 'namespace' => 'Api\Admin', 'middleware' => ['auth:sanctum']], function () {
     // Dashobord
