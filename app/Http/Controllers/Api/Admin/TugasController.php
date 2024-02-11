@@ -27,17 +27,17 @@ class TugasController extends Controller
                 $lokasi = Lokasi::findOrFail($value->lokasi_id);
                 $jenis = Jenis::findOrFail($value->jenis_id);
 
+                $tugas[$key]['id'] = $value->id;
                 $tugas[$key]['judul'] = $value->judul_tugas;
                 $tugas[$key]['keterangan'] = $value->keterangan;
                 $tugas[$key]['lokasi'] = $lokasi->nama_jalan;
                 $tugas[$key]['jenis'] = $jenis->nama_jenis;
                 $tugas[$key]['status'] = $value->status;
-                $tugas[$key]['uid'] = $value->id;
                 // $petugas = '';
-                // foreach ($value->tugas->petugas->nama_lengkap as $key2 => $value2) {
-                //     $petugas = $value2->nama_lengkap.', '.$petugas;
-                // }
-                // $data[$key]['petugas'] = $petugas;
+                foreach ($value->tugas->petugas->nama_lengkap as $key2 => $value2) {
+                    $petugas[$key2] = $value2->nama_lengkap;
+                }
+                $data[$key]['petugas'] = $petugas;
             }
 
             // $tugas = $contents;
