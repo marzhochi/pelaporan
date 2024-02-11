@@ -36,11 +36,21 @@ class PenugasanController extends Controller
     public function index()
     {
         try {
-            $data = Penugasan::with(['petugas', 'pengaduan'])->get();
+            $contents = Penugasan::with('petugas', 'pengaduan')->get();
+
+            foreach ($contents as $key => $value) {
+                $tugas[$key]['id'] = $value->id;
+                $tugas[$key]['judul'] = $value->judul_tugas;
+                $tugas[$key]['keterangan'] = $value->keterangan;
+                $tugas[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
+                $tugas[$key]['petugas'] = $value->petugas->nama_lengkap;
+                $tugas[$key]['pengaduan'] = $value->pengaduan->judul_pengaduan;
+                $tugas[$key]['lokasi'] = $value->pengaduan->kelurahan.', '.$value->pengaduan->kecamatan;
+            }
 
             return response()->json([
                 'status' => 'success',
-                'data' => $data,
+                'data' => $tugas,
             ]);
         } catch (\Exception $e) {
             return response()->json([

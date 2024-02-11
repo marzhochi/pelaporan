@@ -21,7 +21,7 @@ class TugasController extends Controller
 
     public function index()
     {
-        $contents = Tugas::where('status', 1)->with('jenis', 'lokasi', 'petugas')->get();
+        $contents = Tugas::with('jenis', 'lokasi', 'petugas')->get();
 
             foreach ($contents as $key => $value) {
                 $lokasi = Lokasi::findOrFail($value->lokasi_id);
