@@ -75,7 +75,7 @@ class PetugasController extends Controller
     public function show($id)
     {
         try {
-            $data = Petugas::where('id', $id)->with('lokasi')->first();
+            $data = Petugas::where('nip', $id)->with('lokasi')->first();
 
             return response()->json([
                 'status' => 'success',
