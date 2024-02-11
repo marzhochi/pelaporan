@@ -27,20 +27,18 @@ class TugasController extends Controller
             foreach ($contents as $key => $value) {
                 $lokasi = Lokasi::findOrFail($value->tugas->lokasi_id);
                 $jenis = Jenis::findOrFail($value->tugas->jenis_id);
-                $data[$key]['judul'] = $value->tugas->judul_tugas;
-                $data[$key]['keterangan'] = $value->tugas->keterangan;
-                $data[$key]['lokasi'] = $lokasi->nama_jalan;
-                $data[$key]['jenis'] = $jenis->nama_jenis;
-                $data[$key]['status'] = $value->tugas->status;
-                $data[$key]['id'] = $value->tugas->id;
+                $tugas[$key]['judul'] = $value->tugas->judul_tugas;
+                $tugas[$key]['keterangan'] = $value->tugas->keterangan;
+                $tugas[$key]['lokasi'] = $lokasi->nama_jalan;
+                $tugas[$key]['jenis'] = $jenis->nama_jenis;
+                $tugas[$key]['status'] = $value->tugas->status;
+                $tugas[$key]['id'] = $value->tugas->id;
                 // $petugas = '';
                 // foreach ($value->tugas->petugas->nama_lengkap as $key2 => $value2) {
                 //     $petugas = $value2->nama_lengkap.', '.$petugas;
                 // }
                 // $data[$key]['petugas'] = $petugas;
             }
-
-            $tugas = $data;
 
             return response()->json([
                 'status' => 'success',
