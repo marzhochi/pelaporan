@@ -22,7 +22,7 @@ class TugasController extends Controller
     public function index()
     {
         try {
-            $contents = Tugas::with(['jenis', 'lokasi', 'petugas'])->get();
+            $contents = Tugas::where('status', 1)->with(['jenis', 'lokasi', 'petugas'])->get();
 
             foreach ($contents as $key => $value) {
                 $lokasi = Lokasi::findOrFail($value->tugas->lokasi_id);
@@ -33,11 +33,11 @@ class TugasController extends Controller
                 $data[$key]['jenis'] = $jenis->nama_jenis;
                 $data[$key]['status'] = $value->tugas->status;
                 $data[$key]['id'] = $value->tugas->id;
-                $petugas = '';
-                foreach ($value->tugas->petugas->nama_lengkap as $key2 => $value2) {
-                    $petugas = $value2->nama_lengkap.', '.$petugas;
-                }
-                $data[$key]['petugas'] = $petugas;
+                // $petugas = '';
+                // foreach ($value->tugas->petugas->nama_lengkap as $key2 => $value2) {
+                //     $petugas = $value2->nama_lengkap.', '.$petugas;
+                // }
+                // $data[$key]['petugas'] = $petugas;
             }
 
             $tugas = $data;
