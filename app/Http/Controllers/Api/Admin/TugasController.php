@@ -37,7 +37,7 @@ class TugasController extends Controller
                 foreach ($value->petugas as $key2 => $value2) {
                     $petugas[$key2] = $value2->nama_lengkap;
                 }
-                $data[$key]['petugas'] = $petugas;
+                $tugas[$key]['petugas'] = $petugas;
             }
 
             // $tugas = $contents;
