@@ -27,12 +27,12 @@ class TugasController extends Controller
                 $lokasi = Lokasi::findOrFail($value->lokasi_id);
                 $jenis = Jenis::findOrFail($value->jenis_id);
 
-                $contents[$key]['judul'] = $value->judul_tugas;
-                $contents[$key]['keterangan'] = $value->keterangan;
-                $contents[$key]['lokasi'] = $lokasi->nama_jalan;
-                $contents[$key]['jenis'] = $jenis->nama_jenis;
-                $contents[$key]['status'] = $value->status;
-                $contents[$key]['uid'] = $value->id;
+                $tugas[$key]['judul'] = $value->judul_tugas;
+                $tugas[$key]['keterangan'] = $value->keterangan;
+                $tugas[$key]['lokasi'] = $lokasi->nama_jalan;
+                $tugas[$key]['jenis'] = $jenis->nama_jenis;
+                $tugas[$key]['status'] = $value->status;
+                $tugas[$key]['uid'] = $value->id;
                 // $petugas = '';
                 // foreach ($value->tugas->petugas->nama_lengkap as $key2 => $value2) {
                 //     $petugas = $value2->nama_lengkap.', '.$petugas;
@@ -40,7 +40,7 @@ class TugasController extends Controller
                 // $data[$key]['petugas'] = $petugas;
             }
 
-            $tugas = $contents;
+            // $tugas = $contents;
 
             return response()->json([
                 'status' => 'success',
