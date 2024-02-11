@@ -21,23 +21,25 @@ class TugasController extends Controller
 
     public function index()
     {
-        $contents = Tugas::where('status', 1)->with(['jenis', 'lokasi', 'petugas'])->get();
+        $contents = Tugas::where('status', 1)->with('jenis', 'lokasi', 'petugas')->get();
 
             foreach ($contents as $key => $value) {
                 $lokasi = Lokasi::findOrFail($value->tugas->lokasi_id);
                 $jenis = Jenis::findOrFail($value->tugas->jenis_id);
-                $tugas[$key]['judul'] = $value->tugas->judul_tugas;
-                $tugas[$key]['keterangan'] = $value->tugas->keterangan;
-                $tugas[$key]['lokasi'] = $lokasi->nama_jalan;
-                $tugas[$key]['jenis'] = $jenis->nama_jenis;
-                $tugas[$key]['status'] = $value->tugas->status;
-                $tugas[$key]['id'] = $value->tugas->id;
+                $contents[$key]['judul'] = $value->tugas->judul_tugas;
+                $contents[$key]['keterangan'] = $value->tugas->keterangan;
+                $contents[$key]['lokasi'] = $lokasi->nama_jalan;
+                $contents[$key]['jenis'] = $jenis->nama_jenis;
+                $contents[$key]['status'] = $value->tugas->status;
+                $contents[$key]['uid'] = $value->tugas->id;
                 // $petugas = '';
                 // foreach ($value->tugas->petugas->nama_lengkap as $key2 => $value2) {
                 //     $petugas = $value2->nama_lengkap.', '.$petugas;
                 // }
                 // $data[$key]['petugas'] = $petugas;
             }
+
+            $tugas = $contents;
 
             return response()->json([
                 'status' => 'success',
