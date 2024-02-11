@@ -33,7 +33,11 @@ class TugasController extends Controller
                 $data[$key]['jenis'] = $jenis->nama_jenis;
                 $data[$key]['status'] = $value->tugas->status;
                 $data[$key]['id'] = $value->tugas->id;
-                $data[$key]['petugas'] = $value->tugas->petugas->nama_lengkap;
+                $petugas = '';
+                foreach ($value->tugas->petugas->nama_lengkap as $key2 => $value2) {
+                    $petugas = $value2->nama_lengkap.', '.$petugas;
+                }
+                $data[$key]['petugas'] = $petugas;
             }
 
             $tugas = $data;
