@@ -32,7 +32,7 @@ class TugasController extends Controller
                 $tugas[$key]['keterangan'] = $value->keterangan;
                 $tugas[$key]['lokasi'] = $lokasi->nama_jalan;
                 $tugas[$key]['jenis'] = $jenis->nama_jenis;
-                $tugas[$key]['status'] = $value->status;
+                $tugas[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
                 // $petugas = '';
                 foreach ($value->petugas as $key2 => $value2) {
                     $petugas[$key2] = $value2->nama_lengkap;
