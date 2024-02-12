@@ -85,6 +85,10 @@ class PenugasanController extends Controller
             $penugasan->pengaduan_id = $request->pengaduan_id;
             $penugasan->save();
 
+            $pengaduan = Pengaduan::findOrFail($request->pengaduan_id);
+            $pengaduan->status = 2; //proses
+            $pengaduan->save();
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Penugasan berhasil disimpan',
