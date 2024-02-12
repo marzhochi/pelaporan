@@ -192,7 +192,7 @@ class PenugasanController extends Controller
                 $tugas[$key]['lokasi'] = $value->pengaduan->kelurahan.', '.$value->pengaduan->kecamatan;
             }
 
-            $tugas = $contents;
+            // $tugas = $tugas;
 
             return response()->json([
                 'status' => 'success',
