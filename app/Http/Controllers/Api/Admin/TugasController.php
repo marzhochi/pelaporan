@@ -78,7 +78,7 @@ class TugasController extends Controller
         $tugas->save();
 
         // $tugas->petugas()->sync($request->input('petugas', []));
-        $tugas->petugas()->attach($request->input('petugas'));
+        $tugas->petugas()->attach($request->petugas);
 
         return response()->json([
             'status' => 'success',
