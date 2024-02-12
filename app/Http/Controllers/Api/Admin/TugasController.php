@@ -34,11 +34,12 @@ class TugasController extends Controller
                 $tugas[$key]['lokasi'] = $lokasi->nama_jalan;
                 $tugas[$key]['jenis'] = $jenis->nama_jenis;
                 $tugas[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
-                // $petugas = '';
-                // foreach ($value->petugas as $key2 => $value2) {
-                //     $petugas[$key2] = $value2->nama_lengkap;
-                // }
-                $tugas[$key]['petugas'] = $value->petugas;
+
+                // ubah
+                $ubah1 = explode(',', $value->petugas);
+                $ubah2 = preg_replace('/[^A-Za-z0-9\-]/', '', $ubah1);
+
+                $tugas[$key]['petugas'] = $ubah2;
             }
 
             return response()->json([
