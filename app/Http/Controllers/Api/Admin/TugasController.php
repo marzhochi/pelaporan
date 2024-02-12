@@ -71,13 +71,13 @@ class TugasController extends Controller
 
         $tugas = new Tugas();
         $tugas->judul_tugas = $request->judul_tugas;
-        $tugas->keterangan = $request->petugas;
+        $tugas->keterangan = $request->input('petugas', []);
         $tugas->status = 1;
         $tugas->jenis_id = $request->jenis_id;
         $tugas->lokasi_id = $request->lokasi_id;
         $tugas->save();
 
-        $tugas->petugas()->attach($request->input('petugas', []));
+        $tugas->petugas()->attach($request->keterangan);
 
         return response()->json([
             'status' => 'success',
