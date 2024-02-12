@@ -77,11 +77,16 @@ class TugasController extends Controller
         $tugas->lokasi_id = $request->lokasi_id;
         $tugas->save();
 
+        // $TaxIds = [5, 10];
+        foreach($request->petugas as &$taxId) {
+            $tugas->petugas()->attach(intval($taxId));
+        }
+
         // $petugas= array_map('intval', explode(',', $request['tags']));
         // $tugas->petugas()->attach($petugas);
 
         // $tugas->petugas()->attach([2,3]);
-        $tugas->petugas()->attach($request->petugas);
+        // $tugas->petugas()->attach($request->petugas);
         // $tugas->petugas()->sync($request->input('petugas', []));
 
         return response()->json([
