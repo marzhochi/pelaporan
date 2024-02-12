@@ -80,7 +80,7 @@ class TugasController extends Controller
         // $tugas = Tugas::create($request->all());
         // $tugas->petugas()->sync($request->input('petugas', []));
 
-        $tugas->petugas()->attach($request->petugas);
+        $tugas->petugas()->attach([2,3]);
 
         return response()->json([
             'status' => 'success',
