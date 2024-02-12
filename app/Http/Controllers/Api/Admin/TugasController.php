@@ -53,7 +53,7 @@ class TugasController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store($request)
     {
         $validator = Validator::make($request->all(), [
             'judul_tugas' => 'required',
@@ -77,8 +77,8 @@ class TugasController extends Controller
         $tugas->lokasi_id = $request->lokasi_id;
         $tugas->save();
 
-        // $tugas->petugas()->attach($request->petugas);
-        $tugas->petugas()->sync($request->input('petugas', []));
+        $tugas->petugas()->attach($request->petugas);
+        // $tugas->petugas()->sync($request->input('petugas', []));
 
         return response()->json([
             'status' => 'success',
