@@ -178,9 +178,21 @@ class PenugasanController extends Controller
     public function penugasan_anggota()
     {
         try {
-            $tugas = Penugasan::where(['petugas_id' => auth()->user()->id, 'status' => 1])->with('pengaduan')
+            $contents = Penugasan::where(['petugas_id' => auth()->user()->id, 'status' => 1])->with('pengaduan')
             ->orderBy('id', 'desc')
             ->get();
+
+            foreach ($contents as $key => $value) {
+                $tugas[$key]['id'] = $value->id;
+                $tugas[$key]['judul'] = $value->judul_tugas;
+                $tugas[$key]['keterangan'] = $value->keterangan;
+                $tugas[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
+                $tugas[$key]['petugas'] = $value->petugas->nama_lengkap;
+                $tugas[$key]['pengaduan'] = $value->pengaduan->judul_pengaduan;
+                $tugas[$key]['lokasi'] = $value->pengaduan->kelurahan.', '.$value->pengaduan->kecamatan;
+            }
+
+            $tugas = $contents;
 
             return response()->json([
                 'status' => 'success',
