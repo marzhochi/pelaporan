@@ -21,13 +21,14 @@ class TugasController extends Controller
 
     public function index()
     {
-        $contents = Tugas::with('jenis', 'lokasi', 'petugas')->get();
+        try {
+            $contents = Tugas::with('jenis', 'lokasi', 'petugas')->get();
 
             foreach ($contents as $key => $value) {
                 $lokasi = Lokasi::findOrFail($value->lokasi_id);
                 $jenis = Jenis::findOrFail($value->jenis_id);
 
-                $tugas[$key]['id'] = $value->id;
+                $tugas[$key]['uid'] = $value->id;
                 $tugas[$key]['judul'] = $value->judul_tugas;
                 $tugas[$key]['keterangan'] = $value->keterangan;
                 $tugas[$key]['lokasi'] = $lokasi->nama_jalan;
@@ -40,42 +41,16 @@ class TugasController extends Controller
                 $tugas[$key]['petugas'] = $value->petugas;
             }
 
-            // $tugas = $contents;
-
             return response()->json([
                 'status' => 'success',
                 'data' => $tugas,
             ]);
-
-        // try {
-        //     $contents = Tugas::where('status', 1)->with(['jenis', 'lokasi', 'petugas'])->get();
-
-        //     foreach ($contents as $key => $value) {
-        //         $lokasi = Lokasi::findOrFail($value->tugas->lokasi_id);
-        //         $jenis = Jenis::findOrFail($value->tugas->jenis_id);
-        //         $tugas[$key]['judul'] = $value->tugas->judul_tugas;
-        //         $tugas[$key]['keterangan'] = $value->tugas->keterangan;
-        //         $tugas[$key]['lokasi'] = $lokasi->nama_jalan;
-        //         $tugas[$key]['jenis'] = $jenis->nama_jenis;
-        //         $tugas[$key]['status'] = $value->tugas->status;
-        //         $tugas[$key]['id'] = $value->tugas->id;
-        //         // $petugas = '';
-        //         // foreach ($value->tugas->petugas->nama_lengkap as $key2 => $value2) {
-        //         //     $petugas = $value2->nama_lengkap.', '.$petugas;
-        //         // }
-        //         // $data[$key]['petugas'] = $petugas;
-        //     }
-
-        //     return response()->json([
-        //         'status' => 'success',
-        //         'data' => $tugas,
-        //     ]);
-        // } catch (\Exception $e) {
-        //     return response()->json([
-        //         'status' => 'error',
-        //         'message' => 'Data tidak ditemukan',
-        //     ]);
-        // }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Data tidak ditemukan',
+            ]);
+        }
     }
 
     public function store(StoreTugasRequest $request)
