@@ -77,7 +77,7 @@ class TugasController extends Controller
         $tugas->lokasi_id = $request->lokasi_id;
         $tugas->save();
 
-        $tugas->petugas()->attach($request->petugas);
+        $tugas->petugas()->attach([3,2]);
 
         return response()->json([
             'status' => 'success',
