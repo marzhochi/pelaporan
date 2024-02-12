@@ -53,32 +53,35 @@ class TugasController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(StoreTugasRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'judul_tugas' => 'required',
-            'keterangan' => 'required',
-            'jenis_id' => 'required',
-            'lokasi_id' => 'required',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'judul_tugas' => 'required',
+        //     'keterangan' => 'required',
+        //     'jenis_id' => 'required',
+        //     'lokasi_id' => 'required',
+        // ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all(),
-            ]);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'message' => $validator->errors()->all(),
+        //     ]);
+        // }
 
-        $tugas = new Tugas();
-        $tugas->judul_tugas = $request->judul_tugas;
-        $tugas->keterangan = $request->input('petugas', []);
-        $tugas->status = 1;
-        $tugas->jenis_id = $request->jenis_id;
-        $tugas->lokasi_id = $request->lokasi_id;
-        $tugas->save();
+        // $tugas = new Tugas();
+        // $tugas->judul_tugas = $request->judul_tugas;
+        // $tugas->keterangan = $request->keterangan;
+        // $tugas->status = 1;
+        // $tugas->jenis_id = $request->jenis_id;
+        // $tugas->lokasi_id = $request->lokasi_id;
+        // $tugas->save();
 
-        $tugas->petugas()->sync($request->input('petugas', []));
+        // $tugas->petugas()->sync($request->input('petugas', []));
         // $tugas->petugas()->attach($request->petugas);
+
+        $tugas = Tugas::create($request->all());
+        $tugas->petugas()->sync($request->input('petugas', []));
 
         return response()->json([
             'status' => 'success',
