@@ -79,8 +79,8 @@ class TugasController extends Controller
 
         // $tugas = Tugas::create($request->all());
         // $tugas->petugas()->sync($request->input('petugas', []));
-
-        $tugas->petugas()->attach($request->input('petugas', []));
+        $newArray = array_map('intval', $request->input('petugas', []));
+        $tugas->petugas()->attach($newArray);
 
         return response()->json([
             'status' => 'success',
