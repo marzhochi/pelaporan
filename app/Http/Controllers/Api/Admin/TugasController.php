@@ -22,7 +22,7 @@ class TugasController extends Controller
     public function index()
     {
         try {
-            $contents = Tugas::with('jenis', 'lokasi', 'petugas')->latest();
+            $contents = Tugas::with('jenis', 'lokasi', 'petugas')->orderBy('id')->get();
 
             foreach ($contents as $key => $value) {
                 $lokasi = Lokasi::findOrFail($value->lokasi_id);
