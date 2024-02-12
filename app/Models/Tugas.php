@@ -52,6 +52,6 @@ class Tugas extends Model
 
     public function petugas()
     {
-        return $this->belongsToMany(Petugas::class, 'petugas_tugas', 'tugas_id', 'petugas_id');
+        return $this->belongsToMany(Petugas::class, 'petugas_tugas', 'petugas_id');
     }
 }
