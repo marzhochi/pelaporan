@@ -53,7 +53,7 @@ class TugasController extends Controller
         }
     }
 
-    public function store($request)
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'judul_tugas' => 'required',
