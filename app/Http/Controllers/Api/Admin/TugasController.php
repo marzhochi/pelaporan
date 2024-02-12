@@ -79,7 +79,7 @@ class TugasController extends Controller
 
         $petugas= array_map('intval', explode(',', $request['petugas']));
 
-        $tugas->petugas()->attach($petugas);
+        $tugas->attach($petugas);
         // $tugas->petugas()->sync($request->input('petugas', []));
 
         return response()->json([
