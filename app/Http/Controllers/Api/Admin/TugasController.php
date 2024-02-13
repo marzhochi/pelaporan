@@ -38,8 +38,7 @@ class TugasController extends Controller
                 // foreach ($value->petugas as $key2 => $value2) {
                 //     $petugas[$key2] = $value2->nama_lengkap;
                 // }
-                // $ubah1 = explode(',', $value->petugas);
-                // $ubah2 = preg_replace('/[^A-Za-z0-9\-]/', '', $ubah1);
+
                 $tugas[$key]['petugas'] = $value->petugas;
             }
 
