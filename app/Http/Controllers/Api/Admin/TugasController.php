@@ -9,6 +9,7 @@ use App\Http\Resources\Admin\TugasResource;
 
 use App\Models\Jenis;
 use App\Models\Lokasi;
+use App\Models\Petugas;
 use App\Models\Tugas;
 use App\Models\PetugasTugas;
 
@@ -35,6 +36,10 @@ class TugasController extends Controller
             foreach ($contents as $key => $value) {
                 $lokasi = Lokasi::findOrFail($value->lokasi_id);
                 $jenis = Jenis::findOrFail($value->jenis_id);
+                $petugas = Petugas::findOrFail(auth()->user()->id);
+
+                $lat = isset($petugas->lokasi) ? $petugas->lokasi->latitude : '-6.887056';
+                $long = isset($petugas->lokasi) ? $petugas->lokasi->longitude : '107.6128997';
 
                 $data[$key]['uid'] = $value->id;
                 $data[$key]['judul'] = $value->judul_tugas;
@@ -44,6 +49,7 @@ class TugasController extends Controller
                 $data[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
                 $data[$key]['tanggal'] = showDateTime($value->created_at);
                 $data[$key]['petugas'] = $value->petugas;
+                $data[$key]['latlng'] = $lat.",".$long;
             }
 
             return response()->json([
