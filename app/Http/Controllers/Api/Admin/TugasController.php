@@ -24,7 +24,6 @@ class TugasController extends Controller
     {
         try {
             $search = $request->search;
-            // $contents = Tugas::with('jenis', 'lokasi', 'petugas')->orderBy('id','desc')->get();
             $contents = Tugas::with('petugas', 'lokasi', 'jenis')
             ->where(function ($query) use ($search) {
                 $query->where('judul_tugas', 'LIKE', '%'.$search.'%')
@@ -36,10 +35,6 @@ class TugasController extends Controller
             foreach ($contents as $key => $value) {
                 $lokasi = Lokasi::findOrFail($value->lokasi_id);
                 $jenis = Jenis::findOrFail($value->jenis_id);
-                $petugas = Petugas::findOrFail(auth()->user()->id);
-
-                $lat = isset($petugas->lokasi) ? $petugas->lokasi->latitude : '-6.887056';
-                $long = isset($petugas->lokasi) ? $petugas->lokasi->longitude : '107.6128997';
 
                 $data[$key]['uid'] = $value->id;
                 $data[$key]['judul'] = $value->judul_tugas;
@@ -49,7 +44,6 @@ class TugasController extends Controller
                 $data[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
                 $data[$key]['tanggal'] = showDateTime($value->created_at);
                 $data[$key]['petugas'] = $value->petugas;
-                $data[$key]['latlng'] = $lat.",".$long;
             }
 
             return response()->json([
@@ -218,11 +212,17 @@ class TugasController extends Controller
             foreach ($contents as $key => $value) {
                 $lokasi = Lokasi::findOrFail($value->tugas->lokasi_id);
                 $jenis = Jenis::findOrFail($value->tugas->jenis_id);
+                $petugas = Petugas::findOrFail(auth()->user()->id);
+
+                $lat = isset($petugas->lokasi) ? $petugas->lokasi->latitude : '-6.887056';
+                $long = isset($petugas->lokasi) ? $petugas->lokasi->longitude : '107.6128997';
+
                 $data[$key]['id'] = $value->tugas->id;
                 $data[$key]['judul'] = $value->tugas->judul_tugas;
                 $data[$key]['keterangan'] = $value->tugas->keterangan;
                 $data[$key]['lokasi'] = $lokasi->nama_jalan;
                 $data[$key]['jenis'] = $jenis->nama_jenis;
+                $data[$key]['latlng'] = $lat.",".$long;
             }
 
             return response()->json([
