@@ -32,7 +32,7 @@ class AuthController extends Controller
         $data['email'] = $user->email;
         $data['telp'] = $user->no_telp ?? '-';
         $data['role'] = $user->role;
-        $data['avatar'] = isset($user->media->original_url) ? $user->media->original_url : 'https://izinet.online/assets/images/avatar.png';
+        $data['avatar'] = isset($user->media->original_url) ? $user->media->original_url : 'https://dishub.online/images/no_avatar.jpg';
 
         return response()->json([
             'status' => 'success',

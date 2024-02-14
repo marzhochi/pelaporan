@@ -34,7 +34,7 @@ class HomeController extends Controller
             $data[$key]['latitude'] = $value->latitude;
             $data[$key]['longitude'] = $value->longitude;
             $data[$key]['tanggal'] = $value->created_at;
-            $data[$key]['foto'] = isset($value->foto) ? $value->foto->original_url : 'https://izinet.online/assets/images/avatar.png' ;
+            $data[$key]['foto'] = isset($value->foto) ? $value->foto->original_url : 'https://dishub.online/images/no_image.png';
         }
 
         return response()->json([
@@ -80,8 +80,21 @@ class HomeController extends Controller
         try {
             $pengaduan = Pengaduan::where('id', $id)->first();
 
+            $lat = $pengaduan->latitude ?? '-6.887056';
+            $long = $pengaduan->longitude ?? '107.6128997';
+
             $data['id'] = $pengaduan->id;
-            $data['avatar'] = isset($pengaduan->media->original_url) ? $pengaduan->media->original_url : '-';
+            $data['judul'] = $pengaduan->judul_pengaduan;
+            $data['keterangan'] = $pengaduan->keterangan;
+            $data['nama_pelapor'] = $pengaduan->nama_lengkap;
+            $data['telp'] = $pengaduan->no_telepon ?? '-';
+            $data['status'] = $pengaduan->status;
+            $data['kelurahan'] = $pengaduan->kelurahan ?? '-';
+            $data['kecamatan'] = $pengaduan->kecamatan ?? '-';
+            $data['latitude'] = $lat;
+            $data['longitude'] = $long;
+            $data['latlng'] = "LatLng(lat:".$lat.", lng:".$long.")";
+            $data['foto'] = isset($pengaduan->foto) ? $pengaduan->foto->original_url : 'https://dishub.online/images/no_image.png';
 
             return response()->json([
                 'status' => 'success',
