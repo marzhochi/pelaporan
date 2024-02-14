@@ -61,6 +61,7 @@ class PenugasanController extends Controller
                 $data[$key]['petugas'] = $value->petugas->nama_lengkap;
                 $data[$key]['pengaduan'] = $value->pengaduan->judul_pengaduan ?? '-';
                 $data[$key]['lokasi'] = $value->pengaduan->kelurahan.', '.$value->pengaduan->kecamatan;
+                $data[$key]['tanggal'] = showDateTime($value->created_at);
             }
 
             return response()->json([
