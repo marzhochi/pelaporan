@@ -53,7 +53,7 @@ class PetugasController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'data' => $contents,
+                'data' => $data,
             ]);
         } catch (\Exception $e) {
             return response()->json([
