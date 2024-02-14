@@ -227,6 +227,9 @@ class PenugasanController extends Controller
 
             $data = array();
             foreach ($contents as $key => $value) {
+                $lat = isset($value->pengaduan->latitude) ? $value->pengaduan->latitude : '-6.887056';
+                $long = isset($value->pengaduan->longitude) ? $value->pengaduan->longitude : '107.6128997';
+
                 $data[$key]['id'] = $value->id;
                 $data[$key]['judul'] = $value->judul_tugas;
                 $data[$key]['keterangan'] = $value->keterangan ?? '-';
@@ -234,6 +237,7 @@ class PenugasanController extends Controller
                 $data[$key]['petugas'] = $value->petugas->nama_lengkap;
                 $data[$key]['pengaduan'] = $value->pengaduan->judul_pengaduan ?? '-';
                 $data[$key]['lokasi'] = $value->pengaduan->kelurahan.', '.$value->pengaduan->kecamatan;
+                $data[$key]['latlng'] = $lat.",".$long;
             }
 
             return response()->json([
