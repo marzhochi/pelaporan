@@ -42,6 +42,7 @@ class TugasController extends Controller
                 $data[$key]['lokasi'] = $lokasi->nama_jalan;
                 $data[$key]['jenis'] = $jenis->nama_jenis;
                 $data[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
+                $data[$key]['tanggal'] = showDateTime($value->created_at);
                 $data[$key]['petugas'] = $value->petugas;
             }
 
