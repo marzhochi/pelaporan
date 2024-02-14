@@ -127,8 +127,11 @@ class PenugasanController extends Controller
             $data['keterangan'] = $tugas->keterangan ?? '-';
             $data['status'] = $tugas->status;
             $data['tanggal'] = showDateTime($tugas->created_at);
-            $data['pengaduan'] = $tugas->pengaduan->judul_pengaduan;
             $data['petugas'] = $tugas->petugas->nama_lengkap;
+            $data['pengaduan'] = $tugas->pengaduan->judul_pengaduan;
+            $data['kelurahan'] = $tugas->pengaduan->kelurahan;
+            $data['latitude'] = $tugas->pengaduan->latitude;
+            $data['longitude'] = $tugas->pengaduan->longitude;
 
             return response()->json([
                 'status' => 'success',
