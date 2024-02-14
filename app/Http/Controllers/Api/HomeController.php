@@ -18,8 +18,7 @@ class HomeController extends Controller
     {
         $search = $request->search;
 
-        $contents =  Pengaduan::where('status', 1)
-        ->where('judul_pengaduan', 'LIKE', '%'.$search.'%')
+        $contents =  Pengaduan::where('judul_pengaduan', 'LIKE', '%'.$search.'%')
         ->get();
 
         $data = array();
