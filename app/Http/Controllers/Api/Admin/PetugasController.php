@@ -48,7 +48,7 @@ class PetugasController extends Controller
                 $data[$key]['lokasi_latitude'] = $lat;
                 $data[$key]['lokasi_longitude'] = $long;
                 $data[$key]['lokasi_latlng'] = $lat.",".$long;
-                $data[$key]['avatar'] = isset($value->avatar) ? $value->avatar->original_url : 'https://dishub.online/images/no_avatar.jpg';
+                $data[$key]['avatar'] = isset($value->media) ? $value->media->original_url : 'https://dishub.online/images/no_avatar.jpg';
             }
 
             return response()->json([
@@ -131,7 +131,7 @@ class PetugasController extends Controller
             $data['lokasi_latitude'] = $lat;
             $data['lokasi_longitude'] = $long;
             $data['lokasi_latlng'] = $lat.",".$long;
-            $data['avatar'] = isset($user->avatar) ? $user->avatar->original_url : 'https://dishub.online/images/no_avatar.jpg';
+            $data['avatar'] = isset($user->media) ? $user->media->original_url : 'https://dishub.online/images/no_avatar.jpg';
 
             return response()->json([
                 'status' => 'success',
