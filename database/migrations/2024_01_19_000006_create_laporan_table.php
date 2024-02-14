@@ -11,7 +11,6 @@ class CreateLaporanTable extends Migration
         Schema::create('laporan', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('deskripsi');
-            $table->string('nama_jalan')->nullable();
             $table->string('kelurahan')->nullable();
             $table->string('kecamatan')->nullable();
             $table->double('jarak')->nullable();

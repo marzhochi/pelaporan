@@ -112,7 +112,6 @@ class LaporanController extends Controller
             $laporan->deskripsi = $request->deskripsi;
             $laporan->jarak = $request->jarak;
             $laporan->penugasan_id = $request->penugasan_id;
-            $laporan->nama_jalan = $request->nama_jalan;
             $laporan->kelurahan = $request->kelurahan;
             $laporan->kecamatan = $request->kecamatan;
             $laporan->latitude = $request->latitude;
@@ -159,9 +158,7 @@ class LaporanController extends Controller
             $laporan = new Laporan();
             $laporan->deskripsi = $request->deskripsi;
             $laporan->jarak = $request->jarak;
-            $laporan->penugasan_id = $request->penugasan_id;
             $laporan->tugas_id = $request->tugas_id;
-            $laporan->nama_jalan = $request->nama_jalan;
             $laporan->kelurahan = $request->kelurahan;
             $laporan->kecamatan = $request->kecamatan;
             $laporan->latitude = $request->latitude;
