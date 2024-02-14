@@ -131,7 +131,7 @@ class PetugasController extends Controller
             $data['lokasi_latitude'] = $lat;
             $data['lokasi_longitude'] = $long;
             $data['lokasi_latlng'] = $lat.",".$long;
-            $data['avatar'] = isset($user->media) ? $user->media->original_url : 'https://dishub.online/images/no_avatar.jpg';
+            $data['avatar'] = isset($user->avatar) ? $user->avatar->original_url : 'https://dishub.online/images/no_avatar.jpg';
 
             return response()->json([
                 'status' => 'success',

@@ -94,7 +94,7 @@ class Petugas extends Authenticatable implements HasMedia
 
     public function getAvatarAttribute()
     {
-        $file = $this->getMedia('avatar')->last();
+        $file = $this->getMedia('foto')->last();
         if ($file) {
             $file->url       = $file->getUrl();
             $file->thumbnail = $file->getUrl('thumb');
