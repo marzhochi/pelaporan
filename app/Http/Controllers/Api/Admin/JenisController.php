@@ -3,14 +3,10 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\MediaUploadingTrait;
-
 use App\Models\Jenis;
 
 class JenisController extends Controller
 {
-    use MediaUploadingTrait;
-
     public function index()
     {
         try {

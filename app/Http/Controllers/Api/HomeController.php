@@ -22,6 +22,7 @@ class HomeController extends Controller
         ->where('judul_pengaduan', 'LIKE', '%'.$search.'%')
         ->get();
 
+        $data = array();
         foreach ($contents as $key => $value) {
             $data[$key]['id'] = $value->id;
             $data[$key]['judul'] = $value->judul_pengaduan;
@@ -39,7 +40,6 @@ class HomeController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Data Pengaduan',
             'data' => $data,
         ]);
     }
@@ -118,7 +118,7 @@ class HomeController extends Controller
 
                 return response()->json([
                     'status' => 'success',
-                    'message' => 'Data berhasil di hapus',
+                    'message' => 'Data berhasil dihapus',
                 ]);
             } else {
                 return response()->json([

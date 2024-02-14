@@ -19,11 +19,17 @@ class PenugasanController extends Controller
     public function list_pengaduan()
     {
         try {
-            $pengaduan = Pengaduan::where('status', 1)->orderBy('created_at', 'desc')->get();
+            $contents = Pengaduan::where('status', 1)->orderBy('created_at', 'desc')->get();
+
+            $data = array();
+            foreach ($contents as $key => $value) {
+                $data[$key]['id'] = $value->id;
+                $data[$key]['judul'] = $value->judul_pengaduan;
+            }
 
             return response()->json([
                 'status' => 'success',
-                'data' => $pengaduan,
+                'data' => $data,
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -33,24 +39,32 @@ class PenugasanController extends Controller
         }
     }
 
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $contents = Penugasan::with('petugas', 'pengaduan')->get();
+            $search = $request->search;
 
+            $contents = Penugasan::with('petugas', 'pengaduan')
+            ->where(function ($query) use ($search) {
+                $query->where('judul_tugas', 'LIKE', '%'.$search.'%')
+                    ->orWhere('keterangan', 'LIKE', '%'.$search.'%');
+            })
+            ->orderBy('id', 'desc')->get();
+
+            $data = array();
             foreach ($contents as $key => $value) {
-                $tugas[$key]['id'] = $value->id;
-                $tugas[$key]['judul'] = $value->judul_tugas;
-                $tugas[$key]['keterangan'] = $value->keterangan;
-                $tugas[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
-                $tugas[$key]['petugas'] = $value->petugas->nama_lengkap;
-                $tugas[$key]['pengaduan'] = $value->pengaduan->judul_pengaduan;
-                $tugas[$key]['lokasi'] = $value->pengaduan->kelurahan.', '.$value->pengaduan->kecamatan;
+                $data[$key]['id'] = $value->id;
+                $data[$key]['judul'] = $value->judul_tugas;
+                $data[$key]['keterangan'] = $value->keterangan ?? '-';
+                $data[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
+                $data[$key]['petugas'] = $value->petugas->nama_lengkap;
+                $data[$key]['pengaduan'] = $value->pengaduan->judul_pengaduan ?? '-';
+                $data[$key]['lokasi'] = $value->pengaduan->kelurahan.', '.$value->pengaduan->kecamatan;
             }
 
             return response()->json([
                 'status' => 'success',
-                'data' => $tugas,
+                'data' => $data,
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -106,9 +120,17 @@ class PenugasanController extends Controller
         try {
             $tugas = Penugasan::where('id', $id)->with('pengaduan','petugas')->first();
 
+            $data['id'] = $tugas->id;
+            $data['judul_tugas'] = $tugas->judul_tugas;
+            $data['keterangan'] = $tugas->keterangan ?? '-';
+            $data['status'] = $tugas->status;
+            $data['tanggal'] = $tugas->created_at;
+            $data['pengaduan'] = $tugas->pengaduan->judul_pengaduan;
+            $data['petugas'] = $tugas->petugas->nama_lengkap;
+
             return response()->json([
                 'status' => 'success',
-                'data' => $tugas,
+                'data' => $data,
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -179,57 +201,33 @@ class PenugasanController extends Controller
         }
     }
 
-    public function penugasan_anggota()
+    public function penugasan_anggota(Request $request)
     {
         try {
-            $contents = Penugasan::where(['petugas_id' => auth()->user()->id, 'status' => 1])->with('pengaduan')
-            ->orderBy('id', 'desc')
-            ->get();
+            $search = $request->search;
 
+            $contents = Penugasan::with('pengaduan')
+            ->where(['petugas_id' => auth()->user()->id, 'status' => 1])
+            ->where(function ($query) use ($search) {
+                $query->where('judul_tugas', 'LIKE', '%'.$search.'%')
+                    ->orWhere('keterangan', 'LIKE', '%'.$search.'%');
+            })
+            ->orderBy('id', 'desc')->get();
+
+            $data = array();
             foreach ($contents as $key => $value) {
-                $tugas[$key]['id'] = $value->id;
-                $tugas[$key]['judul'] = $value->judul_tugas;
-                $tugas[$key]['keterangan'] = $value->keterangan;
-                $tugas[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
-                $tugas[$key]['petugas'] = $value->petugas->nama_lengkap;
-                $tugas[$key]['pengaduan'] = $value->pengaduan->judul_pengaduan;
-                $tugas[$key]['lokasi'] = $value->pengaduan->kelurahan.', '.$value->pengaduan->kecamatan;
-            }
-
-            // $tugas = $tugas;
-
-            return response()->json([
-                'status' => 'success',
-                'data' => $tugas,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Data tidak ditemukan',
-            ]);
-        }
-    }
-
-    public function penugasan_riwayat_anggota()
-    {
-        try {
-            $contents = Penugasan::where(['petugas_id' => auth()->user()->id, 'status' => 2])->with('pengaduan')
-            ->orderBy('id', 'desc')
-            ->get();
-
-            foreach ($contents as $key => $value) {
-                $tugas[$key]['id'] = $value->id;
-                $tugas[$key]['judul'] = $value->judul_tugas;
-                $tugas[$key]['keterangan'] = $value->keterangan;
-                $tugas[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
-                $tugas[$key]['petugas'] = $value->petugas->nama_lengkap;
-                $tugas[$key]['pengaduan'] = $value->pengaduan->judul_pengaduan;
-                $tugas[$key]['lokasi'] = $value->pengaduan->kelurahan.', '.$value->pengaduan->kecamatan;
+                $data[$key]['id'] = $value->id;
+                $data[$key]['judul'] = $value->judul_tugas;
+                $data[$key]['keterangan'] = $value->keterangan ?? '-';
+                $data[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
+                $data[$key]['petugas'] = $value->petugas->nama_lengkap;
+                $data[$key]['pengaduan'] = $value->pengaduan->judul_pengaduan ?? '-';
+                $data[$key]['lokasi'] = $value->pengaduan->kelurahan.', '.$value->pengaduan->kecamatan;
             }
 
             return response()->json([
                 'status' => 'success',
-                'data' => $tugas,
+                'data' => $data,
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -239,18 +237,33 @@ class PenugasanController extends Controller
         }
     }
 
-
-
-    public function data_tugas()
+    public function penugasan_riwayat_anggota(Request $request)
     {
         try {
-            $tugas = Tugas::where(['petugas_id' => auth()->user()->id, 'status' => 1])->with('lokasi','jenis','pengaduan')
-            ->orderBy('id', 'desc')
-            ->get();
+            $search = $request->search;
+
+            $contents = Penugasan::with('pengaduan')
+            ->where(['petugas_id' => auth()->user()->id, 'status' => 2])
+            ->where(function ($query) use ($search) {
+                $query->where('judul_tugas', 'LIKE', '%'.$search.'%')
+                    ->orWhere('keterangan', 'LIKE', '%'.$search.'%');
+            })
+            ->orderBy('id', 'desc')->get();
+
+            $data = array();
+            foreach ($contents as $key => $value) {
+                $data[$key]['id'] = $value->id;
+                $data[$key]['judul'] = $value->judul_tugas;
+                $data[$key]['keterangan'] = $value->keterangan ?? '-';
+                $data[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
+                $data[$key]['petugas'] = $value->petugas->nama_lengkap;
+                $data[$key]['pengaduan'] = $value->pengaduan->judul_pengaduan ?? '-';
+                $data[$key]['lokasi'] = $value->pengaduan->kelurahan.', '.$value->pengaduan->kecamatan;
+            }
 
             return response()->json([
                 'status' => 'success',
-                'data' => $tugas,
+                'data' => $data,
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -260,39 +273,4 @@ class PenugasanController extends Controller
         }
     }
 
-    public function tugas_detail($id)
-    {
-        try {
-            $tugas = Tugas::where('id', $id)->with('lokasi','jenis','pengaduan','petugas')->first();
-
-            return response()->json([
-                'status' => 'success',
-                'data' => $tugas,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Data tidak ditemukan',
-            ]);
-        }
-    }
-
-    public function riwayat_tugas()
-    {
-        try {
-            $tugas = Tugas::where(['petugas_id' => auth()->user()->id, 'status' => 2])->with('lokasi','jenis','pengaduan')
-            ->orderBy('id', 'desc')
-            ->get();
-
-            return response()->json([
-                'status' => 'success',
-                'data' => $tugas,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Data tidak ditemukan',
-            ]);
-        }
-    }
 }

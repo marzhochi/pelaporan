@@ -16,10 +16,31 @@ class LokasiController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $data = Lokasi::select('id','nama_jalan','kelurahan','kecamatan','latitude','longitude')->get();
+            $search = $request->search;
+
+            $contents =  Lokasi::where(function ($query) use ($search) {
+                $query->where('nama_jalan', 'LIKE', '%'.$search.'%')
+                    ->orWhere('kelurahan', 'LIKE', '%'.$search.'%')
+                    ->orWhere('kecamatan', 'LIKE', '%'.$search.'%');
+            })
+            ->orderBy('id', 'desc')->get();
+
+            $data = array();
+            foreach ($contents as $key => $value) {
+                $lat = isset($value->latitude) ? $value->latitude : '-6.887056';
+                $long = isset($value->longitude) ? $value->longitude : '107.6128997';
+
+                $data[$key]['id'] = $value->id;
+                $data[$key]['nama_jalan'] = $value->nama_jalan;
+                $data[$key]['kelurahan'] = $value->kelurahan ?? '-';
+                $data[$key]['kecamatan'] = $value->kecamatan ?? '-';
+                $data[$key]['latitude'] = $lat;
+                $data[$key]['longitude'] = $long;
+                $data[$key]['latlng'] = "LatLng(lat:".$lat.", lng:".$long.")";
+            }
 
             return response()->json([
                 'status' => 'success',
@@ -28,7 +49,7 @@ class LokasiController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Data tidak ditemukan',
+                'message' => 'Ops... Terjadi kelasahan sistem',
             ]);
         }
     }
@@ -67,11 +88,21 @@ class LokasiController extends Controller
     public function show($id)
     {
         try {
-            $data = Lokasi::where('id', $id)->first();
+            $lokasi = Lokasi::where('id', $id)->first();
+
+            $lat = $lokasi->latitude ?? '-6.887056';
+            $long = $lokasi->longitude ?? '107.6128997';
+
+            $data['id'] = $lokasi->id;
+            $data['nama_jalan'] = $lokasi->nama_jalan;
+            $data['kelurahan'] = $lokasi->kelurahan ?? '-';
+            $data['kecamatan'] = $lokasi->kecamatan ?? '-';
+            $data['latitude'] = $lat;
+            $data['longitude'] = $long;
+            $data['latlng'] = "LatLng(lat:".$lat.", lng:".$long.")";
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Detail Lokasi',
                 'data' => $data,
             ]);
         } catch (\Exception $e) {
@@ -122,7 +153,7 @@ class LokasiController extends Controller
 
                 return response()->json([
                     'status' => 'success',
-                    'message' => 'Data berhasil di hapus',
+                    'message' => 'Data berhasil dihapus',
                 ]);
             } else {
                 return response()->json([

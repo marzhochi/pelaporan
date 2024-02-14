@@ -15,7 +15,6 @@ class CreateLokasiTable extends Migration
             $table->string('kecamatan')->nullable();
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();
-            $table->string('latlng')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

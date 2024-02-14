@@ -47,7 +47,7 @@ class DashboardController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Ops... terjadi kelasahan sistem',
+                'message' => 'Ops... Terjadi kelasahan sistem',
             ]);
         }
     }
