@@ -16,10 +16,11 @@ class PenugasanController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function list_pengaduan()
+    public function list_pengaduan(Request $request)
     {
         try {
-            $contents = Pengaduan::where('status', 1)->orderBy('created_at', 'desc')->get();
+            $search = $request->search;
+            $contents = Pengaduan::where('status', 1)->where('judul_pengaduan', 'LIKE', '%'.$search.'%')->orderBy('created_at', 'desc')->get();
 
             $data = array();
             foreach ($contents as $key => $value) {
