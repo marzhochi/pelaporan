@@ -35,7 +35,7 @@ class LaporanController extends Controller
 
     public function store(Request $request)
     {
-        // try {
+        try {
             $validator = Validator::make($request->all(), [
                 'deskripsi' => 'required',
             ]);
@@ -86,12 +86,12 @@ class LaporanController extends Controller
                 'message' => 'Laporan berhasil disimpan',
             ]);
 
-        // } catch (\Exception $e) {
-        //     return response()->json([
-        //         'status' => 'error',
-        //         'message' => 'Laporan gagal disimpan',
-        //     ]);
-        // }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Laporan gagal disimpan',
+            ]);
+        }
     }
 
     public function show($id)
@@ -112,6 +112,70 @@ class LaporanController extends Controller
             $data['jarak'] = $laporan->jarak ?? '-';
             $data['latlng'] = $lat.",".$long;
             $data['penugasan'] = isset($laporan->penugasan) ? $laporan->penugasan->judul_tugas : '';
+            $data['tugas'] = isset($laporan->tugas) ? $laporan->tugas->judul_tugas : '';
+            $data['foto'] = isset($laporan->foto) ? $laporan->foto->original_url : 'https://dishub.online/images/no_image.png';
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $data,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Data tidak ditemukan',
+            ]);
+        }
+    }
+
+    public function penugasan($id)
+    {
+        try {
+            $laporan = Laporan::where('penugasan_id', $id)->with('penugasan', 'tugas')->first();
+
+            $lat = $laporan->latitude ?? '-6.887056';
+            $long = $laporan->longitude ?? '107.6128997';
+
+            $data['id'] = $laporan->id;
+            $data['deskripsi'] = $laporan->deskripsi;
+            $data['jenis'] = $laporan->jenis;
+            $data['tanggal'] = showDateTime($laporan->created_at);
+            $data['nama_jalan'] = $laporan->nama_jalan ?? '-';
+            $data['kelurahan'] = $laporan->kelurahan ?? '-';
+            $data['kecamatan'] = $laporan->kecamatan ?? '-';
+            $data['jarak'] = $laporan->jarak ?? '-';
+            $data['latlng'] = $lat.",".$long;
+            $data['penugasan'] = isset($laporan->penugasan) ? $laporan->penugasan->judul_tugas : '';
+            $data['foto'] = isset($laporan->foto) ? $laporan->foto->original_url : 'https://dishub.online/images/no_image.png';
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $data,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Data tidak ditemukan',
+            ]);
+        }
+    }
+
+    public function tugas($id)
+    {
+        try {
+            $laporan = Laporan::where('tugas_id', $id)->with('penugasan', 'tugas')->first();
+
+            $lat = $laporan->latitude ?? '-6.887056';
+            $long = $laporan->longitude ?? '107.6128997';
+
+            $data['id'] = $laporan->id;
+            $data['deskripsi'] = $laporan->deskripsi;
+            $data['jenis'] = $laporan->jenis;
+            $data['tanggal'] = showDateTime($laporan->created_at);
+            $data['nama_jalan'] = $laporan->nama_jalan ?? '-';
+            $data['kelurahan'] = $laporan->kelurahan ?? '-';
+            $data['kecamatan'] = $laporan->kecamatan ?? '-';
+            $data['jarak'] = $laporan->jarak ?? '-';
+            $data['latlng'] = $lat.",".$long;
             $data['tugas'] = isset($laporan->tugas) ? $laporan->tugas->judul_tugas : '';
             $data['foto'] = isset($laporan->foto) ? $laporan->foto->original_url : 'https://dishub.online/images/no_image.png';
 

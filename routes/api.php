@@ -54,6 +54,8 @@ Route::group(['prefix' => 'admin', 'as' => 'api.', 'namespace' => 'Api\Admin', '
     Route::get('laporan', 'LaporanController@index')->name('laporan.list');
     Route::post('laporan', 'LaporanController@store')->name('laporan.store');
     Route::get('laporan/{id}', 'LaporanController@show')->name('laporan.show');
+    Route::get('laporan/penugasan/{id}', 'LaporanController@penugasan')->name('laporan.penugasan');
+    Route::get('laporan/tugas/{id}', 'LaporanController@tugas')->name('laporan.tugas');
     Route::post('laporan/update', 'LaporanController@update')->name('laporan.update');
 
 });
