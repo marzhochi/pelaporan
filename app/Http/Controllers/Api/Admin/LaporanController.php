@@ -35,7 +35,7 @@ class LaporanController extends Controller
 
     public function store(Request $request)
     {
-        try {
+        // try {
             $validator = Validator::make($request->all(), [
                 'deskripsi' => 'required',
             ]);
@@ -69,13 +69,13 @@ class LaporanController extends Controller
                 $laporan->addMedia(storage_path('tmp/uploads/' . basename($request->input('foto'))))->toMediaCollection('foto');
             }
 
-            if($request->penugasan_id){
+            if(isset($request->penugasan_id)){
                 $penugasan = Penugasan::findOrFail($request->penugasan_id);
                 $penugasan->status = 2; //proses
                 $penugasan->save();
             }
 
-            if($request->tugas_id){
+            if(isset($request->tugas_id)){
                 $tugas = Tugas::findOrFail($request->tugas_id);
                 $tugas->status = 2; //proses
                 $tugas->save();
@@ -86,12 +86,12 @@ class LaporanController extends Controller
                 'message' => 'Laporan berhasil disimpan',
             ]);
 
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Laporan gagal disimpan',
-            ]);
-        }
+        // } catch (\Exception $e) {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'message' => 'Laporan gagal disimpan',
+        //     ]);
+        // }
     }
 
     public function show($id)
