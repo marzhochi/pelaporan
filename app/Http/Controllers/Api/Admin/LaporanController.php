@@ -65,9 +65,9 @@ class LaporanController extends Controller
             }
             $laporan->save();
 
-            // if ($request->input('foto', false)) {
-            //     $laporan->addMedia(storage_path('tmp/uploads/' . basename($request->input('foto'))))->toMediaCollection('foto');
-            // }
+            if ($request->input('foto', false)) {
+                $laporan->addMedia(storage_path('tmp/uploads/' . basename($request->input('foto'))))->toMediaCollection('foto');
+            }
 
             if(isset($request->penugasan_id)){
                 $penugasan = Penugasan::findOrFail($request->penugasan_id);
@@ -80,6 +80,103 @@ class LaporanController extends Controller
                 $tugas->status = 2; //proses
                 $tugas->save();
             }
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Laporan berhasil disimpan',
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Laporan gagal disimpan',
+            ]);
+        }
+    }
+
+    public function store_penugasan(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'deskripsi' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $validator->errors()->all(),
+                ]);
+            }
+
+            $laporan = new Laporan();
+            $laporan->deskripsi = $request->deskripsi;
+            $laporan->jarak = $request->jarak;
+            $laporan->penugasan_id = $request->penugasan_id;
+            $laporan->nama_jalan = $request->nama_jalan;
+            $laporan->kelurahan = $request->kelurahan;
+            $laporan->kecamatan = $request->kecamatan;
+            $laporan->latitude = $request->latitude;
+            $laporan->longitude = $request->longitude;
+            $laporan->jenis = 1;
+            $laporan->tugas_id = NULL;
+            $laporan->save();
+
+            if ($request->input('foto', false)) {
+                $laporan->addMedia(storage_path('tmp/uploads/' . basename($request->input('foto'))))->toMediaCollection('foto');
+            }
+
+            $penugasan = Penugasan::findOrFail($request->penugasan_id);
+            $penugasan->status = 2; //proses
+            $penugasan->save();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Laporan berhasil disimpan',
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Laporan gagal disimpan',
+            ]);
+        }
+    }
+
+    public function store_tugas(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'deskripsi' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $validator->errors()->all(),
+                ]);
+            }
+
+            $laporan = new Laporan();
+            $laporan->deskripsi = $request->deskripsi;
+            $laporan->jarak = $request->jarak;
+            $laporan->penugasan_id = $request->penugasan_id;
+            $laporan->tugas_id = $request->tugas_id;
+            $laporan->nama_jalan = $request->nama_jalan;
+            $laporan->kelurahan = $request->kelurahan;
+            $laporan->kecamatan = $request->kecamatan;
+            $laporan->latitude = $request->latitude;
+            $laporan->longitude = $request->longitude;
+            $laporan->jenis = 2;
+            $laporan->penugasan_id = NULL;
+            $laporan->save();
+
+            if ($request->input('foto', false)) {
+                $laporan->addMedia(storage_path('tmp/uploads/' . basename($request->input('foto'))))->toMediaCollection('foto');
+            }
+
+            $tugas = Tugas::findOrFail($request->tugas_id);
+            $tugas->status = 2; //proses
+            $tugas->save();
 
             return response()->json([
                 'status' => 'success',

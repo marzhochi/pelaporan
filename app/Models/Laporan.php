@@ -28,6 +28,13 @@ class Laporan extends Model implements HasMedia
 
     protected $fillable = [
         'deskripsi',
+        'jarak',
+        'nama_jalan',
+        'kelurahan',
+        'kecamatan',
+        'latitude',
+        'longitude',
+        'jenis',
         'penugasan_id',
         'tugas_id',
         'created_at',
