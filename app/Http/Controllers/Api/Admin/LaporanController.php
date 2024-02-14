@@ -110,7 +110,7 @@ class LaporanController extends Controller
             $data['kelurahan'] = $laporan->kelurahan ?? '-';
             $data['kecamatan'] = $laporan->kecamatan ?? '-';
             $data['jarak'] = $laporan->jarak ?? '-';
-            $data['latlng'] = "LatLng(lat:".$lat.", lng:".$long.")";
+            $data['latlng'] = $lat.",".$long;
             $data['penugasan'] = isset($laporan->penugasan) ? $laporan->penugasan->judul_tugas : '';
             $data['tugas'] = isset($laporan->tugas) ? $laporan->tugas->judul_tugas : '';
 

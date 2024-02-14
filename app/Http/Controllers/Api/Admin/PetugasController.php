@@ -47,7 +47,7 @@ class PetugasController extends Controller
                 $data[$key]['lokasi_kecamatan'] = isset($value->lokasi) ? $value->lokasi->kecamatan : '-';
                 $data[$key]['lokasi_latitude'] = $lat;
                 $data[$key]['lokasi_longitude'] = $long;
-                $data[$key]['lokasi_latlng'] = "LatLng(lat:".$lat.", lng:".$long.")";
+                $data[$key]['lokasi_latlng'] = $lat.",".$long;
                 $data[$key]['avatar'] = isset($value->avatar) ? $value->avatar->original_url : 'https://dishub.online/images/no_avatar.jpg';
             }
 
@@ -130,7 +130,7 @@ class PetugasController extends Controller
             $data['lokasi_kecamatan'] = isset($user->lokasi) ? $user->lokasi->kecamatan : '-';
             $data['lokasi_latitude'] = $lat;
             $data['lokasi_longitude'] = $long;
-            $data['lokasi_latlng'] = "LatLng(lat:".$lat.", lng:".$long.")";
+            $data['lokasi_latlng'] = $lat.",".$long;
             $data['avatar'] = isset($user->avatar) ? $user->avatar->original_url : 'https://dishub.online/images/no_avatar.jpg';
 
             return response()->json([

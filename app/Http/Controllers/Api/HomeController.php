@@ -94,7 +94,7 @@ class HomeController extends Controller
             $data['kecamatan'] = $pengaduan->kecamatan ?? '-';
             $data['latitude'] = $lat;
             $data['longitude'] = $long;
-            $data['latlng'] = "LatLng(lat:".$lat.", lng:".$long.")";
+            $data['latlng'] = $lat.",".$long;
             $data['foto'] = isset($pengaduan->foto) ? $pengaduan->foto->original_url : 'https://dishub.online/images/no_image.png';
 
             return response()->json([

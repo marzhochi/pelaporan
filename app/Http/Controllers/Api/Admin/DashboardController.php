@@ -37,7 +37,7 @@ class DashboardController extends Controller
             $data['lokasi_kecamatan'] = isset($user->lokasi) ? $user->lokasi->kecamatan : '-';
             $data['lokasi_latitude'] = $lat;
             $data['lokasi_longitude'] = $long;
-            $data['lokasi_latlng'] = "LatLng(lat:".$lat.", lng:".$long.")";
+            $data['lokasi_latlng'] = $lat.",".$long;
             $data['avatar'] = isset($user->avatar) ? $user->avatar->original_url : 'https://dishub.online/images/no_avatar.jpg';
 
             return response()->json([

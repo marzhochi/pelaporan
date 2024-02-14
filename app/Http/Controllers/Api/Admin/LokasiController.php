@@ -39,7 +39,7 @@ class LokasiController extends Controller
                 $data[$key]['kecamatan'] = $value->kecamatan ?? '-';
                 $data[$key]['latitude'] = $lat;
                 $data[$key]['longitude'] = $long;
-                $data[$key]['latlng'] = "LatLng(lat:".$lat.", lng:".$long.")";
+                $data[$key]['latlng'] = $lat.",".$long;
             }
 
             return response()->json([
@@ -99,7 +99,7 @@ class LokasiController extends Controller
             $data['kecamatan'] = $lokasi->kecamatan ?? '-';
             $data['latitude'] = $lat;
             $data['longitude'] = $long;
-            $data['latlng'] = "LatLng(lat:".$lat.", lng:".$long.")";
+            $data['latlng'] = $lat.",".$long;
 
             return response()->json([
                 'status' => 'success',

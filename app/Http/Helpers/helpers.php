@@ -4,14 +4,12 @@ use Carbon\Carbon;
 
 function diffForHumans($date)
 {
-    $lang = session()->get('lang');
-    Carbon::setlocale($lang);
+    Carbon::setlocale('id');
     return Carbon::parse($date)->diffForHumans();
 }
 
-function showDateTime($date, $format = 'Y-m-d h:i A')
+function showDateTime($date, $format = 'Y-m-d H:i')
 {
-    $lang = session()->get('lang');
-    Carbon::setlocale($lang);
+    Carbon::setlocale('id');
     return Carbon::parse($date)->translatedFormat($format);
 }
