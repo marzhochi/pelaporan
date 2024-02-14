@@ -130,6 +130,7 @@ class PenugasanController extends Controller
             $data['petugas'] = $tugas->petugas->nama_lengkap;
             $data['pengaduan'] = $tugas->pengaduan->judul_pengaduan;
             $data['kelurahan'] = $tugas->pengaduan->kelurahan;
+            $data['kecamatan'] = $tugas->pengaduan->kecamatan;
             $data['latitude'] = $tugas->pengaduan->latitude;
             $data['longitude'] = $tugas->pengaduan->longitude;
 
