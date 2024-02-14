@@ -167,13 +167,13 @@ class LaporanController extends Controller
             $laporan->penugasan_id = NULL;
             $laporan->save();
 
-            if ($request->input('foto', false)) {
-                $laporan->addMedia(storage_path('tmp/uploads/' . basename($request->input('foto'))))->toMediaCollection('foto');
-            }
-
             $tugas = Tugas::findOrFail($request->tugas_id);
             $tugas->status = 2; //proses
             $tugas->save();
+
+            if ($request->input('foto', false)) {
+                $laporan->addMedia(storage_path('tmp/uploads/' . basename($request->input('foto'))))->toMediaCollection('foto');
+            }
 
             return response()->json([
                 'status' => 'success',
