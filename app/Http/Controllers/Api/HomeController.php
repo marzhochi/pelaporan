@@ -89,6 +89,7 @@ class HomeController extends Controller
             $data['nama_pelapor'] = $pengaduan->nama_lengkap;
             $data['telp'] = $pengaduan->no_telepon ?? '-';
             $data['status'] = $pengaduan->status;
+            $data['created_at'] = $pengaduan->tanggal;
             $data['kelurahan'] = $pengaduan->kelurahan ?? '-';
             $data['kecamatan'] = $pengaduan->kecamatan ?? '-';
             $data['latitude'] = $lat;
