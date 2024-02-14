@@ -105,7 +105,7 @@ class LaporanController extends Controller
             $data['id'] = $laporan->id;
             $data['deskripsi'] = $laporan->deskripsi;
             $data['jenis'] = $laporan->jenis;
-            $data['tanggal'] = $laporan->created_at;
+            $data['tanggal'] = showDateTime($laporan->created_at);
             $data['nama_jalan'] = $laporan->nama_jalan ?? '-';
             $data['kelurahan'] = $laporan->kelurahan ?? '-';
             $data['kecamatan'] = $laporan->kecamatan ?? '-';
@@ -113,6 +113,7 @@ class LaporanController extends Controller
             $data['latlng'] = $lat.",".$long;
             $data['penugasan'] = isset($laporan->penugasan) ? $laporan->penugasan->judul_tugas : '';
             $data['tugas'] = isset($laporan->tugas) ? $laporan->tugas->judul_tugas : '';
+            $data['foto'] = isset($laporan->foto) ? $laporan->foto->original_url : 'https://dishub.online/images/no_image.png';
 
             return response()->json([
                 'status' => 'success',

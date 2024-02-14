@@ -113,7 +113,7 @@ class TugasController extends Controller
             $data['judul_tugas'] = $tugas->judul_tugas;
             $data['keterangan'] = $tugas->keterangan ?? '-';
             $data['status'] = $tugas->status;
-            $data['tanggal'] = $tugas->created_at;
+            $data['tanggal'] = showDateTime($tugas->created_at);
             $data['lokasi'] = $lokasi->nama_jalan;
             $data['jenis'] = $jenis->nama_jenis;
             $data['petugas'] = $tugas->petugas;
