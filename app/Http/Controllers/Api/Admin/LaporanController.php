@@ -65,9 +65,9 @@ class LaporanController extends Controller
             }
             $laporan->save();
 
-            if ($request->input('foto', false)) {
-                $laporan->addMedia(storage_path('tmp/uploads/' . basename($request->input('foto'))))->toMediaCollection('foto');
-            }
+            // if ($request->input('foto', false)) {
+            //     $laporan->addMedia(storage_path('tmp/uploads/' . basename($request->input('foto'))))->toMediaCollection('foto');
+            // }
 
             if(isset($request->penugasan_id)){
                 $penugasan = Penugasan::findOrFail($request->penugasan_id);
