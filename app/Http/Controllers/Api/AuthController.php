@@ -26,10 +26,18 @@ class AuthController extends Controller
         $user = Petugas::where('email', $request->email)->first();
         $authToken = $user->createToken('auth-token')->plainTextToken;
 
+        $data['id'] = $user->id;
+        $data['nip'] = $user->nip;
+        $data['nama_lengkap'] = $user->nama_lengkap;
+        $data['email'] = $user->email;
+        $data['telp'] = $user->no_telp ?? '-';
+        $data['role'] = $user->role;
+        $data['avatar'] = isset($user->media->original_url) ? $user->media->original_url : 'https://izinet.online/assets/images/avatar.png';
+
         return response()->json([
             'status' => 'success',
             'access_token' => $authToken,
-            'data' => $user,
+            'data' => $data,
         ]);
     }
 }
