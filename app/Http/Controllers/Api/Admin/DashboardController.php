@@ -21,15 +21,33 @@ class DashboardController extends Controller
         try {
             $user = Petugas::where('id', auth()->user()->id)->with('lokasi')->first();
 
+            $lat = isset($user->lokasi) ? $user->lokasi->latitude : '-6.887056';
+            $long = isset($user->lokasi) ? $user->lokasi->longitude : '107.6128997';
+
+            $data['id'] = $user->id;
+            $data['nama_lengkap'] = $user->nama_lengkap;
+            $data['nip'] = $user->nip;
+            $data['golongan'] = $user->golongan ?? '-';
+            $data['email'] = $user->email;
+            $data['jenis_kelamin'] = $user->jenis_kelamin ?? '-';
+            $data['no_telp'] = $user->no_telp ?? '-';
+            $data['role'] = $user->role;
+            $data['lokasi_tugas'] = isset($user->lokasi) ? $user->lokasi->nama_jalan : '-';
+            $data['lokasi_kelurahan'] = isset($user->lokasi) ? $user->lokasi->kelurahan : '-';
+            $data['lokasi_kecamatan'] = isset($user->lokasi) ? $user->lokasi->kecamatan : '-';
+            $data['lokasi_latitude'] = $lat;
+            $data['lokasi_longitude'] = $long;
+            $data['lokasi_latlng'] = "LatLng(lat:".$lat.", lng:".$long.")";
+            $data['avatar'] = isset($user->avatar) ? $user->avatar->original_url : 'https://dishub.online/images/no_avatar.jpg';
+
             return response()->json([
                 'status' => 'success',
-                'message' => 'Informasi Data Petugas',
-                'data' => $user,
+                'data' => $data,
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Data tidak ditemukan',
+                'message' => 'Ops... terjadi kelasahan sistem',
             ]);
         }
     }
@@ -70,7 +88,6 @@ class DashboardController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Profil berhasil diubah',
-            'data' => new PetugasResource($user)
         ]);
     }
 }
