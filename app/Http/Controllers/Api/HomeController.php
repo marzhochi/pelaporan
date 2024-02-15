@@ -90,12 +90,16 @@ class HomeController extends Controller
             $lokasi = Lokasi::findOrFail($tugas->lokasi_id);
             $jenis = Jenis::findOrFail($tugas->jenis_id);
 
+            $lat = isset($lokasi->latitude) ? $lokasi->latitude : '-6.887056';
+            $long = isset($lokasi->longitude) ? $lokasi->longitude : '107.6128997';
+
             $data['id'] = $tugas->id;
             $data['judul_tugas'] = $tugas->judul_tugas;
             $data['keterangan'] = $tugas->keterangan ?? '-';
-            $data['status'] = $tugas->status;
+            $data['status'] = $tugas->status == 1 ? 'Dalam Proses' : 'Selesai';
             $data['tanggal'] = showDateTime($tugas->created_at);
-            $data['lokasi'] = $lokasi->nama_jalan;
+            $data['lokasi'] = $lokasi->nama_jalan ?? '-';
+            $data['latlng'] = $lat.",".$long;
             $data['jenis'] = $jenis->nama_jenis;
             $data['petugas'] = $tugas->petugas;
 
