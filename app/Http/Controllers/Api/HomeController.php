@@ -152,7 +152,6 @@ class HomeController extends Controller
             $tugas[$key]['jenis'] = $jenis->nama_jenis;
             $tugas[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
             $tugas[$key]['tanggal'] = showDateTime($value->created_at);
-            $tugas[$key]['petugas'] = $value->petugas;
         }
 
         return response()->json([
