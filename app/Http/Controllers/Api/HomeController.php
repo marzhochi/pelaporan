@@ -19,7 +19,7 @@ class HomeController extends Controller
         $search = $request->search;
 
         $contents =  Pengaduan::where('judul_pengaduan', 'LIKE', '%'.$search.'%')
-        ->get();
+        ->orderBy('id','desc')->get();
 
         $data = array();
         foreach ($contents as $key => $value) {
