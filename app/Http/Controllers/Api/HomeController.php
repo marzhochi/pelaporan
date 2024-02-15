@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
-
+use App\Models\Jenis;
+use App\Models\Lokasi;
 use App\Models\Pengaduan;
-
+use App\Models\Tugas;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -40,6 +41,120 @@ class HomeController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => $data,
+        ]);
+    }
+
+    public function tugas_list(Request $request)
+    {
+        try {
+            $search = $request->search;
+            $contents = Tugas::with('petugas', 'lokasi', 'jenis')
+            ->where(function ($query) use ($search) {
+                $query->where('judul_tugas', 'LIKE', '%'.$search.'%')
+                    ->orWhere('keterangan', 'LIKE', '%'.$search.'%');
+            })
+            ->orderBy('id', 'desc')->get();
+
+            $data = array();
+            foreach ($contents as $key => $value) {
+                $lokasi = Lokasi::findOrFail($value->lokasi_id);
+                $jenis = Jenis::findOrFail($value->jenis_id);
+
+                $data[$key]['uid'] = $value->id;
+                $data[$key]['judul'] = $value->judul_tugas;
+                $data[$key]['keterangan'] = $value->keterangan;
+                $data[$key]['lokasi'] = $lokasi->nama_jalan;
+                $data[$key]['jenis'] = $jenis->nama_jenis;
+                $data[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
+                $data[$key]['tanggal'] = showDateTime($value->created_at);
+                $data[$key]['petugas'] = $value->petugas;
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $data,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Data tidak ditemukan',
+            ]);
+        }
+    }
+
+    public function tugas_show($id)
+    {
+        try {
+            $tugas = Tugas::where('id', $id)->with('jenis','lokasi','petugas')->first();
+
+            $lokasi = Lokasi::findOrFail($tugas->lokasi_id);
+            $jenis = Jenis::findOrFail($tugas->jenis_id);
+
+            $data['id'] = $tugas->id;
+            $data['judul_tugas'] = $tugas->judul_tugas;
+            $data['keterangan'] = $tugas->keterangan ?? '-';
+            $data['status'] = $tugas->status;
+            $data['tanggal'] = showDateTime($tugas->created_at);
+            $data['lokasi'] = $lokasi->nama_jalan;
+            $data['jenis'] = $jenis->nama_jenis;
+            $data['petugas'] = $tugas->petugas;
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $data,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Data tidak ditemukan',
+            ]);
+        }
+    }
+
+    public function home(Request $request)
+    {
+        $search = $request->search;
+
+        $contents =  Pengaduan::where('judul_pengaduan', 'LIKE', '%'.$search.'%')
+        ->orderBy('id','desc')->limit(5)->get();
+
+        $pengaduan = array();
+        foreach ($contents as $key => $value) {
+            $pengaduan[$key]['id'] = $value->id;
+            $pengaduan[$key]['judul'] = $value->judul_pengaduan;
+            $pengaduan[$key]['keterangan'] = $value->keterangan;
+            $pengaduan[$key]['nama_pelapor'] = $value->nama_lengkap;
+            $pengaduan[$key]['no_telp'] = $value->no_telepon;
+            $pengaduan[$key]['status'] = $value->status;
+            $pengaduan[$key]['kelurahan'] = $value->kelurahan;
+            $pengaduan[$key]['kecamatan'] = $value->kecamatan;
+            $pengaduan[$key]['latitude'] = $value->latitude;
+            $pengaduan[$key]['longitude'] = $value->longitude;
+            $pengaduan[$key]['tanggal'] = showDateTime($value->created_at);
+            $pengaduan[$key]['foto'] = isset($value->foto) ? $value->foto->original_url : 'https://dishub.online/images/no_image.png';
+        }
+
+        $data_tugas = Tugas::with('petugas', 'lokasi', 'jenis')->limit(5)->orderBy('id','desc')->get();
+
+        $tugas = array();
+        foreach ($data_tugas as $key => $value) {
+            $lokasi = Lokasi::findOrFail($value->lokasi_id);
+            $jenis = Jenis::findOrFail($value->jenis_id);
+
+            $tugas[$key]['id'] = $value->id;
+            $tugas[$key]['judul'] = $value->judul_tugas;
+            $tugas[$key]['keterangan'] = $value->keterangan;
+            $tugas[$key]['lokasi'] = $lokasi->nama_jalan;
+            $tugas[$key]['jenis'] = $jenis->nama_jenis;
+            $tugas[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
+            $tugas[$key]['tanggal'] = showDateTime($value->created_at);
+            $tugas[$key]['petugas'] = $value->petugas;
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'pengaduan' => $pengaduan,
+            'tugas' => $tugas,
         ]);
     }
 

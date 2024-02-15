@@ -1,11 +1,16 @@
 <?php
 
 Route::post('login', 'Api\\AuthController@login');
+Route::get('home', 'Api\\HomeController@home')->name('home');
+
 Route::post('pengaduan/media', 'Api\\HomeController@storeMedia')->name('pengaduan.storeMedia');
 Route::get('pengaduan', 'Api\\HomeController@index')->name('pengaduan.list');
 Route::get('pengaduan/{id}', 'Api\\HomeController@show')->name('pengaduan.show');
 Route::post('pengaduan', 'Api\\HomeController@store')->name('pengaduan.store');
 Route::post('pengaduan/{id}', 'HomeController@delete')->name('pengaduan.delete');
+
+Route::get('tugas', 'Api\\HomeController@tugas_list')->name('tugas.list');
+Route::get('tugas/{id}', 'Api\\HomeController@tugas_show')->name('tugas.show');
 
 Route::group(['prefix' => 'admin', 'as' => 'api.', 'namespace' => 'Api\Admin', 'middleware' => ['auth:sanctum']], function () {
     // Dashobord
