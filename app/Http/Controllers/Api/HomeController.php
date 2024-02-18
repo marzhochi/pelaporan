@@ -45,8 +45,48 @@ class HomeController extends Controller
         ]);
     }
 
-    public function tugas_list(Request $request)
+    public function laporan_list(Request $request)
     {
+        try {
+            $contents = Laporan::with('penugasan', 'tugas', 'petugas')->get();
+
+            $data = array();
+            foreach ($contents as $key => $value) {
+                $lat = isset($value->longitude) ? $value->latitude : '-6.887056';
+                $long = isset($value->longitude) ? $value->longitude : '107.6128997';
+
+                $data[$key]['id'] = $value->id;
+                if($value->jenis == 1){
+                    $data[$key]['judul'] = $value->penugasan->judul_tugas;
+                    $data[$key]['keterangan'] = $value->penugasan->keterangan;
+                }else{
+                    $data[$key]['judul'] = $value->tugas->judul_tugas;
+                    $data[$key]['keterangan'] = $value->tugas->keterangan;
+                }
+
+                $data[$key]['deskripsi'] = $value->deskripsi;
+                $data[$key]['kelurahan'] = $value->kelurahan;
+                $data[$key]['kecamatan'] = $value->kecamatan;
+                $data[$key]['latitude'] = $value->latitude;
+                $data[$key]['longitude'] = $value->longitude;
+                $data[$key]['jenis'] = $value->jenis;
+                $data[$key]['tanggal'] = showDateTime($value->created_at);
+                $data[$key]['petugas'] = $value->petugas->nama_lengkap;
+                $data[$key]['foto'] = $value->foto->original_url ?? 'https://dishub.online/images/no_image.png';
+                $data[$key]['latlng'] = $lat.",".$long;
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $data,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Data tidak ditemukan',
+            ]);
+        }
+
         try {
             $search = $request->search;
             $contents = Tugas::with('petugas', 'lokasi', 'jenis')
@@ -83,7 +123,7 @@ class HomeController extends Controller
         }
     }
 
-    public function tugas_show($id)
+    public function laporan_show($id)
     {
         try {
             $tugas = Tugas::where('id', $id)->with('jenis','lokasi','petugas')->first();
