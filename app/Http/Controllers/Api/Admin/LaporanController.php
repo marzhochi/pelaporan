@@ -222,6 +222,7 @@ class LaporanController extends Controller
             $lat = $laporan->latitude ?? '-6.887056';
             $long = $laporan->longitude ?? '107.6128997';
 
+            $data['id'] = $laporan->id;
             $data['petugas'] = $laporan->petugas->nama_lengkap;
             $data['deskripsi'] = $laporan->deskripsi;
             $data['jenis'] = $laporan->jenis;
@@ -256,6 +257,7 @@ class LaporanController extends Controller
                 $lat = $value->latitude ?? '-6.887056';
                 $long = $value->longitude ?? '107.6128997';
 
+                $data[$key]['id'] = $value->id;
                 $data[$key]['petugas'] = $value->petugas->nama_lengkap;
                 $data[$key]['deskripsi'] = $value->deskripsi;
                 $data[$key]['jenis'] = $value->jenis;
@@ -291,6 +293,7 @@ class LaporanController extends Controller
                 $lat = $value->latitude ?? '-6.887056';
                 $long = $value->longitude ?? '107.6128997';
 
+                $data[$key]['id'] = $value->id;
                 $data[$key]['petugas'] = $value->petugas->nama_lengkap;
                 $data[$key]['deskripsi'] = $value->deskripsi;
                 $data[$key]['jenis'] = $value->jenis;
