@@ -52,7 +52,6 @@ class PenugasanController extends Controller
             })
             ->orderBy('id', 'desc')->get();
 
-
             $data = array();
             foreach ($contents as $key => $value) {
                 $lat = isset($value->pengaduan->latitude) ? $value->pengaduan->latitude : '-6.887056';
@@ -62,11 +61,15 @@ class PenugasanController extends Controller
                 $data[$key]['judul'] = $value->judul_tugas;
                 $data[$key]['keterangan'] = $value->keterangan ?? '-';
                 $data[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
-                $data[$key]['petugas'] = $value->petugas->nama_lengkap;
                 $data[$key]['pengaduan'] = $value->pengaduan->judul_pengaduan ?? '-';
                 $data[$key]['lokasi'] = $value->pengaduan->kelurahan.', '.$value->pengaduan->kecamatan;
-                $data[$key]['tanggal'] = showDateTime($value->created_at);
+                $data[$key]['tanggal'] = showDateTime($value->tanggal);
                 $data[$key]['latlng'] = $lat.",".$long;
+                foreach ($value->petugas as $key2 => $user) {
+                    $petugas[$key2] = $user->nama_lengkap;
+                }
+
+                $data[$key]['petugas'] = $petugas;
             }
 
             return response()->json([
@@ -85,10 +88,11 @@ class PenugasanController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
+                'tanggal' => 'required',
                 'judul_tugas' => 'required',
                 'keterangan' => 'required',
-                'petugas_id' => 'required',
                 'pengaduan_id' => 'required',
+                'petugas' => 'required',
             ]);
 
             if ($validator->fails()) {
@@ -99,12 +103,16 @@ class PenugasanController extends Controller
             }
 
             $penugasan = new Penugasan();
+            $penugasan->tanggal = $request->tanggal;
             $penugasan->judul_tugas = $request->judul_tugas;
             $penugasan->keterangan = $request->keterangan;
             $penugasan->status = 1;
-            $penugasan->petugas_id = $request->petugas_id;
             $penugasan->pengaduan_id = $request->pengaduan_id;
             $penugasan->save();
+
+            $ubah1 = explode(',', $request['petugas']);
+            $ubah2 = preg_replace('/[^A-Za-z0-9\-]/', '', $ubah1);
+            $penugasan->petugas()->attach($ubah2);
 
             $pengaduan = Pengaduan::findOrFail($request->pengaduan_id);
             $pengaduan->status = 2; //proses
@@ -131,13 +139,18 @@ class PenugasanController extends Controller
             $data['judul_tugas'] = $tugas->judul_tugas;
             $data['keterangan'] = $tugas->keterangan ?? '-';
             $data['status'] = $tugas->status;
-            $data['tanggal'] = showDateTime($tugas->created_at);
-            $data['petugas'] = $tugas->petugas->nama_lengkap;
+            $data['tanggal'] = showDateTime($tugas->tanggal);
             $data['pengaduan'] = $tugas->pengaduan->judul_pengaduan;
             $data['kelurahan'] = $tugas->pengaduan->kelurahan;
             $data['kecamatan'] = $tugas->pengaduan->kecamatan;
             $data['latitude'] = $tugas->pengaduan->latitude;
             $data['longitude'] = $tugas->pengaduan->longitude;
+
+            foreach ($tugas->petugas as $key => $user) {
+                $petugas[$key] = $user->nama_lengkap;
+            }
+
+            $data['petugas'] = $petugas;
 
             return response()->json([
                 'status' => 'success',
@@ -155,9 +168,10 @@ class PenugasanController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
+                'tanggal' => 'required',
                 'judul_tugas' => 'required',
                 'keterangan' => 'required',
-                'petugas_id' => 'required',
+                'petugas' => 'required',
                 'pengaduan_id' => 'required',
             ]);
 
@@ -169,11 +183,16 @@ class PenugasanController extends Controller
             }
 
             $penugasan = Penugasan::findOrFail($request->id);
+            $penugasan->tanggal = $request->tanggal;
             $penugasan->judul_tugas = $request->judul_tugas;
             $penugasan->keterangan = $request->keterangan;
-            $penugasan->petugas_id = $request->petugas_id;
             $penugasan->pengaduan_id = $request->pengaduan_id;
             $penugasan->save();
+
+            // tangkap data
+            $ubah1 = explode(',', $request['petugas']);
+            $ubah2 = preg_replace('/[^A-Za-z0-9\-]/', '', $ubah1);
+            $penugasan->petugas()->sync($ubah2);
 
             return response()->json([
                 'status' => 'success',
@@ -217,11 +236,14 @@ class PenugasanController extends Controller
         try {
             $search = $request->search;
 
-            $contents = Penugasan::with('pengaduan')
-            ->where(['petugas_id' => auth()->user()->id, 'status' => 1])
+            $contents = Penugasan::with('pengaduan', 'petugas')
+            ->where('status', 1)
             ->where(function ($query) use ($search) {
                 $query->where('judul_tugas', 'LIKE', '%'.$search.'%')
-                    ->orWhere('keterangan', 'LIKE', '%'.$search.'%');
+                ->orWhere('keterangan', 'LIKE', '%'.$search.'%');
+            })
+            ->whereHas('petugas', function ($query){
+                $query->where('petugas_id', auth()->user()->id);
             })
             ->orderBy('id', 'desc')->get();
 
@@ -234,10 +256,13 @@ class PenugasanController extends Controller
                 $data[$key]['judul'] = $value->judul_tugas;
                 $data[$key]['keterangan'] = $value->keterangan ?? '-';
                 $data[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
-                $data[$key]['petugas'] = $value->petugas->nama_lengkap;
                 $data[$key]['pengaduan'] = $value->pengaduan->judul_pengaduan ?? '-';
                 $data[$key]['lokasi'] = $value->pengaduan->kelurahan.', '.$value->pengaduan->kecamatan;
                 $data[$key]['latlng'] = $lat.",".$long;
+                // foreach ($value->petugas as $key2 => $user) {
+                //     $petugas[$key2] = $user->nama_lengkap;
+                // }
+                // $data[$key]['petugas'] = $petugas;
             }
 
             return response()->json([
@@ -257,11 +282,14 @@ class PenugasanController extends Controller
         try {
             $search = $request->search;
 
-            $contents = Penugasan::with('pengaduan')
-            ->where(['petugas_id' => auth()->user()->id, 'status' => 2])
+            $contents = Penugasan::with('pengaduan', 'petugas')
+            ->where('status', 2)
             ->where(function ($query) use ($search) {
                 $query->where('judul_tugas', 'LIKE', '%'.$search.'%')
-                    ->orWhere('keterangan', 'LIKE', '%'.$search.'%');
+                ->orWhere('keterangan', 'LIKE', '%'.$search.'%');
+            })
+            ->whereHas('petugas', function ($query){
+                $query->where('petugas_id', auth()->user()->id);
             })
             ->orderBy('id', 'desc')->get();
 
@@ -271,9 +299,12 @@ class PenugasanController extends Controller
                 $data[$key]['judul'] = $value->judul_tugas;
                 $data[$key]['keterangan'] = $value->keterangan ?? '-';
                 $data[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
-                $data[$key]['petugas'] = $value->petugas->nama_lengkap;
                 $data[$key]['pengaduan'] = $value->pengaduan->judul_pengaduan ?? '-';
                 $data[$key]['lokasi'] = $value->pengaduan->kelurahan.', '.$value->pengaduan->kecamatan;
+                foreach ($value->petugas as $key2 => $user) {
+                    $petugas[$key2] = $user->nama_lengkap;
+                }
+                $data[$key]['petugas'] = $petugas;
             }
 
             return response()->json([

@@ -65,6 +65,11 @@ class Laporan extends Model implements HasMedia
         return $file;
     }
 
+    public function petugas()
+    {
+        return $this->belongsTo(Petugas::class, 'petugas_id');
+    }
+
     public function penugasan()
     {
         return $this->belongsTo(Penugasan::class, 'penugasan_id');

@@ -10,6 +10,7 @@ class CreateTugasTable extends Migration
     {
         Schema::create('tugas', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->timestamp('tanggal');
             $table->string('judul_tugas');
             $table->string('keterangan')->nullable();
             $table->tinyInteger('status')->default(1);

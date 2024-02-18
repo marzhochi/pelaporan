@@ -11,7 +11,6 @@ use App\Models\Jenis;
 use App\Models\Lokasi;
 use App\Models\Petugas;
 use App\Models\Tugas;
-use App\Models\PetugasTugas;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -36,14 +35,18 @@ class TugasController extends Controller
                 $lokasi = Lokasi::findOrFail($value->lokasi_id);
                 $jenis = Jenis::findOrFail($value->jenis_id);
 
-                $data[$key]['uid'] = $value->id;
+                $data[$key]['id'] = $value->id;
                 $data[$key]['judul'] = $value->judul_tugas;
                 $data[$key]['keterangan'] = $value->keterangan;
                 $data[$key]['lokasi'] = $lokasi->nama_jalan;
                 $data[$key]['jenis'] = $jenis->nama_jenis;
                 $data[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
-                $data[$key]['tanggal'] = showDateTime($value->created_at);
-                $data[$key]['petugas'] = $value->petugas;
+                $data[$key]['tanggal'] = showDateTime($value->tanggal);
+                foreach ($value->petugas as $key2 => $user) {
+                    $petugas[$key2] = $user->nama_lengkap;
+                }
+
+                $data[$key]['petugas'] = $petugas;
             }
 
             return response()->json([
@@ -62,6 +65,7 @@ class TugasController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
+                'tanggal' => 'required',
                 'judul_tugas' => 'required',
                 'keterangan' => 'required',
                 'jenis_id' => 'required',
@@ -77,6 +81,7 @@ class TugasController extends Controller
             }
 
             $tugas = new Tugas();
+            $tugas->tanggal = $request->tanggal;
             $tugas->judul_tugas = $request->judul_tugas;
             $tugas->keterangan = $request->keterangan;
             $tugas->status = 1;
@@ -114,10 +119,14 @@ class TugasController extends Controller
             $data['judul_tugas'] = $tugas->judul_tugas;
             $data['keterangan'] = $tugas->keterangan ?? '-';
             $data['status'] = $tugas->status;
-            $data['tanggal'] = showDateTime($tugas->created_at);
+            $data['tanggal'] = showDateTime($tugas->tanggal);
             $data['lokasi'] = $lokasi->nama_jalan;
             $data['jenis'] = $jenis->nama_jenis;
-            $data['petugas'] = $tugas->petugas;
+            foreach ($tugas->petugas as $key => $user) {
+                $petugas[$key] = $user->nama_lengkap;
+            }
+
+            $data['petugas'] = $petugas;
 
             return response()->json([
                 'status' => 'success',
@@ -135,6 +144,7 @@ class TugasController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
+                'tanggal' => 'required',
                 'judul_tugas' => 'required',
                 'keterangan' => 'required',
                 'jenis_id' => 'required',
@@ -198,31 +208,34 @@ class TugasController extends Controller
     {
         try {
             $search = $request->search;
-            $contents = PetugasTugas::with('tugas')
-            ->where('petugas_id', auth()->user()->id)
-            ->WhereHas('tugas', function ($query) use ($search) {
-                $query->where('status', 1)
-                ->where(function ($query2) use ($search) {
-                    $query2->where('judul_tugas', 'LIKE', '%'.$search.'%')
-                        ->orWhere('keterangan', 'LIKE', '%'.$search.'%');
-                });
-            })->get();
+
+            $contents = Tugas::with('petugas', 'lokasi', 'jenis')
+            ->where('status', 1)
+            ->where(function ($query) use ($search) {
+                $query->where('judul_tugas', 'LIKE', '%'.$search.'%')
+                ->orWhere('keterangan', 'LIKE', '%'.$search.'%');
+            })
+            ->whereHas('petugas', function ($query){
+                $query->where('petugas_id', auth()->user()->id);
+            })
+            ->orderBy('id', 'desc')->get();
 
             $data = array();
             foreach ($contents as $key => $value) {
-                $lokasi = Lokasi::findOrFail($value->tugas->lokasi_id);
-                $jenis = Jenis::findOrFail($value->tugas->jenis_id);
-                $petugas = Petugas::findOrFail(auth()->user()->id);
+                $lat = isset($value->lokasi->latitude) ? $value->lokasi->latitude : '-6.887056';
+                $long = isset($value->lokasi->longitude) ? $value->lokasi->longitude : '107.6128997';
 
-                $lat = isset($petugas->lokasi) ? $petugas->lokasi->latitude : '-6.887056';
-                $long = isset($petugas->lokasi) ? $petugas->lokasi->longitude : '107.6128997';
-
-                $data[$key]['id'] = $value->tugas->id;
-                $data[$key]['judul'] = $value->tugas->judul_tugas;
-                $data[$key]['keterangan'] = $value->tugas->keterangan;
-                $data[$key]['lokasi'] = $lokasi->nama_jalan;
-                $data[$key]['jenis'] = $jenis->nama_jenis;
+                $data[$key]['id'] = $value->id;
+                $data[$key]['judul'] = $value->judul_tugas;
+                $data[$key]['keterangan'] = $value->keterangan ?? '-';
+                $data[$key]['lokasi'] = $value->lokasi->kelurahan.', '.$value->lokasi->kecamatan;
+                $data[$key]['jenis'] = $value->jenis->nama_jenis ?? '-';
+                $data[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
                 $data[$key]['latlng'] = $lat.",".$long;
+                // foreach ($value->petugas as $key2 => $user) {
+                //     $petugas[$key2] = $user->nama_lengkap;
+                // }
+                // $data[$key]['petugas'] = $petugas;
             }
 
             return response()->json([
@@ -241,24 +254,29 @@ class TugasController extends Controller
     {
         try {
             $search = $request->search;
-            $contents = PetugasTugas::with('tugas')
-            ->where('petugas_id', auth()->user()->id)
-            ->WhereHas('tugas', function ($query) use ($search){
-                $query->where('status', 2)
-                ->where(function ($query2) use ($search) {
-                    $query2->where('judul_tugas', 'LIKE', '%'.$search.'%')
-                        ->orWhere('keterangan', 'LIKE', '%'.$search.'%');
-                });
-            })->get();
+
+            $contents = Tugas::with('petugas', 'lokasi', 'jenis')
+            ->where('status', 2)
+            ->where(function ($query) use ($search) {
+                $query->where('judul_tugas', 'LIKE', '%'.$search.'%')
+                ->orWhere('keterangan', 'LIKE', '%'.$search.'%');
+            })
+            ->whereHas('petugas', function ($query){
+                $query->where('petugas_id', auth()->user()->id);
+            })
+            ->orderBy('id', 'desc')->get();
 
             $data = array();
             foreach ($contents as $key => $value) {
-                $lokasi = Lokasi::findOrFail($value->tugas->lokasi_id);
-                $jenis = Jenis::findOrFail($value->tugas->jenis_id);
-                $data[$key]['judul'] = $value->tugas->judul_tugas;
-                $data[$key]['keterangan'] = $value->tugas->keterangan;
-                $data[$key]['lokasi'] = $lokasi->nama_jalan;
-                $data[$key]['jenis'] = $jenis->nama_jenis;
+                $lat = isset($value->lokasi->latitude) ? $value->lokasi->latitude : '-6.887056';
+                $long = isset($value->lokasi->longitude) ? $value->lokasi->longitude : '107.6128997';
+
+                $data[$key]['judul'] = $value->judul_tugas;
+                $data[$key]['keterangan'] = $value->keterangan ?? '-';
+                $data[$key]['lokasi'] = $value->lokasi->kelurahan.', '.$value->lokasi->kecamatan;
+                $data[$key]['jenis'] = $value->jenis->nama_jenis ?? '-';
+                $data[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
+                $data[$key]['latlng'] = $lat.",".$long;
             }
 
             return response()->json([

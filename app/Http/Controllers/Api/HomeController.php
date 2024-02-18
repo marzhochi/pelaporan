@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Models\Jenis;
+use App\Models\Laporan;
 use App\Models\Lokasi;
 use App\Models\Pengaduan;
 use App\Models\Tugas;
@@ -138,26 +139,38 @@ class HomeController extends Controller
             $pengaduan[$key]['foto'] = isset($value->foto) ? $value->foto->original_url : 'https://dishub.online/images/no_image.png';
         }
 
-        $data_tugas = Tugas::with('petugas', 'lokasi', 'jenis')->limit(5)->orderBy('id','desc')->get();
+        $get_laporan = Laporan::with('penugasan', 'tugas', 'petugas')->get();
 
-        $tugas = array();
-        foreach ($data_tugas as $key => $value) {
-            $lokasi = Lokasi::findOrFail($value->lokasi_id);
-            $jenis = Jenis::findOrFail($value->jenis_id);
+        $laporan = array();
+        foreach ($get_laporan as $key => $value) {
+            $lat = isset($value->longitude) ? $value->latitude : '-6.887056';
+            $long = isset($value->longitude) ? $value->longitude : '107.6128997';
 
-            $tugas[$key]['id'] = $value->id;
-            $tugas[$key]['judul'] = $value->judul_tugas;
-            $tugas[$key]['keterangan'] = $value->keterangan;
-            $tugas[$key]['lokasi'] = $lokasi->nama_jalan;
-            $tugas[$key]['jenis'] = $jenis->nama_jenis;
-            $tugas[$key]['status'] = $value->status == 1 ? 'Baru': 'Selesai';
-            $tugas[$key]['tanggal'] = showDateTime($value->created_at);
+            $laporan[$key]['id'] = $value->id;
+            if($value->jenis == 1){
+                $laporan[$key]['judul'] = $value->penugasan->judul_tugas;
+                $laporan[$key]['keterangan'] = $value->penugasan->keterangan;
+            }else{
+                $laporan[$key]['judul'] = $value->tugas->judul_tugas;
+                $laporan[$key]['keterangan'] = $value->tugas->keterangan;
+            }
+
+            $laporan[$key]['deskripsi'] = $value->deskripsi;
+            $laporan[$key]['kelurahan'] = $value->kelurahan;
+            $laporan[$key]['kecamatan'] = $value->kecamatan;
+            $laporan[$key]['latitude'] = $value->latitude;
+            $laporan[$key]['longitude'] = $value->longitude;
+            $laporan[$key]['jenis'] = $value->jenis;
+            $laporan[$key]['tanggal'] = showDateTime($value->created_at);
+            $laporan[$key]['petugas'] = $value->petugas->nama_lengkap;
+            $laporan[$key]['foto'] = $value->foto->original_url ?? 'https://dishub.online/images/no_image.png';
+            $laporan[$key]['latlng'] = $lat.",".$long;
         }
 
         return response()->json([
             'status' => 'success',
             'pengaduan' => $pengaduan,
-            'tugas' => $tugas,
+            'laporan' => $laporan,
         ]);
     }
 

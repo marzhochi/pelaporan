@@ -10,6 +10,7 @@ class CreatePenugasanTable extends Migration
     {
         Schema::create('penugasan', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->timestamp('tanggal');
             $table->string('judul_tugas');
             $table->string('keterangan')->nullable();
             $table->tinyInteger('status')->default(1);

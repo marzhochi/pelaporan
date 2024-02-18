@@ -19,7 +19,33 @@ class LaporanController extends Controller
     public function index()
     {
         try {
-            $data = Laporan::with('penugasan', 'tugas')->get();
+            $contents = Laporan::with('penugasan', 'tugas', 'petugas')->get();
+
+            $data = array();
+            foreach ($contents as $key => $value) {
+                $lat = isset($value->longitude) ? $value->latitude : '-6.887056';
+                $long = isset($value->longitude) ? $value->longitude : '107.6128997';
+
+                $data[$key]['id'] = $value->id;
+                if($value->jenis == 1){
+                    $data[$key]['judul'] = $value->penugasan->judul_tugas;
+                    $data[$key]['keterangan'] = $value->penugasan->keterangan;
+                }else{
+                    $data[$key]['judul'] = $value->tugas->judul_tugas;
+                    $data[$key]['keterangan'] = $value->tugas->keterangan;
+                }
+
+                $data[$key]['deskripsi'] = $value->deskripsi;
+                $data[$key]['kelurahan'] = $value->kelurahan;
+                $data[$key]['kecamatan'] = $value->kecamatan;
+                $data[$key]['latitude'] = $value->latitude;
+                $data[$key]['longitude'] = $value->longitude;
+                $data[$key]['jenis'] = $value->jenis;
+                $data[$key]['tanggal'] = showDateTime($value->created_at);
+                $data[$key]['petugas'] = $value->petugas->nama_lengkap;
+                $data[$key]['foto'] = $value->foto->original_url ?? 'https://dishub.online/images/no_image.png';
+                $data[$key]['latlng'] = $lat.",".$long;
+            }
 
             return response()->json([
                 'status' => 'success',
@@ -117,7 +143,7 @@ class LaporanController extends Controller
             $laporan->latitude = $request->latitude;
             $laporan->longitude = $request->longitude;
             $laporan->jenis = 1;
-            $laporan->tugas_id = NULL;
+            $laporan->petugas_id = auth()->user()->id;
             $laporan->save();
 
             if ($request->input('foto', false)) {
@@ -164,7 +190,7 @@ class LaporanController extends Controller
             $laporan->latitude = $request->latitude;
             $laporan->longitude = $request->longitude;
             $laporan->jenis = 2;
-            $laporan->penugasan_id = NULL;
+            $laporan->petugas_id = auth()->user()->id;
             $laporan->save();
 
             $tugas = Tugas::findOrFail($request->tugas_id);
@@ -191,16 +217,15 @@ class LaporanController extends Controller
     public function show($id)
     {
         try {
-            $laporan = Laporan::where('id', $id)->with('penugasan', 'tugas')->first();
+            $laporan = Laporan::where('id', $id)->with('penugasan', 'tugas', 'petugas')->first();
 
             $lat = $laporan->latitude ?? '-6.887056';
             $long = $laporan->longitude ?? '107.6128997';
 
-            $data['id'] = $laporan->id;
+            $data['petugas'] = $laporan->petugas->nama_lengkap;
             $data['deskripsi'] = $laporan->deskripsi;
             $data['jenis'] = $laporan->jenis;
             $data['tanggal'] = showDateTime($laporan->created_at);
-            $data['nama_jalan'] = $laporan->nama_jalan ?? '-';
             $data['kelurahan'] = $laporan->kelurahan ?? '-';
             $data['kecamatan'] = $laporan->kecamatan ?? '-';
             $data['jarak'] = $laporan->jarak ?? '-';
@@ -224,22 +249,25 @@ class LaporanController extends Controller
     public function penugasan($id)
     {
         try {
-            $laporan = Laporan::where('penugasan_id', $id)->with('penugasan', 'tugas')->first();
+            $contents = Laporan::where('penugasan_id', $id)->with('penugasan', 'petugas')->get();
 
-            $lat = $laporan->latitude ?? '-6.887056';
-            $long = $laporan->longitude ?? '107.6128997';
+            $data = array();
+            foreach ($contents as $key => $value) {
+                $lat = $value->latitude ?? '-6.887056';
+                $long = $value->longitude ?? '107.6128997';
 
-            $data['id'] = $laporan->id;
-            $data['deskripsi'] = $laporan->deskripsi;
-            $data['jenis'] = $laporan->jenis;
-            $data['tanggal'] = showDateTime($laporan->created_at);
-            $data['nama_jalan'] = $laporan->nama_jalan ?? '-';
-            $data['kelurahan'] = $laporan->kelurahan ?? '-';
-            $data['kecamatan'] = $laporan->kecamatan ?? '-';
-            $data['jarak'] = $laporan->jarak ?? '-';
-            $data['latlng'] = $lat.",".$long;
-            $data['penugasan'] = isset($laporan->penugasan) ? $laporan->penugasan->judul_tugas : '';
-            $data['foto'] = isset($laporan->foto) ? $laporan->foto->original_url : 'https://dishub.online/images/no_image.png';
+                $data[$key]['petugas'] = $value->petugas->nama_lengkap;
+                $data[$key]['deskripsi'] = $value->deskripsi;
+                $data[$key]['jenis'] = $value->jenis;
+                $data[$key]['tanggal'] = showDateTime($value->created_at);
+                $data[$key]['nama_jalan'] = $value->nama_jalan ?? '-';
+                $data[$key]['kelurahan'] = $value->kelurahan ?? '-';
+                $data[$key]['kecamatan'] = $value->kecamatan ?? '-';
+                $data[$key]['jarak'] = $value->jarak ?? '-';
+                $data[$key]['latlng'] = $lat.",".$long;
+                $data[$key]['penugasan'] = isset($value->penugasan) ? $value->penugasan->judul_tugas : '';
+                $data[$key]['foto'] = isset($value->foto) ? $value->foto->original_url : 'https://dishub.online/images/no_image.png';
+            }
 
             return response()->json([
                 'status' => 'success',
@@ -256,22 +284,25 @@ class LaporanController extends Controller
     public function tugas($id)
     {
         try {
-            $laporan = Laporan::where('tugas_id', $id)->with('penugasan', 'tugas')->first();
+            $contents = Laporan::where('tugas_id', $id)->with('tugas', 'petugas')->get();
 
-            $lat = $laporan->latitude ?? '-6.887056';
-            $long = $laporan->longitude ?? '107.6128997';
+            $data = array();
+            foreach ($contents as $key => $value) {
+                $lat = $value->latitude ?? '-6.887056';
+                $long = $value->longitude ?? '107.6128997';
 
-            $data['id'] = $laporan->id;
-            $data['deskripsi'] = $laporan->deskripsi;
-            $data['jenis'] = $laporan->jenis;
-            $data['tanggal'] = showDateTime($laporan->created_at);
-            $data['nama_jalan'] = $laporan->nama_jalan ?? '-';
-            $data['kelurahan'] = $laporan->kelurahan ?? '-';
-            $data['kecamatan'] = $laporan->kecamatan ?? '-';
-            $data['jarak'] = $laporan->jarak ?? '-';
-            $data['latlng'] = $lat.",".$long;
-            $data['tugas'] = isset($laporan->tugas) ? $laporan->tugas->judul_tugas : '';
-            $data['foto'] = isset($laporan->foto) ? $laporan->foto->original_url : 'https://dishub.online/images/no_image.png';
+                $data[$key]['petugas'] = $value->petugas->nama_lengkap;
+                $data[$key]['deskripsi'] = $value->deskripsi;
+                $data[$key]['jenis'] = $value->jenis;
+                $data[$key]['tanggal'] = showDateTime($value->created_at);
+                $data[$key]['nama_jalan'] = $value->nama_jalan ?? '-';
+                $data[$key]['kelurahan'] = $value->kelurahan ?? '-';
+                $data[$key]['kecamatan'] = $value->kecamatan ?? '-';
+                $data[$key]['jarak'] = $value->jarak ?? '-';
+                $data[$key]['latlng'] = $lat.",".$long;
+                $data[$key]['tugas'] = isset($value->tugas) ? $value->tugas->judul_tugas : '';
+                $data[$key]['foto'] = isset($value->foto) ? $value->foto->original_url : 'https://dishub.online/images/no_image.png';
+            }
 
             return response()->json([
                 'status' => 'success',
