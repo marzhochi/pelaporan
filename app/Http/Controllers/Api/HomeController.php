@@ -126,23 +126,22 @@ class HomeController extends Controller
     public function laporan_show($id)
     {
         try {
-            $tugas = Tugas::where('id', $id)->with('jenis','lokasi','petugas')->first();
+            $laporan = Laporan::where('id', $id)->with('penugasan', 'tugas', 'petugas')->first();
 
-            $lokasi = Lokasi::findOrFail($tugas->lokasi_id);
-            $jenis = Jenis::findOrFail($tugas->jenis_id);
+            $lat = $laporan->latitude ?? '-6.887056';
+            $long = $laporan->longitude ?? '107.6128997';
 
-            $lat = isset($lokasi->latitude) ? $lokasi->latitude : '-6.887056';
-            $long = isset($lokasi->longitude) ? $lokasi->longitude : '107.6128997';
-
-            $data['id'] = $tugas->id;
-            $data['judul_tugas'] = $tugas->judul_tugas;
-            $data['keterangan'] = $tugas->keterangan ?? '-';
-            $data['status'] = $tugas->status == 1 ? 'Dalam Proses' : 'Selesai';
-            $data['tanggal'] = showDateTime($tugas->created_at);
-            $data['lokasi'] = $lokasi->nama_jalan ?? '-';
+            $data['petugas'] = $laporan->petugas->nama_lengkap;
+            $data['deskripsi'] = $laporan->deskripsi;
+            $data['jenis'] = $laporan->jenis == 1 ? 'Laporan Penugasan' : 'Laporan Tugas';
+            $data['tanggal'] = showDateTime($laporan->created_at);
+            $data['kelurahan'] = $laporan->kelurahan ?? '-';
+            $data['kecamatan'] = $laporan->kecamatan ?? '-';
+            $data['jarak'] = $laporan->jarak ?? '-';
             $data['latlng'] = $lat.",".$long;
-            $data['jenis'] = $jenis->nama_jenis;
-            $data['petugas'] = $tugas->petugas;
+            $data['penugasan'] = isset($laporan->penugasan) ? $laporan->penugasan->judul_tugas : '';
+            $data['tugas'] = isset($laporan->tugas) ? $laporan->tugas->judul_tugas : '';
+            $data['foto'] = isset($laporan->foto) ? $laporan->foto->original_url : 'https://dishub.online/images/no_image.png';
 
             return response()->json([
                 'status' => 'success',
