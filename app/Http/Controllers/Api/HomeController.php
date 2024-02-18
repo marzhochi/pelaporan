@@ -160,7 +160,7 @@ class HomeController extends Controller
             $laporan[$key]['kecamatan'] = $value->kecamatan;
             $laporan[$key]['latitude'] = $value->latitude;
             $laporan[$key]['longitude'] = $value->longitude;
-            $laporan[$key]['jenis'] = $value->jenis;
+            $laporan[$key]['jenis'] = $value->jenis == 1 ? 'Laporan Penugasan' : 'Laporan Tugas';
             $laporan[$key]['tanggal'] = showDateTime($value->created_at);
             $laporan[$key]['petugas'] = $value->petugas->nama_lengkap;
             $laporan[$key]['foto'] = $value->foto->original_url ?? 'https://dishub.online/images/no_image.png';
