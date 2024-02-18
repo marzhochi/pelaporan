@@ -139,7 +139,13 @@ class HomeController extends Controller
             $data['kecamatan'] = $laporan->kecamatan ?? '-';
             $data['jarak'] = $laporan->jarak ?? '-';
             $data['latlng'] = $lat.",".$long;
-            $data['penugasan'] = isset($laporan->penugasan) ? $laporan->penugasan->judul_tugas : '';
+            if($laporan->jenis == 1){
+                $data['judul'] = $laporan->penugasan->judul_tugas;
+                $data['keterangan'] = $laporan->penugasan->keterangan;
+            }else{
+                $data['judul'] = $laporan->tugas->judul_tugas;
+                $data['keterangan'] = $laporan->tugas->keterangan;
+            }
             $data['tugas'] = isset($laporan->tugas) ? $laporan->tugas->judul_tugas : '';
             $data['foto'] = isset($laporan->foto) ? $laporan->foto->original_url : 'https://dishub.online/images/no_image.png';
 
