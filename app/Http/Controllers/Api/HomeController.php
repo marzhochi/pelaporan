@@ -146,7 +146,6 @@ class HomeController extends Controller
                 $data['judul'] = $laporan->tugas->judul_tugas;
                 $data['keterangan'] = $laporan->tugas->keterangan;
             }
-            $data['tugas'] = isset($laporan->tugas) ? $laporan->tugas->judul_tugas : '';
             $data['foto'] = isset($laporan->foto) ? $laporan->foto->original_url : 'https://dishub.online/images/no_image.png';
 
             return response()->json([
