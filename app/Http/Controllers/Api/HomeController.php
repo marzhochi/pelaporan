@@ -69,7 +69,7 @@ class HomeController extends Controller
                 $data[$key]['kecamatan'] = $value->kecamatan;
                 $data[$key]['latitude'] = $value->latitude;
                 $data[$key]['longitude'] = $value->longitude;
-                $data[$key]['jenis'] = $value->jenis;
+                $data[$key]['jenis'] = $value->jenis == 1 ? 'Laporan Penugasan' : 'Laporan Tugas';
                 $data[$key]['tanggal'] = showDateTime($value->created_at);
                 $data[$key]['petugas'] = $value->petugas->nama_lengkap;
                 $data[$key]['foto'] = $value->foto->original_url ?? 'https://dishub.online/images/no_image.png';
