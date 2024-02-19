@@ -112,16 +112,20 @@ class TugasController extends Controller
         try {
             $tugas = Tugas::where('id', $id)->with('jenis','lokasi','petugas')->first();
 
-            $lokasi = Lokasi::findOrFail($tugas->lokasi_id);
-            $jenis = Jenis::findOrFail($tugas->jenis_id);
+            // $lokasi = Lokasi::findOrFail($tugas->lokasi_id);
+            // $jenis = Jenis::findOrFail($tugas->jenis_id);
+
+            $lat = isset($tugas->lokasi->latitude) ? $tugas->lokasi->latitude : '-6.887056';
+            $long = isset($tugas->lokasi->longitude) ? $tugas->lokasi->longitude : '107.6128997';
 
             $data['id'] = $tugas->id;
             $data['judul_tugas'] = $tugas->judul_tugas;
             $data['keterangan'] = $tugas->keterangan ?? '-';
             $data['status'] = $tugas->status;
             $data['tanggal'] = $tugas->tanggal;
-            $data['lokasi'] = $lokasi->nama_jalan;
-            $data['jenis'] = $jenis->nama_jenis;
+            $data['lokasi'] = $tugas->lokasi->nama_jalan;
+            $data['latlng'] = $lat.",".$long;
+            $data['jenis'] = $tugas->jenis->nama_jenis;
             foreach ($tugas->petugas as $key => $user) {
                 $petugas[$key] = $user->nama_lengkap;
             }
@@ -210,13 +214,13 @@ class TugasController extends Controller
             $search = $request->search;
 
             $contents = Tugas::with('petugas', 'lokasi', 'jenis')
-            ->where('status', 1)
             ->where(function ($query) use ($search) {
                 $query->where('judul_tugas', 'LIKE', '%'.$search.'%')
                 ->orWhere('keterangan', 'LIKE', '%'.$search.'%');
             })
             ->whereHas('petugas', function ($query){
                 $query->where('petugas_id', auth()->user()->id);
+                $query->where('status', 0);
             })
             ->orderBy('id', 'desc')->get();
 
@@ -256,13 +260,13 @@ class TugasController extends Controller
             $search = $request->search;
 
             $contents = Tugas::with('petugas', 'lokasi', 'jenis')
-            ->where('status', 2)
             ->where(function ($query) use ($search) {
                 $query->where('judul_tugas', 'LIKE', '%'.$search.'%')
                 ->orWhere('keterangan', 'LIKE', '%'.$search.'%');
             })
             ->whereHas('petugas', function ($query){
                 $query->where('petugas_id', auth()->user()->id);
+                $query->where('status', 1);
             })
             ->orderBy('id', 'desc')->get();
 

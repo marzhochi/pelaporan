@@ -237,13 +237,13 @@ class PenugasanController extends Controller
             $search = $request->search;
 
             $contents = Penugasan::with('pengaduan', 'petugas')
-            ->where('status', 1)
             ->where(function ($query) use ($search) {
                 $query->where('judul_tugas', 'LIKE', '%'.$search.'%')
                 ->orWhere('keterangan', 'LIKE', '%'.$search.'%');
             })
             ->whereHas('petugas', function ($query){
                 $query->where('petugas_id', auth()->user()->id);
+                $query->where('status', 0);
             })
             ->orderBy('id', 'desc')->get();
 
@@ -283,13 +283,13 @@ class PenugasanController extends Controller
             $search = $request->search;
 
             $contents = Penugasan::with('pengaduan', 'petugas')
-            ->where('status', 2)
             ->where(function ($query) use ($search) {
                 $query->where('judul_tugas', 'LIKE', '%'.$search.'%')
                 ->orWhere('keterangan', 'LIKE', '%'.$search.'%');
             })
             ->whereHas('petugas', function ($query){
                 $query->where('petugas_id', auth()->user()->id);
+                $query->where('status', 1);
             })
             ->orderBy('id', 'desc')->get();
 

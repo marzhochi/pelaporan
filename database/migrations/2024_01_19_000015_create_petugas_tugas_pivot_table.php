@@ -13,6 +13,7 @@ class CreatePetugasTugasPivotTable extends Migration
             $table->foreign('tugas_id', 'tugas_id_fk_9453287')->references('id')->on('tugas')->onDelete('cascade');
             $table->unsignedBigInteger('petugas_id');
             $table->foreign('petugas_id', 'petugas_id_fk_9453287')->references('id')->on('petugas')->onDelete('cascade');
+            $table->tinyInteger('status')->default(0);
         });
     }
 }

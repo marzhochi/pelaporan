@@ -8,7 +8,8 @@ use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Models\Laporan;
 use App\Models\Penugasan;
 use App\Models\Tugas;
-
+use App\Models\PenugasanPetugas;
+use App\Models\PetugasTugas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -150,7 +151,11 @@ class LaporanController extends Controller
                 $laporan->addMedia(storage_path('tmp/uploads/' . basename($request->input('foto'))))->toMediaCollection('foto');
             }
 
-            $penugasan = Penugasan::findOrFail($request->penugasan_id);
+            $status = PenugasanPetugas::where(['penugasan_id'=> $request->penugasan_id, 'petugas_id' => auth()->user()->id])->first();
+            $status->status = 2; //proses
+            $status->save();
+
+            $penugasan = Penugasan::findOrFail($request->id);
             $penugasan->status = 2; //proses
             $penugasan->save();
 
@@ -193,7 +198,11 @@ class LaporanController extends Controller
             $laporan->petugas_id = auth()->user()->id;
             $laporan->save();
 
-            $tugas = Tugas::findOrFail($request->tugas_id);
+            $status = PetugasTugas::where(['tugas_id'=> $request->tugas_id, 'petugas_id' => auth()->user()->id])->first();
+            $status->status = 2; //proses
+            $status->save();
+
+            $tugas = Tugas::findOrFail($request->id);
             $tugas->status = 2; //proses
             $tugas->save();
 
