@@ -124,6 +124,8 @@ class TugasController extends Controller
             $data['status'] = $tugas->status;
             $data['tanggal'] = $tugas->tanggal;
             $data['lokasi'] = $tugas->lokasi->nama_jalan;
+            $data['latitude'] = $tugas->lokasi->latitude ? $tugas->lokasi->latitude : '-6.887056';
+            $data['longitude'] = $tugas->lokasi->longitude ? $tugas->lokasi->longitude : '107.6128997';
             $data['latlng'] = $lat.",".$long;
             $data['jenis'] = $tugas->jenis->nama_jenis;
             foreach ($tugas->petugas as $key => $user) {
