@@ -183,7 +183,7 @@ class HomeController extends Controller
             $pengaduan[$key]['foto'] = isset($value->foto) ? $value->foto->original_url : 'https://dishub.online/images/no_image.png';
         }
 
-        $get_laporan = Laporan::with('penugasan', 'tugas', 'petugas')->get();
+        $get_laporan = Laporan::with('penugasan', 'tugas', 'petugas')->orderBy('id','desc')->limit(5)->get();
 
         $laporan = array();
         foreach ($get_laporan as $key => $value) {
