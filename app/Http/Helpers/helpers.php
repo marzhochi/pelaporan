@@ -8,7 +8,7 @@ function diffForHumans($date)
     return Carbon::parse($date)->diffForHumans();
 }
 
-function showDateTime($date, $format = 'd-m-Y H:i')
+function showDateTime($date, $format = 'd-m-Y H:i:s')
 {
     Carbon::setlocale('id');
     return Carbon::parse($date)->translatedFormat($format);
