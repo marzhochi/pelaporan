@@ -155,7 +155,7 @@ class LaporanController extends Controller
             $status->status = 2; //proses
             $status->save();
 
-            $penugasan = Penugasan::findOrFail($request->id);
+            $penugasan = Penugasan::findOrFail($request->penugasan_id);
             $penugasan->status = 2; //proses
             $penugasan->save();
 
@@ -202,7 +202,7 @@ class LaporanController extends Controller
             $status->status = 2; //proses
             $status->save();
 
-            $tugas = Tugas::findOrFail($request->id);
+            $tugas = Tugas::findOrFail($request->tugas_id);
             $tugas->status = 2; //proses
             $tugas->save();
 
