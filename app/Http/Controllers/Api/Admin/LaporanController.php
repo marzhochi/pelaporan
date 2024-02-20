@@ -151,13 +151,13 @@ class LaporanController extends Controller
                 $laporan->addMedia(storage_path('tmp/uploads/' . basename($request->input('foto'))))->toMediaCollection('foto');
             }
 
-            $status = PenugasanPetugas::where(['penugasan_id'=> $request->penugasan_id, 'petugas_id' => auth()->user()->id])->first();
-            $status->status = 2; //proses
-            $status->save();
-
             $penugasan = Penugasan::findOrFail($request->penugasan_id);
             $penugasan->status = 2; //proses
             $penugasan->save();
+
+            $status = PenugasanPetugas::where(['penugasan_id'=> $request->penugasan_id, 'petugas_id' => auth()->user()->id])->first();
+            $status->status = 2; //proses
+            $status->save();
 
             return response()->json([
                 'status' => 'success',
@@ -198,13 +198,13 @@ class LaporanController extends Controller
             $laporan->petugas_id = auth()->user()->id;
             $laporan->save();
 
-            $status = PetugasTugas::where(['tugas_id'=> $request->tugas_id, 'petugas_id' => auth()->user()->id])->first();
-            $status->status = 2; //proses
-            $status->save();
-
             $tugas = Tugas::findOrFail($request->tugas_id);
             $tugas->status = 2; //proses
             $tugas->save();
+
+            $status = PetugasTugas::where(['tugas_id'=> $request->tugas_id, 'petugas_id' => auth()->user()->id])->first();
+            $status->status = 2; //proses
+            $status->save();
 
             if ($request->input('foto', false)) {
                 $laporan->addMedia(storage_path('tmp/uploads/' . basename($request->input('foto'))))->toMediaCollection('foto');

@@ -243,7 +243,7 @@ class PenugasanController extends Controller
             })
             ->whereHas('petugas', function ($query){
                 $query->where('petugas_id', auth()->user()->id);
-                $query->where('status', 0);
+                $query->where('status', 1);
             })
             ->orderBy('id', 'desc')->get();
 
@@ -289,7 +289,7 @@ class PenugasanController extends Controller
             })
             ->whereHas('petugas', function ($query){
                 $query->where('petugas_id', auth()->user()->id);
-                $query->where('status', 1);
+                $query->where('status', 2);
             })
             ->orderBy('id', 'desc')->get();
 
