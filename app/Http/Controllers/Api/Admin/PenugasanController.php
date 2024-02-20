@@ -139,7 +139,7 @@ class PenugasanController extends Controller
             $data['judul_tugas'] = $tugas->judul_tugas;
             $data['keterangan'] = $tugas->keterangan ?? '-';
             $data['status'] = $tugas->status;
-            $data['tanggal'] = showDateTime($tugas->tanggal);
+            $data['tanggal'] = $tugas->tanggal;
             $data['pengaduan'] = $tugas->pengaduan->judul_pengaduan;
             $data['kelurahan'] = $tugas->pengaduan->kelurahan;
             $data['kecamatan'] = $tugas->pengaduan->kecamatan;
